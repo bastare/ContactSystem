@@ -1,0 +1,3 @@
+namespace ContactSystem.Domain.Contracts.Dtos.QueryDtos;
+
+public sealed record ProjectionQueryDto ( string? Projection );

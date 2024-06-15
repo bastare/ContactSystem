@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <PackageReference Include="AgileObjects.NetStandardPolyfills" Version="1.6.0" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\ContactSystem.Domain.Shared\ContactSystem.Domain.Shared.csproj" />
+    </ItemGroup>
+</Project>

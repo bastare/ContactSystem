@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+	<ItemGroup>
+		<PackageReference Include="MassTransit.RabbitMQ" Version="8.2.2" />
+		<PackageReference Include="MassTransit" Version="8.2.2" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\ContactSystem.Infrastructure\ContactSystem.Infrastructure.csproj" />
+		<ProjectReference Include="..\ContactSystem.Domain.Shared\ContactSystem.Domain.Shared.csproj" />
+		<ProjectReference Include="..\ContactSystem.Domain.Contracts\ContactSystem.Domain.Contracts.csproj" />
+
+	</ItemGroup>
+</Project>
