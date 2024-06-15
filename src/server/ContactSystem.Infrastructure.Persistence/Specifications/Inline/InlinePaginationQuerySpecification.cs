@@ -28,19 +28,19 @@ public sealed record InlinePaginationQuerySpecification<TModel, TKey> :
 		ExpressionQueryDto? expressionQuery = default ,
 		OrderQueryDto? orderQuery = default ,
 		PaginationQueryDto? paginationQuery = default ,
-		ProjectionQueryDto? projectionQueryDto = default )
+		ProjectionQueryDto? projectionQuery = default )
 	{
-		if ( expressionQuery?.Expression is not null )
+		if ( expressionQuery is { Expression: not null } )
 			Conditions = query =>
 				query.Where ( expressionQuery );
 
-		if ( orderQuery?.OrderBy is not null )
+		if ( orderQuery is { OrderBy: not null, IsDescending: not null } )
 			OrderBy = query =>
 				query.OrderBy ( orderQuery );
 
-		if ( projectionQueryDto?.Projection is not null )
+		if ( projectionQuery is { Projection: not null } )
 			Projection = query =>
-				query.Select ( projectionQueryDto );
+				query.Select ( projectionQuery );
 
 		if ( paginationQuery is not null )
 		{

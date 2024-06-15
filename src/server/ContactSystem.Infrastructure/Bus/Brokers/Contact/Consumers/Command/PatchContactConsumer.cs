@@ -33,7 +33,7 @@ public sealed class PatchContactConsumer ( IEfUnitOfWork<EfContext , int> efUnit
 				new ( exception ) );
 		}
 
-		async Task<Contact> PatchContactAsync ( ContactForPatchDto contactForCreation )
+		async Task<Contact> PatchContactAsync ( ContactForPatchDto contactForPatch )
 		{
 			var config = new TypeAdapterConfig();
 			config.Default.IgnoreNullValues(true);
@@ -41,13 +41,13 @@ public sealed class PatchContactConsumer ( IEfUnitOfWork<EfContext , int> efUnit
 			var contactForUpdate =
 				await _efUnitOfWork.Repository<Contact> ()
 					.FindByAsync (
-						contact => contact.Id == contactForCreation.Id ,
+						contact => contact.Id == contactForPatch.Id ,
 						isTracking: true ,
 						cancellationToken: context.CancellationToken );
 
 			return await _efUnitOfWork.Repository<Contact> ()
 				.UpdateAsync (
-					contactForCreation.Adapt ( contactForUpdate, config )! ,
+					contactForPatch.Adapt ( contactForUpdate, config )! ,
 					context.CancellationToken );
 		}
 	}

@@ -1,0 +1,15 @@
+@import "../../../../styles.scss";
+
+.container-table {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+
+  &--add-button {
+    position: sticky;
+    top: 0;
+    z-index: $add-btn-zIndex;
+  }
+}

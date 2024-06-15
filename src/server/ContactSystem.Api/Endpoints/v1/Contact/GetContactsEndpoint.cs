@@ -22,11 +22,11 @@ public sealed class GetContactsEndpoint ( IRequestClient<GetContactsContract> ge
 
 		public string? Projection { get; init; }
 
-		public int Offset { get; init; }
+		public int? Offset { get; init; } = 1;
 
-		public int Limit { get; init; }
+		public int? Limit { get; init; } = 10;
 
-		public bool IsDescending { get; init; }
+		public bool? IsDescending { get; init; }
 
 		public string? OrderBy { get; init; }
 	}
@@ -54,7 +54,7 @@ public sealed class GetContactsEndpoint ( IRequestClient<GetContactsContract> ge
 			throw ( await fault ).Message.Exception;
 
 		await SendAsync (
-			response: (await response).Message ,
+			response: (await response).Message.ContactsForTable ,
 			cancellation: cancellationToken );
 	}
 }

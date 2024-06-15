@@ -6,7 +6,7 @@ using Domain.Contracts;
 using ContactSystem.Infrastructure.Persistence.Uow.Interfaces;
 using ContactSystem.Infrastructure.Persistence.Context;
 using Domain.Core.Models.Contact;
-using ContactSystem.Domain.Contracts.ContactContracts.Command.RemoveContact;
+using Domain.Contracts.ContactContracts.Command.RemoveContact;
 
 public sealed class RemoveContactConsumer ( IEfUnitOfWork<EfContext , int> efUnitOfWork ) :
 	IConsumer<RemoveContactContract>
