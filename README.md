@@ -10,6 +10,8 @@ Contact CMS
 dotnet run --project 'src/server/ContactSystem.Api/'
 ```
 
+Swagger: [http://localhost:5000/swagger/index.html]([http://localhost:5000/](http://localhost:5000/swagger/index.html))
+
 P.S. Manually move to [http://localhost:5000/](http://localhost:5000/)
 
 
