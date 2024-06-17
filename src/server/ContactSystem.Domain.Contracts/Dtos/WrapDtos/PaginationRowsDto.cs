@@ -5,7 +5,7 @@ using Interfaces;
 public sealed record PaginationRowsDto<T> : IPaginationRowsDto<T>
 	where T : class
 {
-	public IEnumerable<T> Rows { get; init; } = Enumerable.Empty<T> ();
+	public IEnumerable<T> Rows { get; init; } = [];
 
 	public int CurrentOffset { get; init; }
 

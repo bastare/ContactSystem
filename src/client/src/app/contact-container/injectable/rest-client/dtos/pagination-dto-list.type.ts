@@ -1,4 +1,4 @@
-export type PaginationList<TItem> = {
+export type PaginationListDto<TItem> = {
   rows: TItem[];
   currentOffset: number;
   totalPages: number;

@@ -24,7 +24,7 @@ public sealed class GetContactsConsumer ( IEfUnitOfWork<EfContext , int> efUnitO
 			var contacts_ = await GetContactsAsync ();
 
 			await context.RespondAsync<SubmitContactsContract> (
-				new ( ContactsForTable: contacts_.Adapt<IPaginationRowsDto> ()  ) );
+				new ( ContactsForQueryResponse: contacts_.Adapt<IPaginationRowsDto> ()  ) );
 		}
 		catch ( Exception exception )
 		{

@@ -4,6 +4,7 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -15,10 +16,10 @@ import {
 } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Contact } from '../../../../store-features/contact.model';
-import { State } from '../../../../store-features/contact.reducer';
+import { ContactState } from '../../../../store-features/contact-state.model';
+import { AppState } from '../../../../store-features/contact.reducer';
 import { Store } from '@ngrx/store';
-import { ContactActions } from '../../../../store-features/actions/contact.actions';
+import { ContactRestActions } from '../../../../store-features/actions/contact-rest.actions';
 
 @Component({
   selector: 'app-add-form',
@@ -64,15 +65,11 @@ import { ContactActions } from '../../../../store-features/actions/contact.actio
 
         <mat-form-field>
           <mat-label>Middle initial</mat-label>
-          <input
-            matInput
-            placeholder="First Name"
-            formControlName="middleInitial"
-          />
+          <input matInput placeholder="Middle Initial" formControlName="middleInitial" />
         </mat-form-field>
       </mat-dialog-content>
       <mat-dialog-actions>
-        <button mat-button type="submit" cdkFocusInitial>Ok</button>
+        <button mat-button [disabled]="!createContactForm.valid" type="submit" cdkFocusInitial>Ok</button>
       </mat-dialog-actions>
     </form>
   `,
@@ -80,18 +77,18 @@ import { ContactActions } from '../../../../store-features/actions/contact.actio
 })
 export class AddFormComponent {
   createContactForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-    email: new FormControl(''),
-    phone: new FormControl(''),
-    title: new FormControl(''),
+    firstName: new FormControl('', Validators.required),
+    lastName: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    phone: new FormControl('', [Validators.required]),
+    title: new FormControl('', Validators.required),
     middleInitial: new FormControl(''),
   });
 
   onCreate() {
     this.store.dispatch(
-      ContactActions['[REST/API]AddContact']({
-        contact: this.createContactForm.value as Contact,
+      ContactRestActions.addContact({
+        contact: this.createContactForm.value as ContactState,
       })
     );
 
@@ -99,7 +96,7 @@ export class AddFormComponent {
   }
 
   constructor(
-    private readonly store: Store<State>,
+    private readonly store: Store<AppState>,
     private readonly dialogRef: MatDialogRef<AddFormComponent>
   ) { }
 }

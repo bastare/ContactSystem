@@ -54,7 +54,7 @@ public sealed class GetContactsEndpoint ( IRequestClient<GetContactsContract> ge
 			throw ( await fault ).Message.Exception;
 
 		await SendAsync (
-			response: (await response).Message.ContactsForTable ,
+			response: (await response).Message.ContactsForQueryResponse ,
 			cancellation: cancellationToken );
 	}
 }

@@ -1,7 +1,7 @@
 namespace ContactSystem.Infrastructure.Persistence.Specifications.DynamicLinqDecorator;
 
-using System.Linq;
 using System.Linq.Dynamic.Core;
+using ContactSystem.Domain.Core.Models;
 using Domain.Contracts.Dtos.QueryDtos;
 
 public static class DynamicLinqDecoratorExtensions
@@ -9,7 +9,7 @@ public static class DynamicLinqDecoratorExtensions
 	public static IQueryable<TModel> Where<TModel> ( this IQueryable<TModel> query , ExpressionQueryDto? expressionQuery )
 	{
 		NotNull ( query );
-		NotNull ( expressionQuery );
+		NotNullOrEmpty ( expressionQuery?.Expression );
 
 		try
 		{
@@ -26,11 +26,19 @@ public static class DynamicLinqDecoratorExtensions
 	public static IOrderedQueryable<TModel> OrderBy<TModel> ( this IQueryable<TModel> query , OrderQueryDto? orderQuery )
 	{
 		NotNull ( query );
-		NotNull ( orderQuery );
+		NotNullOrEmpty ( orderQuery?.OrderBy );
 
 		try
 		{
-			return query.OrderBy ( orderQuery!.OrderBy! , orderQuery.IsDescending );
+			return query.OrderBy (
+				ordering: string.Join (
+					separator: ' ' ,
+					orderQuery!.OrderBy ,
+					orderQuery.IsDescending.GetValueOrDefault ()
+						? "desc"
+						: "asc"
+				)
+			);
 		}
 		catch ( Exception exception )
 		{
@@ -43,7 +51,7 @@ public static class DynamicLinqDecoratorExtensions
 	public static IQueryable Select ( this IQueryable query , ProjectionQueryDto? projectionQuery )
 	{
 		NotNull ( query );
-		NotNull ( projectionQuery );
+		NotNullOrEmpty ( projectionQuery?.Projection );
 
 		try
 		{

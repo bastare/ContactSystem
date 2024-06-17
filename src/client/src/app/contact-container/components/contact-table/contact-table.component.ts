@@ -1,26 +1,27 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, inject } from '@angular/core';
 import {
   MatPaginator,
   MatPaginatorModule,
   PageEvent,
 } from '@angular/material/paginator';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSort, MatSortModule } from '@angular/material/sort';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Contact } from '../../store-features/contact.model';
+import { ContactState } from '../../store-features/contact-state.model';
 import { Store, select } from '@ngrx/store';
 import {
-  State,
+  AppState,
   selectAll,
+  selectContactsForTable,
   selectMetaPagination,
 } from '../../store-features/contact.reducer';
-import { ContactActions } from '../../store-features/actions/contact.actions';
 import { MatButton } from '@angular/material/button';
 import { AddFormComponent } from './atoms/add-form/add-form.component';
 import { EditFormComponent } from './atoms/edit-form/edit-form.component';
+import { ContactRestActions } from '../../store-features/actions/contact-rest.actions';
 
 @Component({
   selector: 'app-contact-table',
@@ -45,43 +46,84 @@ import { EditFormComponent } from './atoms/edit-form/edit-form.component';
           #input
         />
       </mat-form-field>
-
       <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" matSort>
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          matSort
+          (matSortChange)="onSort($event)"
+        >
           <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header="Id"
+            >
+              ID
+            </th>
             <td mat-cell *matCellDef="let contact">{{ contact.id }}</td>
           </ng-container>
 
           <ng-container matColumnDef="firstName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header="FirstName"
+            >
               First Name
             </th>
             <td mat-cell *matCellDef="let contact">{{ contact.firstName }}</td>
           </ng-container>
 
           <ng-container matColumnDef="lastName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Name</th>
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header="LastName"
+            >
+              Last Name
+            </th>
             <td mat-cell *matCellDef="let contact">{{ contact.lastName }}</td>
           </ng-container>
 
           <ng-container matColumnDef="email">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header="Email"
+            >
+              Email
+            </th>
             <td mat-cell *matCellDef="let contact">{{ contact.email }}</td>
           </ng-container>
 
           <ng-container matColumnDef="phone">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header="Phone"
+            >
+              Phone
+            </th>
             <td mat-cell *matCellDef="let contact">{{ contact.phone }}</td>
           </ng-container>
 
           <ng-container matColumnDef="title">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header="Title">
+              Title
+            </th>
             <td mat-cell *matCellDef="let contact">{{ contact.title }}</td>
           </ng-container>
 
           <ng-container matColumnDef="middleInitial">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header="MiddleInitial"
+            >
               Middle Initial
             </th>
             <td mat-cell *matCellDef="let contact">
@@ -108,11 +150,13 @@ import { EditFormComponent } from './atoms/edit-form/edit-form.component';
             <td class="mat-cell" colspan="4">No data matching the filter</td>
           </tr>
         </table>
+      </div>
+      <div class="mat-elevation-z8">
         <!-- TODO: Refactor this shit -->
         <mat-paginator
-          [pageIndex]="(metaPagination$ | async)!.currentOffset - 1"
+          [pageIndex]="(contactsTableData$ | async)!.pagination.currentOffset - 1"
           [pageSizeOptions]="[10]"
-          [length]="(metaPagination$ | async)!.totalCount"
+          [length]="(contactsTableData$ | async)!.pagination.totalCount"
           aria-label="Contacts paginator"
           (page)="onPageChange($event)"
         >
@@ -124,9 +168,12 @@ import { EditFormComponent } from './atoms/edit-form/edit-form.component';
   `,
   styleUrl: './contact-table.component.scss',
 })
-export class ContactTableComponent implements OnInit {
+export class ContactTableComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
+
+  private readonly store: Store<AppState> = inject(Store);
+  private readonly dialog: MatDialog = inject(MatDialog);
 
   displayedColumns: ReadonlyArray<string> = [
     'id',
@@ -138,23 +185,25 @@ export class ContactTableComponent implements OnInit {
     'middleInitial',
     'actions',
   ];
+  contactsTableData$ = this.store.pipe(select(selectContactsForTable));
 
-  // TODO: Make it under one select
-  data$ = this.store.pipe(select(selectAll));
-  metaPagination$ = this.store.pipe(select(selectMetaPagination));
-
-  dataSource!: MatTableDataSource<Contact>;
+  dataSource!: MatTableDataSource<ContactState>;
 
   ngOnInit() {
     this.store.dispatch(
-      ContactActions['[REST/API]LoadContacts']({
+      ContactRestActions.loadContacts({
+        expression: `
+          !string.IsNullOrEmpty(FirstName)
+            && !string.IsNullOrEmpty(LastName)
+            && !string.IsNullOrEmpty(Email)
+            && !string.IsNullOrEmpty(Phone)`,
         offset: 1,
         limit: 10,
       })
     );
 
-    this.data$.subscribe((data) => {
-      this.dataSource = new MatTableDataSource(data);
+    this.contactsTableData$.subscribe((data) => {
+      this.dataSource = new MatTableDataSource(data.rows);
     });
   }
 
@@ -163,30 +212,52 @@ export class ContactTableComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
+  onSort({active, direction}: Sort) {
+    this.store.dispatch(
+      ContactRestActions.loadContacts({
+        orderBy: active,
+        isDescending: direction === 'desc',
+      })
+    );
+  }
+
   onFilterInsert({ target }: KeyboardEvent) {
     this.store.dispatch(
-      ContactActions['[REST/API]LoadContacts']({
-        ...resolveQueryDto({ filterValue: (target as HTMLInputElement).value }),
+      ContactRestActions.loadContacts({
+        ...resolveQueryDto({ filterValue: (target as HTMLInputElement)?.value }),
       })
     );
 
     function resolveQueryDto({ filterValue }: { filterValue?: string }) {
-      return filterValue
-        ? { expression: `Email.Contains("${filterValue}")` }
-        : {};
+      return {
+        expression: filterValue
+          ? `
+            Email.Contains("${filterValue}")
+              && !string.IsNullOrEmpty(FirstName)
+              && !string.IsNullOrEmpty(LastName)
+              && !string.IsNullOrEmpty(Email)
+              && !string.IsNullOrEmpty(Phone)
+          `
+          : `
+            !string.IsNullOrEmpty(FirstName)
+              && !string.IsNullOrEmpty(LastName)
+              && !string.IsNullOrEmpty(Email)
+              && !string.IsNullOrEmpty(Phone)
+        `
+      };
     }
   }
 
   onPageChange(event: PageEvent) {
     this.store.dispatch(
-      ContactActions['[REST/API]LoadContacts']({
+      ContactRestActions.loadContacts({
         offset: event.pageIndex + 1,
         limit: event.pageSize,
       })
     );
   }
 
-  openEditContactDialog(data: Contact) {
+  openEditContactDialog(data: ContactState) {
     this.dialog.open(EditFormComponent, { data });
   }
 
@@ -196,12 +267,7 @@ export class ContactTableComponent implements OnInit {
 
   removeContact(contactId: number) {
     this.store.dispatch(
-      ContactActions['[REST/API]DeleteContact']({ id: contactId })
+      ContactRestActions.deleteContact({ id: contactId })
     );
   }
-
-  constructor(
-    private readonly store: Store<State>,
-    private readonly dialog: MatDialog
-  ) {}
 }
