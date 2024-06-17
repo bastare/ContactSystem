@@ -6,6 +6,7 @@ using Domain.Contracts;
 using Domain.Contracts.ContactContracts.Command.PatchContact.Dtos;
 using Domain.Contracts.ContactContracts.Command.PatchContact;
 using Mapster;
+using ContactSystem.Api.Endpoints.v1.Contact.Contracts;
 
 public sealed class PatchContactEndpoint ( IRequestClient<PatchContactContract> getHomeRequestClient )
 	: Endpoint<ContactForPatchRequestBody>

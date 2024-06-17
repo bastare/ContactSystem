@@ -1,4 +1,4 @@
-namespace ContactSystem.Domain.Contracts.ContactContracts.Command.PatchContact.Dtos;
+namespace ContactSystem.Api.Endpoints.v1.Contact.Contracts;
 
 public sealed record ContactForPatchRequestBody
 {

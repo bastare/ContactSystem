@@ -8,10 +8,7 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store, select } from '@ngrx/store';
-import {
-  AppState,
-  selectAll,
-} from '../../../../store-features/contact.reducer';
+import { AppState, selectAll } from '../../../../store-features/contact.reducer';
 import { ContactRestActions } from '../../../../store-features/actions/contact-rest.actions';
 import { ContactState } from '../../../../store-features/contact-state.model';
 import { EditFormComponent } from '../edit-form/edit-form.component';
