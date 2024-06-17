@@ -1,5 +1,6 @@
 namespace ContactSystem.Infrastructure.loC.Injectors.PersistenceServicesInjectors;
 
+using Configurations.EntityFrameworkTriggers.AuditionTriggers;
 using InjectorBuilder.Common.Attributes;
 using InjectorBuilder.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -22,7 +23,10 @@ public sealed class EfInjector : IInjectable
 				dbContextOptionsBuilder
 					.UseLoggerFactory ( loggerFactory: ResolveLoggerFactory ( serviceCollection ) )
 
-					.UseInMemoryDatabase ( "_" );
+					.UseInMemoryDatabase ( "_" )
+
+					.UseTriggers ( triggerOptions =>
+						triggerOptions.AddTrigger<OnAuditionTrigger> () );
 			} );
 
 		serviceCollection.TryAddScoped<IUnitOfWork<int> , EfUnitOfWork<EfContext , int>> ();

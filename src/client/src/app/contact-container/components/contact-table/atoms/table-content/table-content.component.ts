@@ -109,6 +109,9 @@ import { MatButton } from '@angular/material/button';
   styleUrl: './table-content.component.scss',
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
   private readonly store = inject(Store<AppState>);
   private readonly dialog = inject(MatDialog);
   private readonly subscriptionsForUnsubscribe: Subscription[] = [];
@@ -124,10 +127,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     'actions',
   ];
 
-  dataSource!: MatTableDataSource<ContactState>;
-
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  dataSource: MatTableDataSource<ContactState> = new MatTableDataSource([] as ContactState[]);
 
   contactsTableDataStream$ = this.store.pipe(select(selectAll));
 

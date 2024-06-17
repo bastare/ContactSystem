@@ -11,10 +11,10 @@ public sealed class UserSession ( IHttpContextAccessor httpContextAccessor ) : I
 
 	private HttpContext HttpContext => _httpContextAccessor.HttpContext!;
 
-	public Guid? Id =>
+	public int? Id =>
 		HttpContext.User
-			.FindFirst ( ClaimTypes.NameIdentifier )?.Value is string guid
-				? Guid.Parse ( guid )
+			.FindFirst ( ClaimTypes.NameIdentifier )?.Value is string id
+				? int.Parse ( id )
 				: default;
 
 	public bool IsAuthorizedUser ()
