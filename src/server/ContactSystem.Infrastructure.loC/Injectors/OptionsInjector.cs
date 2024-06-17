@@ -9,8 +9,7 @@ using MoreLinq;
 
 public sealed class OptionsInjector : IInjectable
 {
-	private readonly Assembly[] _assembliesWithOptions =
-	[
+	private readonly Assembly[] _assembliesWithOptions = [
 		typeof ( RabbitMqOption ).Assembly
 	];
 

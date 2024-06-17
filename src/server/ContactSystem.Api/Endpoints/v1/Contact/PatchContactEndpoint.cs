@@ -1,17 +1,17 @@
 namespace ContactSystem.Api.Endpoints.v1.Contact;
 
+using Contracts;
 using FastEndpoints;
 using MassTransit;
 using Domain.Contracts;
 using Domain.Contracts.ContactContracts.Command.PatchContact.Dtos;
 using Domain.Contracts.ContactContracts.Command.PatchContact;
 using Mapster;
-using ContactSystem.Api.Endpoints.v1.Contact.Contracts;
 
-public sealed class PatchContactEndpoint ( IRequestClient<PatchContactContract> getHomeRequestClient )
+public sealed class PatchContactEndpoint ( IRequestClient<PatchContactContract> requestClient )
 	: Endpoint<ContactForPatchRequestBody>
 {
-	private readonly IRequestClient<PatchContactContract> _getHomeRequestClient = getHomeRequestClient;
+	private readonly IRequestClient<PatchContactContract> _requestClient = requestClient;
 
 	public override void Configure ()
 	{
@@ -23,7 +23,7 @@ public sealed class PatchContactEndpoint ( IRequestClient<PatchContactContract> 
 	public override async Task HandleAsync ( ContactForPatchRequestBody requestBody , CancellationToken cancellationToken = default )
 	{
 		var (response, fault) =
-			await _getHomeRequestClient.GetResponse<SubmitPatchedContactsContract , FaultContract> (
+			await _requestClient.GetResponse<SubmitPatchedContactsContract , FaultContract> (
 				new ( requestBody.Adapt<ContactForPatchDto>() ) ,
 				cancellationToken );
 

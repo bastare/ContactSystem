@@ -35,7 +35,7 @@ export class ContactRestClient {
   }
 
   removeContact$({ contactId }: { contactId: number }) {
-    return this.http.delete<ContactForTableDto>(
+    return this.http.delete(
       `${environment.restApiV1}/contacts/${contactId}`
     );
   }

@@ -8,10 +8,10 @@ using Domain.Contracts.ContactContracts.Query.GetContacts;
 using Mapster;
 using Domain.Contracts.Dtos.QueryDtos;
 
-public sealed class GetContactsEndpoint ( IRequestClient<GetContactsContract> getHomeRequestClient )
+public sealed class GetContactsEndpoint ( IRequestClient<GetContactsContract> requestClient )
 	: Endpoint<GetContactsQuery>
 {
-	private readonly IRequestClient<GetContactsContract> _getHomeRequestClient = getHomeRequestClient;
+	private readonly IRequestClient<GetContactsContract> _requestClient = requestClient;
 
 	public override void Configure ()
 	{
@@ -23,7 +23,7 @@ public sealed class GetContactsEndpoint ( IRequestClient<GetContactsContract> ge
 	public override async Task HandleAsync ( GetContactsQuery requestQuery , CancellationToken cancellationToken = default )
 	{
 		var (response, fault) =
-			await _getHomeRequestClient.GetResponse<SubmitContactsContract , FaultContract> (
+			await _requestClient.GetResponse<SubmitContactsContract , FaultContract> (
 				new ( requestQuery?.Adapt<ExpressionQueryDto> () ,
 					  requestQuery?.Adapt<OrderQueryDto> () ,
 					  requestQuery?.Adapt<PaginationQueryDto> () ,

@@ -1,17 +1,17 @@
 namespace ContactSystem.Api.Endpoints.v1.Contact;
 
+using Contracts;
 using FastEndpoints;
 using MassTransit;
 using Domain.Contracts;
-using ContactSystem.Domain.Contracts.ContactContracts.Command.CreateContact.Dtos;
-using ContactSystem.Domain.Contracts.ContactContracts.Command.CreateContact;
-using ContactSystem.Api.Endpoints.v1.Contact.Contracts;
+using Domain.Contracts.ContactContracts.Command.CreateContact.Dtos;
+using Domain.Contracts.ContactContracts.Command.CreateContact;
 using Mapster;
 
-public sealed class CreateContactsEndpoint ( IRequestClient<CreateContactContract> getHomeRequestClient )
+public sealed class CreateContactsEndpoint ( IRequestClient<CreateContactContract> requestClient )
     : Endpoint<ContactForCreationRequestBody>
 {
-    private readonly IRequestClient<CreateContactContract> _getHomeRequestClient = getHomeRequestClient;
+    private readonly IRequestClient<CreateContactContract> _requestClient = requestClient;
 
     public override void Configure ()
     {
@@ -23,7 +23,7 @@ public sealed class CreateContactsEndpoint ( IRequestClient<CreateContactContrac
     public override async Task HandleAsync ( ContactForCreationRequestBody requestBody , CancellationToken cancellationToken = default )
     {
         var (response, fault) =
-            await _getHomeRequestClient.GetResponse<SubmitCreatedContactContract , FaultContract> (
+            await _requestClient.GetResponse<SubmitCreatedContactContract , FaultContract> (
                 new ( requestBody.Adapt<ContactForCreationDto>() ) ,
                 cancellationToken );
 

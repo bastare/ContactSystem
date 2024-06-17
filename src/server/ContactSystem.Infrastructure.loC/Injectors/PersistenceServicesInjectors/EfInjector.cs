@@ -23,6 +23,9 @@ public sealed class EfInjector : IInjectable
 				dbContextOptionsBuilder
 					.UseLoggerFactory ( loggerFactory: ResolveLoggerFactory ( serviceCollection ) )
 
+					// TODO: Fix me for proper indexing
+					// .UseSqlite ( "DataSource=:memory:" )
+
 					.UseInMemoryDatabase ( "_" )
 
 					.UseTriggers ( triggerOptions =>

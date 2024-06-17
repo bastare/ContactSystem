@@ -6,10 +6,10 @@ using MassTransit;
 using Domain.Contracts;
 using Domain.Contracts.ContactContracts.Command.RemoveContact;
 
-public sealed class RemoveContactEndpoint ( IRequestClient<RemoveContactContract> getHomeRequestClient )
+public sealed class RemoveContactEndpoint ( IRequestClient<RemoveContactContract> requestClient )
     : Endpoint<RemoveContactRoute>
 {
-    private readonly IRequestClient<RemoveContactContract> _getHomeRequestClient = getHomeRequestClient;
+    private readonly IRequestClient<RemoveContactContract> _requestClient = requestClient;
 
     public override void Configure ()
     {
@@ -21,7 +21,7 @@ public sealed class RemoveContactEndpoint ( IRequestClient<RemoveContactContract
     public override async Task HandleAsync ( RemoveContactRoute removeContactRoute , CancellationToken cancellationToken = default )
     {
         var (response, fault) =
-            await _getHomeRequestClient.GetResponse<SubmitRemovedContactsContract , FaultContract> (
+            await _requestClient.GetResponse<SubmitRemovedContactsContract , FaultContract> (
                 new ( removeContactRoute.Id ) ,
                 cancellationToken );
 

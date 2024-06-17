@@ -12,7 +12,7 @@ public sealed class FluentValidationInjector : IInjectable
 	{
 		serviceCollection
 			.AddValidatorsFromAssemblies (
-				[
+				assemblies: [
 					Assembly.GetEntryAssembly ()!,
 					typeof ( ExpressionQueryDto ).Assembly
 				] );

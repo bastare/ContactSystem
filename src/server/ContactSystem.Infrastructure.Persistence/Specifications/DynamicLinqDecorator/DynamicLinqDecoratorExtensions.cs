@@ -1,7 +1,6 @@
 namespace ContactSystem.Infrastructure.Persistence.Specifications.DynamicLinqDecorator;
 
 using System.Linq.Dynamic.Core;
-using ContactSystem.Domain.Core.Models;
 using Domain.Contracts.Dtos.QueryDtos;
 
 public static class DynamicLinqDecoratorExtensions

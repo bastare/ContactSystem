@@ -1,4 +1,3 @@
-import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
@@ -14,7 +13,6 @@ import { MatButton } from '@angular/material/button';
   selector: 'app-contact-table',
   standalone: true,
   imports: [
-    AsyncPipe,
     MatButton,
     TableComponent,
     TableFilterComponent,

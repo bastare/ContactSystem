@@ -39,6 +39,7 @@ public sealed class GetContactsConsumer ( IEfUnitOfWork<EfContext , int> efUnitO
 						context.Message.ExpressionQuery ,
 						context.Message.OrderQuery ,
 						context.Message.PaginationQuery ,
-						context.Message.ProjectionQuery ) );
+						context.Message.ProjectionQuery ) ,
+					context.CancellationToken );
 	}
 }

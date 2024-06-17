@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { concatMap, debounce, switchMap, withLatestFrom } from 'rxjs/operators';
+import { debounce, switchMap, withLatestFrom } from 'rxjs/operators';
 import { ContactActions } from '../actions/contact.actions';
 import { interval, of } from 'rxjs';
 import { ContactRestActions } from '../actions/contact-rest.actions';
@@ -25,10 +25,10 @@ export class LoadContactEffects {
         this.store.select(selectMetaPagination),
         this.store.select(selectMetaFilter)
       ),
-      switchMap(([newQuery, previousPaginationQuery, previousFilterQuery]) =>
+      switchMap(([newQuery, previousPaginationQueryFragment, previousFilterQueryFragment]) =>
         this.contactRestClient.fetchContacts$({
-          ...previousPaginationQuery,
-          ...previousFilterQuery,
+          ...previousPaginationQueryFragment,
+          ...previousFilterQueryFragment,
           ...newQuery
         })
           .pipe(
