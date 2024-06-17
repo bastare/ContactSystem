@@ -106,18 +106,26 @@ export const contactsFeature = createFeature({
   reducer,
   extraSelectors: ({ selectContactsState }) => ({
     ...adapter.getSelectors(selectContactsState),
+
     selectContactsForTable: createSelector(featureSelector, (state) => ({
       rows: Object.values(state.entities) as ContactState[],
       pagination: state._meta.pagination,
       filter: state._meta.filter,
     })),
+
     selectMetaPagination: createSelector(featureSelector, (state) => ({
       ...state._meta.pagination
     })),
+
     selectMetaFilter: createSelector(featureSelector, (state) => ({
       ...state._meta.filter
     })),
-  }),
+
+    selectMetaPaginationOffsetData: createSelector(featureSelector, (state) => ({
+      currentOffset: state._meta.pagination.currentOffset,
+      totalCount: state._meta.pagination.totalCount
+    })),
+  })
 });
 
 export const {
@@ -128,5 +136,6 @@ export const {
 
   selectContactsForTable,
   selectMetaPagination,
-  selectMetaFilter
+  selectMetaFilter,
+  selectMetaPaginationOffsetData
 } = contactsFeature;

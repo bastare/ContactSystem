@@ -1,19 +1,14 @@
 namespace ContactSystem.Api.Endpoints.v1.Contact;
 
+using Contracts;
 using FastEndpoints;
 using MassTransit;
 using Domain.Contracts;
 using Domain.Contracts.ContactContracts.Command.RemoveContact;
-using static RemoveContactEndpoint;
 
 public sealed class RemoveContactEndpoint ( IRequestClient<RemoveContactContract> getHomeRequestClient )
     : Endpoint<RemoveContactRoute>
 {
-	public sealed record RemoveContactRoute
-	{
-		public int Id { get; init; }
-	}
-
     private readonly IRequestClient<RemoveContactContract> _getHomeRequestClient = getHomeRequestClient;
 
     public override void Configure ()

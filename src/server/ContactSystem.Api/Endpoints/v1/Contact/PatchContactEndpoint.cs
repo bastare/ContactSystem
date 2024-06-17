@@ -5,9 +5,10 @@ using MassTransit;
 using Domain.Contracts;
 using Domain.Contracts.ContactContracts.Command.PatchContact.Dtos;
 using Domain.Contracts.ContactContracts.Command.PatchContact;
+using Mapster;
 
 public sealed class PatchContactEndpoint ( IRequestClient<PatchContactContract> getHomeRequestClient )
-	: Endpoint<ContactForPatchDto>
+	: Endpoint<ContactForPatchRequestBody>
 {
 	private readonly IRequestClient<PatchContactContract> _getHomeRequestClient = getHomeRequestClient;
 
@@ -18,11 +19,11 @@ public sealed class PatchContactEndpoint ( IRequestClient<PatchContactContract> 
 		AllowAnonymous ();
 	}
 
-	public override async Task HandleAsync ( ContactForPatchDto requestBody , CancellationToken cancellationToken = default )
+	public override async Task HandleAsync ( ContactForPatchRequestBody requestBody , CancellationToken cancellationToken = default )
 	{
 		var (response, fault) =
 			await _getHomeRequestClient.GetResponse<SubmitPatchedContactsContract , FaultContract> (
-				new ( requestBody ) ,
+				new ( requestBody.Adapt<ContactForPatchDto>() ) ,
 				cancellationToken );
 
 		if ( !response.IsCompletedSuccessfully )

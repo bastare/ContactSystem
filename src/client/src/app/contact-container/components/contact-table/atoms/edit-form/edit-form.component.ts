@@ -37,7 +37,7 @@ import { ContactRestActions } from '../../../../store-features/actions/contact-r
     ReactiveFormsModule,
   ],
   template: `
-    <form [formGroup]="createContactForm" (ngSubmit)="onCreate()">
+    <form [formGroup]="createContactForm" (ngSubmit)="onEdit()">
       <mat-dialog-content>
         <mat-form-field>
           <mat-label>First name</mat-label>
@@ -90,7 +90,7 @@ export class EditFormComponent {
     middleInitial: new FormControl(this.dialogInitData.middleInitial),
   });
 
-  onCreate() {
+  onEdit() {
     this.store.dispatch(
       ContactRestActions.updateContact({
         contact: {

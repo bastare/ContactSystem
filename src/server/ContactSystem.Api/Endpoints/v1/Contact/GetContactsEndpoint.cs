@@ -1,36 +1,16 @@
 namespace ContactSystem.Api.Endpoints.v1.Contact;
 
+using Contracts;
 using FastEndpoints;
 using MassTransit;
 using Domain.Contracts;
 using Domain.Contracts.ContactContracts.Query.GetContacts;
 using Mapster;
-using ContactSystem.Domain.Contracts.Dtos.QueryDtos;
-using Queries.Interfaces;
-using static GetContactsEndpoint;
+using Domain.Contracts.Dtos.QueryDtos;
 
 public sealed class GetContactsEndpoint ( IRequestClient<GetContactsContract> getHomeRequestClient )
 	: Endpoint<GetContactsQuery>
 {
-	public sealed record GetContactsQuery :
-		IExpressionQuery,
-		IOrderQuery,
-		IPaginationQuery,
-		IProjectionQuery
-	{
-		public string? Expression { get; init; }
-
-		public string? Projection { get; init; }
-
-		public int? Offset { get; init; } = 1;
-
-		public int? Limit { get; init; } = 10;
-
-		public bool? IsDescending { get; init; }
-
-		public string? OrderBy { get; init; }
-	}
-
 	private readonly IRequestClient<GetContactsContract> _getHomeRequestClient = getHomeRequestClient;
 
 	public override void Configure ()
@@ -54,7 +34,7 @@ public sealed class GetContactsEndpoint ( IRequestClient<GetContactsContract> ge
 			throw ( await fault ).Message.Exception;
 
 		await SendAsync (
-			response: (await response).Message.ContactsForQueryResponse ,
+			response: ( await response ).Message.ContactsForQueryResponse ,
 			cancellation: cancellationToken );
 	}
 }

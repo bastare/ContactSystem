@@ -1,6 +1,6 @@
-namespace ContactSystem.Domain.Contracts.ContactContracts.Command.CreateContact.Dtos;
+namespace ContactSystem.Api.Endpoints.v1.Contact.Contracts;
 
-public sealed record ContactForCreationDto
+public sealed record ContactForCreationRequestBody
 {
 	public string? FirstName { get; init; }
 
@@ -13,4 +13,4 @@ public sealed record ContactForCreationDto
 	public string? Title { get; init; }
 
 	public string? MiddleInitial { get; init; }
-}
+};
