@@ -2,9 +2,7 @@ import { AsyncPipe } from '@angular/common';
 import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import {
-  AppState,
-} from '../../store-features/contact.reducer';
+import { AppState, } from '../../store-features/contact.reducer';
 import { AddFormComponent } from './atoms/add-form/add-form.component';
 import { ContactRestActions } from '../../store-features/actions/contact-rest.actions';
 import { TableComponent } from './atoms/table-content/table-content.component';

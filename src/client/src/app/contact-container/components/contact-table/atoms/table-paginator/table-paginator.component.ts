@@ -14,7 +14,7 @@ import { Subscription } from 'rxjs';
   template: `
     <div class="mat-elevation-z8">
       <mat-paginator
-        [pageIndex]="currentOffset! - 1"
+        [pageIndex]="currentOffset - 1"
         [pageSizeOptions]="[10]"
         [length]="totalCount"
         aria-label="Contacts paginator"
