@@ -23,7 +23,7 @@ import { Subscription } from 'rxjs';
 import { MatButton } from '@angular/material/button';
 
 @Component({
-  selector: 'app-table',
+  selector: 'app-table-content',
   standalone: true,
   imports: [
     MatInputModule,
@@ -109,7 +109,7 @@ import { MatButton } from '@angular/material/button';
       </table>
     </div>
   `,
-  styleUrl: './table.component.scss',
+  styleUrl: './table-content.component.scss',
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly store = inject(Store<AppState>);

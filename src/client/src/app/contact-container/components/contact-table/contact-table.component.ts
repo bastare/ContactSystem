@@ -7,7 +7,7 @@ import {
 } from '../../store-features/contact.reducer';
 import { AddFormComponent } from './atoms/add-form/add-form.component';
 import { ContactRestActions } from '../../store-features/actions/contact-rest.actions';
-import { TableComponent } from './atoms/table/table.component';
+import { TableComponent } from './atoms/table-content/table-content.component';
 import { TablePaginatorComponent } from './atoms/table-paginator/table-paginator.component';
 import { TableFilterComponent } from './atoms/table-filter/table-filter.component';
 import { MatButton } from '@angular/material/button';
@@ -25,7 +25,7 @@ import { MatButton } from '@angular/material/button';
   template: `
     <div class="container-table">
       <app-table-filter />
-      <app-table />
+      <app-table-content />
       <app-table-paginator />
       <button mat-button (click)="openAddContactDialog()">Add</button>
     </div>
@@ -43,10 +43,19 @@ export class ContactTableComponent implements OnInit {
           !string.IsNullOrEmpty(FirstName)
             && !string.IsNullOrEmpty(LastName)
             && !string.IsNullOrEmpty(Email)
-            && !string.IsNullOrEmpty(Phone)`,
-        projection: 'new(Id, FirstName, LastName, Title, Email, Phone, MiddleInitial)',
-        offset: 1,
-        limit: 10,
+            && !string.IsNullOrEmpty(Phone)
+        `,
+        projection: `
+          new(
+            Id,
+            FirstName,
+            LastName,
+            Title,
+            Email,
+            Phone,
+            MiddleInitial
+          )
+        `
       })
     );
   }

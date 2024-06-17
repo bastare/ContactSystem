@@ -47,11 +47,11 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
       .forEach((subscription) => subscription.unsubscribe());
   }
 
-  onPageChange(event: PageEvent) {
+  onPageChange({ pageIndex, pageSize }: PageEvent) {
     this.store.dispatch(
       ContactRestActions.loadContacts({
-        offset: event.pageIndex + 1,
-        limit: event.pageSize,
+        offset: pageIndex + 1,
+        limit: pageSize,
       })
     );
   }
