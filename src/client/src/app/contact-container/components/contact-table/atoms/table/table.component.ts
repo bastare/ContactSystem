@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   Component,
-  Input,
   OnDestroy,
   OnInit,
   ViewChild,
@@ -113,8 +112,8 @@ import { MatButton } from '@angular/material/button';
   styleUrl: './table.component.scss',
 })
 export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
-  private readonly store: Store<AppState> = inject(Store);
-  private readonly dialog: MatDialog = inject(MatDialog);
+  private readonly store = inject(Store<AppState>);
+  private readonly dialog = inject(MatDialog);
   private readonly subscriptionsForUnsubscribe: Subscription[] = [];
 
   displayedColumns: ReadonlyArray<string> = [
@@ -135,7 +134,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   contactsTableDataStream$ = this.store.pipe(select(selectAll));
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.subscriptionsForUnsubscribe.push(
       this.contactsTableDataStream$.subscribe((contactsTableData) => {
         this.dataSource = new MatTableDataSource(contactsTableData);
@@ -143,7 +142,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.subscriptionsForUnsubscribe
       .forEach((subscription) => subscription.unsubscribe());
   }

@@ -33,8 +33,8 @@ import { MatButton } from '@angular/material/button';
   styleUrl: './contact-table.component.scss',
 })
 export class ContactTableComponent implements OnInit {
-  private readonly store: Store<AppState> = inject(Store);
-  private readonly dialog: MatDialog = inject(MatDialog);
+  private readonly store = inject(Store<AppState>);
+  private readonly dialog = inject(MatDialog);
 
   ngOnInit() {
     this.store.dispatch(

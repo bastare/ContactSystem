@@ -22,7 +22,7 @@ import { AppState } from '../../../../store-features/contact.reducer';
   styleUrl: './table-filter.component.scss',
 })
 export class TableFilterComponent {
-  private readonly store: Store<AppState> = inject(Store);
+  private readonly store = inject(Store<AppState>);
 
   onFilterInsert({ target }: KeyboardEvent) {
     this.store.dispatch(

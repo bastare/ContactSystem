@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
@@ -76,6 +76,9 @@ import { ContactRestActions } from '../../../../store-features/actions/contact-r
   styleUrl: './add-form.component.scss',
 })
 export class AddFormComponent {
+  private readonly store = inject(Store<AppState>)
+  private readonly dialogRef = inject(MatDialogRef<AddFormComponent>)
+
   createContactForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
     lastName: new FormControl('', Validators.required),
@@ -94,9 +97,4 @@ export class AddFormComponent {
 
     this.dialogRef.close();
   }
-
-  constructor(
-    private readonly store: Store<AppState>,
-    private readonly dialogRef: MatDialogRef<AddFormComponent>
-  ) { }
 }

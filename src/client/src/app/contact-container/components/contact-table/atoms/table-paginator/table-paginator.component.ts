@@ -25,7 +25,7 @@ import { Subscription } from 'rxjs';
   styleUrl: './table-paginator.component.scss',
 })
 export class TablePaginatorComponent implements OnInit, OnDestroy {
-  private readonly store: Store<AppState> = inject(Store);
+  private readonly store = inject(Store<AppState>);
   private readonly subscriptionsForUnsubscribe: Subscription[] = [];
 
   contactTableMetaPageOffsetStream$ = this.store.pipe(select(selectMetaPaginationOffsetData))
@@ -33,7 +33,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   currentOffset: number = 1;
   totalCount: number = 0;
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.subscriptionsForUnsubscribe.push(
       this.contactTableMetaPageOffsetStream$.subscribe(({ currentOffset, totalCount }) => {
         this.currentOffset = currentOffset;
@@ -42,7 +42,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  ngOnDestroy() {
     this.subscriptionsForUnsubscribe
       .forEach((subscription) => subscription.unsubscribe());
   }
