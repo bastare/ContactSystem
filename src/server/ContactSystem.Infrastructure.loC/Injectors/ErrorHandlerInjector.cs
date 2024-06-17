@@ -73,6 +73,19 @@ public sealed class ErrorHandlerInjector : IInjectable
 									Message: exception.Message )
 						} )
 
+					.WithErrorHandler (
+						exceptionHandler: new ExceptionHandler (
+							id: 5 ,
+							isAllowedException: ( _ , exception ) =>
+								exception.GetType () == typeof ( ArgumentException ) )
+						{
+							InjectStatusCode = ( _ , _ ) => HttpStatusCode.BadRequest ,
+							InjectExceptionMessage = ( exception ) =>
+								new PageErrorMessage (
+									StatusCode: ( int ) HttpStatusCode.BadRequest ,
+									Message: exception.Message )
+						} )
+
 					.Build ();
 	}
 }

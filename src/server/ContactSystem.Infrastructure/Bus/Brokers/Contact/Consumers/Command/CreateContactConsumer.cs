@@ -9,16 +9,22 @@ using ContactSystem.Infrastructure.Persistence.Context;
 using ContactSystem.Domain.Core.Models.Contact;
 using ContactSystem.Domain.Contracts.ContactContracts.Command.CreateContact.Dtos;
 using ContactSystem.Domain.Contracts.ContactContracts.Command.CreateContact;
+using ContactSystem.Domain.Caching.Interfaces;
 
-public sealed class CreateContactConsumer ( IEfUnitOfWork<EfContext , int> efUnitOfWork ) :
+public sealed class CreateContactConsumer ( IEfUnitOfWork<EfContext , int> efUnitOfWork , ICacheService cacheService ) :
 	IConsumer<CreateContactContract>
 {
 	private readonly IEfUnitOfWork<EfContext , int> _efUnitOfWork = efUnitOfWork;
+
+	private readonly ICacheService _cacheService = cacheService;
 
 	public async Task Consume ( ConsumeContext<CreateContactContract> context )
 	{
 		try
 		{
+			// ? Indexer doesn't work with `InMemory` :(
+			await FeatureNotBugEmailIndexerAsync ( context.Message.ContactForCreation );
+
 			var createdContact_ =
 				await CreateContactsAsync ( context.Message.ContactForCreation );
 
@@ -38,5 +44,19 @@ public sealed class CreateContactConsumer ( IEfUnitOfWork<EfContext , int> efUni
 				.AddAsync (
 					contactForCreation.Adapt<Contact> () ,
 					context.CancellationToken );
+
+		Task FeatureNotBugEmailIndexerAsync ( ContactForCreationDto contactForCreation )
+		{
+			var domainKey = $"[FeatureNotBugEmailIndexer]:{contactForCreation.Email}";
+
+			if ( _cacheService.TryGet<string> ( domainKey , out var email ) )
+				throw new ArgumentException ( $"There is 1 contact with this email address: {email}" );
+
+			return _cacheService.SetAsync (
+				key: domainKey ,
+				value: contactForCreation.Email! ,
+				expireSpan: TimeSpan.MaxValue ,
+				context.CancellationToken );
+		}
 	}
 }
