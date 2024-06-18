@@ -1,15 +1,26 @@
-@import "../../../../styles.scss";
+@import "../../../../styles/variables/index";
+@import "../../../../styles/template/index";
 
 .container-table {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 100vh;
+
+  min-height: 50vh;
+  min-width: 85vw;
+
+  gap: 20px;
+  padding: 20px;
+
+  border-radius: 20px;
+
+  background-color: #f0f0f0;
+
+  -webkit-box-shadow: -2px 8px 17px 5px rgba(0, 0, 0, 0.35);
+  box-shadow: -2px 8px 17px 5px rgba(0, 0, 0, 0.35);
 
   &--add-button {
-    position: sticky;
-    top: 0;
-    z-index: $add-btn-zIndex;
+    @extend .contact-brn-container;
   }
 }

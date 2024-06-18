@@ -86,7 +86,7 @@ import { MatButton } from '@angular/material/button';
         </ng-container>
 
         <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>Actions</th>
+          <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let contact">
             <button mat-button (click)="openEditContactDialog(contact)">
               Edit

@@ -23,7 +23,12 @@ import { MatButton } from '@angular/material/button';
       <app-table-filter />
       <app-table-content />
       <app-table-paginator />
-      <button mat-button (click)="openAddContactDialog()">Add</button>
+      <button
+        class="container-table--add-button"
+        (click)="openAddContactDialog()"
+      >
+        Add
+      </button>
     </div>
   `,
   styleUrl: './contact-table.component.scss',
