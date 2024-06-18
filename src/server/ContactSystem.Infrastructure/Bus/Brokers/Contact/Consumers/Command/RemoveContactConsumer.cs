@@ -23,7 +23,7 @@ public sealed class RemoveContactConsumer ( IEfUnitOfWork<EfContext , int> efUni
 			var removedContact =
 				await RemoveContactsAsync ( context.Message.Id );
 
-			if ( removedContact is not null )
+			if ( !string.IsNullOrEmpty ( removedContact?.Email ) )
 				// ? Indexer doesn't work with `InMemory` :(
 				FeatureNotBugEmailIndexer ( contactEmailForCacheRemove: removedContact.Email! );
 
