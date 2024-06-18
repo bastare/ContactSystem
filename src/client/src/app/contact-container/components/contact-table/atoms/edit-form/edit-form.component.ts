@@ -37,42 +37,44 @@ import { ContactRestActions } from '../../../../store-features/actions/contact-r
     ReactiveFormsModule,
   ],
   template: `
-    <form [formGroup]="createContactForm" (ngSubmit)="onEdit()">
-      <mat-dialog-content>
-        <mat-form-field>
-          <mat-label>First name</mat-label>
-          <input matInput placeholder="First Name" formControlName="firstName" />
-        </mat-form-field>
+    <div>
+      <form [formGroup]="createContactForm" (ngSubmit)="onEdit()">
+        <mat-dialog-content>
+          <mat-form-field>
+            <mat-label>First name</mat-label>
+            <input matInput placeholder="First Name" formControlName="firstName" />
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Last name</mat-label>
-          <input matInput placeholder="Last Name" formControlName="lastName" />
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Last name</mat-label>
+            <input matInput placeholder="Last Name" formControlName="lastName" />
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input matInput placeholder="Email" formControlName="email" />
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" formControlName="email" />
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Phone</mat-label>
-          <input matInput placeholder="Phone" formControlName="phone" />
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Phone</mat-label>
+            <input matInput placeholder="Phone" formControlName="phone" />
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Title</mat-label>
-          <input matInput placeholder="Title" formControlName="title" />
-        </mat-form-field>
+          <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input matInput placeholder="Title" formControlName="title" />
+          </mat-form-field>
 
-        <mat-form-field>
-          <mat-label>Middle initial</mat-label>
-          <input matInput placeholder="First Name" formControlName="middleInitial" />
-        </mat-form-field>
-      </mat-dialog-content>
-      <mat-dialog-actions>
-        <button [disabled]="createContactForm.invalid" mat-button type="submit" cdkFocusInitial>Ok</button>
-      </mat-dialog-actions>
-    </form>
+          <mat-form-field>
+            <mat-label>Middle initial</mat-label>
+            <input matInput placeholder="First Name" formControlName="middleInitial" />
+          </mat-form-field>
+        </mat-dialog-content>
+        <mat-dialog-actions>
+          <button [disabled]="createContactForm.invalid" mat-button type="submit" cdkFocusInitial>Ok</button>
+        </mat-dialog-actions>
+      </form>
+    </div>
   `,
   styleUrl: './edit-form.component.scss',
 })

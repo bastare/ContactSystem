@@ -27,13 +27,13 @@ export class TableFilterComponent {
   onFilterInsert({ target }: KeyboardEvent) {
     this.store.dispatch(
       ContactRestActions.loadContacts({
-        ...resolveQueryDto({
+        ...resolveQuery({
           filterValue: (target as HTMLInputElement)?.value,
         }),
       })
     );
 
-    function resolveQueryDto({ filterValue }: { filterValue?: string }) {
+    function resolveQuery({ filterValue }: { filterValue?: string }) {
       return {
         expression: filterValue
           ? `

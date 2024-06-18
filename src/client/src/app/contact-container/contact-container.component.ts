@@ -6,10 +6,9 @@ import { ContactTableComponent } from './components/contact-table/contact-table.
   standalone: true,
   imports: [ContactTableComponent],
   template: `
-    <div>
+    <div class="contact-container">
       <app-contact-table></app-contact-table>
     </div>`,
   styleUrl: './contact-container.component.scss'
 })
-export class ContactContainerComponent {
-}
+export class ContactContainerComponent { }
