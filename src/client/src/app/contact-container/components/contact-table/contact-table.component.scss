@@ -1,5 +1,5 @@
 @import "../../../../styles/variables/index";
-@import "../../../../styles/template/index";
+@import "../../../../styles/templates/index";
 
 .container-table {
   display: flex;
@@ -19,8 +19,4 @@
 
   -webkit-box-shadow: -2px 8px 17px 5px rgba(0, 0, 0, 0.35);
   box-shadow: -2px 8px 17px 5px rgba(0, 0, 0, 0.35);
-
-  &--add-button {
-    @extend .contact-brn-container;
-  }
 }

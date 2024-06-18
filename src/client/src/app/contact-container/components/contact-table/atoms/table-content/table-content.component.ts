@@ -29,7 +29,7 @@ import { MatButton } from '@angular/material/button';
     MatButton
   ],
   template: `
-    <div class="mat-elevation-z8">
+    <div class="table-content-container">
       <table
         mat-table
         [dataSource]="dataSource"

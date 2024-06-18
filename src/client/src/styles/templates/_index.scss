@@ -1,0 +1,42 @@
+@import "../variables/index";
+
+.contact-btn-container {
+  @extend .contact-btn-container__font;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  color: #ffffff;
+
+  height: 50px;
+
+  border: 0;
+  border-radius: 20px;
+
+  background: $contact-table--background__teal-color;
+
+  -webkit-box-shadow:
+    0px 10px 13px -7px #000000,
+    -10px 5px 15px -1px rgba(10, 141, 208, 0.2);
+  box-shadow:
+    0px 10px 13px -7px #000000,
+    -10px 5px 15px -1px rgba(10, 141, 208, 0.2);
+
+  position: sticky;
+  top: 0;
+  z-index: $contact-table--add-btn__zIndex;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.contact-btn-container__font {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 16px;
+}
