@@ -3,6 +3,8 @@
 .contact-btn-container {
   @extend .contact-btn-container__font;
 
+  position: sticky;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -24,12 +26,21 @@
     0px 10px 13px -7px #000000,
     -10px 5px 15px -1px rgba(10, 141, 208, 0.2);
 
-  position: sticky;
   top: 0;
+
   z-index: $contact-table--add-btn__zIndex;
 
   &:hover {
     cursor: pointer;
+  }
+
+  &:active {
+    background: $contact-btn__active-color;
+
+    transform: translateY(5px);
+
+    -webkit-box-shadow: none;
+    box-shadow: none;
   }
 }
 
