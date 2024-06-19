@@ -5,6 +5,7 @@ import { ContactActions } from '../actions/contact.actions';
 import { of } from 'rxjs';
 import { ContactRestActions } from '../actions/contact-rest.actions';
 import { ContactRestClient } from '../../injectable/rest-client/contact-rest-client.service';
+import { ContactState } from '../contact-state.model';
 
 @Injectable({
   providedIn: 'root',
@@ -16,10 +17,10 @@ export class PatchContactEffects {
   patchContactEffectsStream$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ContactRestActions.updateContact),
-      concatMap(({ contact }) =>
+      concatMap(({ contact: { id, changes } }) =>
         this.contactRestClient.patchContact({
-          contactId: contact.id,
-          contactForPatch: contact
+          contactId: id as number,
+          contactForPatch: { ...changes } as ContactState
         }).pipe(
           concatMap((patchedContact) =>
             of(

@@ -2,7 +2,6 @@ import { Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
@@ -28,7 +27,6 @@ import { ContactRestActions } from '../../../../store-features/actions/contact-r
   imports: [
     MatFormFieldModule,
     MatInputModule,
-    FormsModule,
     MatButtonModule,
     MatDialogTitle,
     MatDialogContent,
@@ -37,41 +35,43 @@ import { ContactRestActions } from '../../../../store-features/actions/contact-r
     ReactiveFormsModule,
   ],
   template: `
-    <div>
+    <div class="edit-form-container">
       <form [formGroup]="createContactForm" (ngSubmit)="onEdit()">
-        <mat-dialog-content>
-          <mat-form-field>
+        <mat-dialog-content class="edit-form-container--input-list">
+          <mat-form-field class="edit-form-container--input-list--input">
             <mat-label>First name</mat-label>
             <input matInput placeholder="First Name" formControlName="firstName" />
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field class="edit-form-container--input-list--input">
             <mat-label>Last name</mat-label>
             <input matInput placeholder="Last Name" formControlName="lastName" />
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field class="edit-form-container--input-list--input">
             <mat-label>Email</mat-label>
             <input matInput placeholder="Email" formControlName="email" />
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field class="edit-form-container--input-list--input">
             <mat-label>Phone</mat-label>
             <input matInput placeholder="Phone" formControlName="phone" />
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field class="edit-form-container--input-list--input">
             <mat-label>Title</mat-label>
             <input matInput placeholder="Title" formControlName="title" />
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field class="edit-form-container--input-list--input">
             <mat-label>Middle initial</mat-label>
             <input matInput placeholder="First Name" formControlName="middleInitial" />
           </mat-form-field>
         </mat-dialog-content>
         <mat-dialog-actions>
-          <button [disabled]="createContactForm.invalid" mat-button type="submit" cdkFocusInitial>Ok</button>
+          <button [disabled]="createContactForm.invalid" mat-button type="submit" cdkFocusInitial>
+            Patch
+          </button>
         </mat-dialog-actions>
       </form>
     </div>
@@ -96,8 +96,10 @@ export class EditFormComponent {
     this.store.dispatch(
       ContactRestActions.updateContact({
         contact: {
-          ...this.createContactForm.value as ContactState,
-          id: this.dialogInitData.id
+          id: this.dialogInitData.id,
+          changes: {
+            ...this.createContactForm.value as ContactState,
+          }
         },
       })
     );

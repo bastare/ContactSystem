@@ -1,5 +1,6 @@
 import { createActionGroup, props } from '@ngrx/store';
 import { ContactState } from '../contact-state.model';
+import { Update } from '@ngrx/entity';
 
 export const ContactRestActions = createActionGroup({
   source: 'Contact/REST',
@@ -17,6 +18,6 @@ export const ContactRestActions = createActionGroup({
       | undefined
     >(),
     'Delete Contact': props<{ id: number }>(),
-    'Update Contact': props<{ contact: ContactState }>(),
+    'Update Contact': props<{ contact: Update<ContactState> }>(),
   },
 });

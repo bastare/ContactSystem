@@ -5,6 +5,7 @@ import {
   OnInit,
   ViewChild,
   inject,
+  signal,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store, select } from '@ngrx/store';
@@ -18,6 +19,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { Subscription } from 'rxjs';
 import { MatButton } from '@angular/material/button';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-table-content',
@@ -88,11 +90,11 @@ import { MatButton } from '@angular/material/button';
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let contact">
-            <button mat-button (click)="openEditContactDialog(contact)">
-              Edit
+            <button type="button" (click)="openEditContactDialog(contact)">
+              <img src="contact/edit-icon.svg" alt="edit-icon">
             </button>
-            <button mat-button (click)="removeContact(contact.id)">
-              Delete
+            <button type="button" (click)="removeContact(contact.id)">
+              <img src="contact/trash-icon.svg" alt="trash-icon">
             </button>
           </td>
         </ng-container>
