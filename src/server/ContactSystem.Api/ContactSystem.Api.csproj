@@ -4,7 +4,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <SpaRoot>../../client</SpaRoot>
         <SpaClientUrl>http://localhost:4200</SpaClientUrl>
-        <SpaLaunchCommand>ng serve</SpaLaunchCommand>
+        <SpaLaunchCommand>ng serve --hmr</SpaLaunchCommand>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     </PropertyGroup>
 

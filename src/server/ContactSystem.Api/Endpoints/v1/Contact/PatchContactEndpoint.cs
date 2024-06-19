@@ -4,9 +4,7 @@ using Contracts;
 using FastEndpoints;
 using MassTransit;
 using Domain.Contracts;
-using Domain.Contracts.ContactContracts.Command.PatchContact.Dtos;
 using Domain.Contracts.ContactContracts.Command.PatchContact;
-using Mapster;
 
 public sealed class PatchContactEndpoint ( IRequestClient<PatchContactContract> requestClient )
 	: Endpoint<ContactForPatchRequestBody>
@@ -16,15 +14,29 @@ public sealed class PatchContactEndpoint ( IRequestClient<PatchContactContract> 
 	public override void Configure ()
 	{
 		Verbs ( Http.PATCH );
-		Routes ( "api/v1/contacts" );
+		Routes ( "api/v1/contacts/{id}" );
 		AllowAnonymous ();
 	}
 
 	public override async Task HandleAsync ( ContactForPatchRequestBody requestBody , CancellationToken cancellationToken = default )
 	{
+		HttpContext.Request.RouteValues.TryGetValue ( "id" , out var idRouteFragment );
+
 		var (response, fault) =
 			await _requestClient.GetResponse<SubmitPatchedContactsContract , FaultContract> (
-				new ( requestBody.Adapt<ContactForPatchDto>() ) ,
+				new ( ContactForPatch: new ()
+				{
+					Id =
+						int.TryParse ( idRouteFragment?.ToString () , out var id )
+							? id
+							: default ,
+					FirstName = requestBody.FirstName ,
+					LastName = requestBody.LastName ,
+					Email = requestBody.Email ,
+					Phone = requestBody.Phone ,
+					Title = requestBody.Title ,
+					MiddleInitial = requestBody.MiddleInitial
+				} ) ,
 				cancellationToken );
 
 		if ( !response.IsCompletedSuccessfully )

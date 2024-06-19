@@ -36,41 +36,43 @@ import { ContactRestActions } from '../../../../store-features/actions/contact-r
     ReactiveFormsModule,
   ],
   template: `
-    <div class="edit-form-container">
+    <div class="add-form-container">
       <form [formGroup]="createContactForm" (ngSubmit)="onCreate()">
-        <mat-dialog-content>
-          <mat-form-field>
+        <mat-dialog-content class="add-form-container--input-list">
+          <mat-form-field class="add-form-container--input-list--input">
             <mat-label>First name</mat-label>
             <input matInput placeholder="First Name" formControlName="firstName" />
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field class="add-form-container--input-list--input">
             <mat-label>Last name</mat-label>
             <input matInput placeholder="Last Name" formControlName="lastName" />
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field class="add-form-container--input-list--input">
             <mat-label>Email</mat-label>
             <input matInput placeholder="Email" formControlName="email" />
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field class="add-form-container--input-list--input">
             <mat-label>Phone</mat-label>
             <input matInput placeholder="Phone" formControlName="phone" />
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field class="add-form-container--input-list--input">
             <mat-label>Title</mat-label>
             <input matInput placeholder="Title" formControlName="title" />
           </mat-form-field>
 
-          <mat-form-field>
+          <mat-form-field class="add-form-container--input-list--input">
             <mat-label>Middle initial</mat-label>
             <input matInput placeholder="Middle Initial" formControlName="middleInitial" />
           </mat-form-field>
         </mat-dialog-content>
         <mat-dialog-actions>
-          <button mat-button [disabled]="!createContactForm.valid" type="submit" cdkFocusInitial>Ok</button>
+          <button [disabled]="!createContactForm.valid" type="submit" cdkFocusInitial>
+            Create
+          </button>
         </mat-dialog-actions>
       </form>
     </div>
@@ -91,6 +93,8 @@ export class AddFormComponent {
   });
 
   onCreate() {
+    this.createContactForm.validator
+
     this.store.dispatch(
       ContactRestActions.addContact({
         contact: this.createContactForm.value as ContactState,

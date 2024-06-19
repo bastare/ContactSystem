@@ -2,8 +2,6 @@ namespace ContactSystem.Api.Endpoints.v1.Contact.Contracts;
 
 public sealed record ContactForPatchRequestBody
 {
-	public int Id { get; set; }
-
 	public string? FirstName { get; set; }
 
 	public string? LastName { get; set; }
