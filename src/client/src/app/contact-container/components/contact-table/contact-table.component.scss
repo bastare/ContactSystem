@@ -10,13 +10,26 @@
   min-height: 50vh;
   min-width: 85vw;
 
-  gap: 20px;
-  padding: 20px;
-
   border-radius: 20px;
 
   background-color: $contact-card-container__background-color;
 
   -webkit-box-shadow: -2px 8px 17px 5px rgba(0, 0, 0, 0.35);
   box-shadow: -2px 8px 17px 5px rgba(0, 0, 0, 0.35);
+
+  &--form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    background-color: white;
+
+    gap: 20px;
+
+    padding: 20px;
+    margin: 20px;
+
+    border-radius: 20px;
+  }
 }

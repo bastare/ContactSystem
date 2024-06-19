@@ -3,8 +3,6 @@
 @mixin contact-btn-container {
   @include contact-btn-container__font;
 
-  position: sticky;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -25,8 +23,6 @@
   box-shadow:
     0px 10px 13px -7px #000000,
     -10px 5px 15px -1px $contact-btn__shadow-color;
-
-  top: 0;
 
   z-index: $contact-table--add-btn__zIndex;
 

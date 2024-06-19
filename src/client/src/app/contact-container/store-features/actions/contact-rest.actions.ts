@@ -6,17 +6,14 @@ export const ContactRestActions = createActionGroup({
   source: 'Contact/REST',
   events: {
     'Add Contact': props<{ contact: ContactState }>(),
-    'Load Contacts': props<
-      | {
-          expression?: string;
-          projection?: string;
-          orderBy?: string;
-          isDescending?: boolean;
-          offset?: number;
-          limit?: number;
-        }
-      | undefined
-    >(),
+    'Load Contacts': props<{
+      expression?: string;
+      projection?: string;
+      orderBy?: string;
+      isDescending?: boolean;
+      offset?: number;
+      limit?: number;
+    }>(),
     'Delete Contact': props<{ id: number }>(),
     'Update Contact': props<{ contact: Update<ContactState> }>(),
   },
