@@ -4,8 +4,7 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  inject,
-  signal,
+  inject
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store, select } from '@ngrx/store';
@@ -19,7 +18,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { Subscription } from 'rxjs';
 import { MatButton } from '@angular/material/button';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-table-content',

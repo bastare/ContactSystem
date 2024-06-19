@@ -21,7 +21,9 @@ import { AddContactBtnComponent } from './atoms/add-contact-btn/add-contact-btn.
       <div class="container-table--form">
         <app-table-filter />
         <app-table-content />
-        <app-table-paginator />
+        <app-table-paginator
+          style="align-self: flex-end;"
+        />
       </div>
       <app-add-contact-btn />
     </div>
