@@ -86,6 +86,10 @@
 
     &--input {
       width: 20vw;
+
+      @media (min-width: 1024px) {
+        width: 10vw;
+      }
     }
   }
 
@@ -99,6 +103,10 @@
       @include contact-btn-container;
 
       width: 20vw;
+
+      @media (min-width: 1024px) {
+        width: 10vw;
+      }
     }
   }
 }
