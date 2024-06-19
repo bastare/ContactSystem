@@ -93,8 +93,6 @@ export class AddFormComponent {
   });
 
   onCreate() {
-    this.createContactForm.validator
-
     this.store.dispatch(
       ContactRestActions.addContact({
         contact: this.createContactForm.value as ContactState,
