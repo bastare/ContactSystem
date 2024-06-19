@@ -1,11 +1,13 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { concatMap } from 'rxjs/operators';
+import { catchError, concatMap } from 'rxjs/operators';
 import { ContactActions } from '../actions/contact.actions';
-import { of } from 'rxjs';
+import { EMPTY, of } from 'rxjs';
 import { ContactRestActions } from '../actions/contact-rest.actions';
 import { ContactRestClient } from '../../injectable/rest-client/contact-rest-client.service';
 import { ContactState } from '../contact-state.model';
+import { HttpErrorResponse } from '@angular/common/http';
+import { NgxNotifierService } from 'ngx-notifier';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +15,7 @@ import { ContactState } from '../contact-state.model';
 export class PatchContactEffects {
   private readonly actions$ = inject(Actions);
   private readonly contactRestClient = inject(ContactRestClient);
+  private readonly ngxNotifierService = inject(NgxNotifierService);
 
   patchContactEffectsStream$ = createEffect(() =>
     this.actions$.pipe(
@@ -31,7 +34,12 @@ export class PatchContactEffects {
                 },
               })
             )
-          )
+          ),
+          catchError(({ error }: HttpErrorResponse) => {
+            this.ngxNotifierService.createToast(error.message, 'danger');
+
+            return EMPTY;
+          })
         )
       )
     )

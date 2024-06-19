@@ -26,6 +26,7 @@
     "@ngrx/store-devtools": "^18.0.0",
     "@types/lodash": "^4.17.5",
     "lodash": "^4.17.21",
+    "ngx-notifier": "^13.0.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.3"
