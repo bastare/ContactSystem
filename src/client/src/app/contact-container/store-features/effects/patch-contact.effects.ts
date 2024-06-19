@@ -21,7 +21,7 @@ export class PatchContactEffects {
     this.actions$.pipe(
       ofType(ContactRestActions.updateContact),
       concatMap(({ contact: { id, changes } }) =>
-        this.contactRestClient.patchContact({
+        this.contactRestClient.patchContact$({
           contactId: id as number,
           contactForPatch: { ...changes } as ContactState
         }).pipe(

@@ -40,7 +40,7 @@ export class ContactRestClient {
     );
   }
 
-  patchContact({ contactId, contactForPatch }: { contactId: number, contactForPatch: ContactState }) {
+  patchContact$({ contactId, contactForPatch }: { contactId: number, contactForPatch: ContactState }) {
     return this.http.patch<ContactForTableDto>(
       `${environment.restApiV1}/contacts/${contactId}`,
       contactForPatch
