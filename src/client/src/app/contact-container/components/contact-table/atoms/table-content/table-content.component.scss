@@ -2,7 +2,7 @@
 @import "../../../../../../styles/templates/reset-element";
 
 .table-content-container {
-  @extend .reset-btn;
+  @include reset-btn;
 
   display: flex;
   justify-content: center;

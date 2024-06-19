@@ -1,34 +1,5 @@
 @import "../../../../../../styles/templates/index";
 
 .edit-form-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
-  background-color: $contact-card-container__background-color;
-
-  &--input-list {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    &--input {
-      width: 20vw;
-    }
-  }
-
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-
-    button {
-      @extend .contact-btn-container;
-
-      width: 20vw;
-    }
-  }
+  @include contact-card-form-container;
 }

@@ -10,7 +10,7 @@
   width: 100%;
 
   button {
-    @extend .contact-btn-container;
+    @include contact-btn-container;
 
     width: 20vw;
   }

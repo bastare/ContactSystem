@@ -1,7 +1,7 @@
 @import "../variables/index";
 
-.contact-btn-container {
-  @extend .contact-btn-container__font;
+@mixin contact-btn-container {
+  @include contact-btn-container__font;
 
   position: sticky;
 
@@ -66,10 +66,43 @@
   }
 }
 
-.contact-btn-container__font {
+@mixin contact-btn-container__font {
   font-family: "Inter";
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
   line-height: 16px;
+}
+
+@mixin contact-card-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background-color: $contact-card-container__background-color;
+
+  &--input-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    &--input {
+      width: 20vw;
+    }
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    button {
+      @include contact-btn-container;
+
+      width: 20vw;
+    }
+  }
 }
