@@ -1,8 +1,13 @@
-import { AfterViewInit, Component, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ContactRestActions } from '../../../../store-features/actions/contact-rest.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../store-features/contact.reducer';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-table-filter',
@@ -14,17 +19,17 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
         class="table-filter-container--form"
         [formGroup]="searchContactForm"
       >
-      <div class="table-filter-container--form--group">
-        <input formControlName="search" (keyup)="onFilterInsert($event)" />
-      </div>
-      <div class="table-filter-container--form--group">
-        <select formControlName="searchBy" (change)="onSelect($event)">
-          @for (entityForFilter of entitiesForFilter; track $index) {
-            <option [value]="entityForFilter">
-              {{ entityForFilter }}
-            </option>
-          }
-        </select>
+        <div class="table-filter-container--form--group">
+          <input formControlName="search" (keyup)="onFilterInsert($event)" />
+        </div>
+        <div class="table-filter-container--form--group">
+          <select formControlName="searchBy" (change)="onSelect($event)">
+            @for (entityForFilter of entitiesForFilter; track $index) {
+              <option [value]="entityForFilter">
+                {{ entityForFilter }}
+              </option>
+            }
+          </select>
         </div>
       </form>
     </div>
@@ -36,7 +41,7 @@ export class TableFilterComponent {
 
   searchContactForm = new FormGroup({
     search: new FormControl(''),
-    searchBy: new FormControl('Email', Validators.required)
+    searchBy: new FormControl('Email', Validators.required),
   });
 
   entitiesForFilter: ReadonlyArray<string> = [
@@ -49,8 +54,7 @@ export class TableFilterComponent {
   ];
 
   onSelect(_: Event) {
-    if(!this.searchContactForm.valid)
-      return;
+    if (!this.searchContactForm.valid) return;
 
     this.store.dispatch(
       ContactRestActions.loadContacts({
@@ -66,29 +70,30 @@ export class TableFilterComponent {
   }
 
   onFilterInsert(_: Event) {
-    if(!this.searchContactForm.valid)
-      return;
+    if (!this.searchContactForm.valid) return;
 
     this.store.dispatch(
       ContactRestActions.loadContacts({
         ...resolveQuery({
-          filterValue: this.searchContactForm.value.search!,
-          entityForFilter: this.searchContactForm.value.searchBy!,
+          ...(this.searchContactForm.value as {
+            search?: string;
+            searchBy: string;
+          }),
         }),
       })
     );
 
     function resolveQuery({
-      filterValue,
-      entityForFilter,
+      search,
+      searchBy,
     }: {
-      filterValue?: string;
-      entityForFilter: string;
+      search?: string;
+      searchBy: string;
     }) {
       return {
-        expression: filterValue
+        expression: search
           ? `
-            ${entityForFilter}.Contains("${filterValue}")
+            ${searchBy}.Contains("${search}")
               && !string.IsNullOrEmpty(FirstName)
               && !string.IsNullOrEmpty(LastName)
               && !string.IsNullOrEmpty(Email)
