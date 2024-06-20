@@ -1,48 +1,43 @@
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
-import { MatInputModule, MatLabel } from '@angular/material/input';
+import { AfterViewInit, Component, inject } from '@angular/core';
 import { ContactRestActions } from '../../../../store-features/actions/contact-rest.actions';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../../store-features/contact.reducer';
-import {
-  MatOption,
-  MatSelect,
-  MatSelectChange,
-} from '@angular/material/select';
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-table-filter',
   standalone: true,
-  imports: [MatInputModule, MatLabel, MatSelect, MatOption],
+  imports: [ReactiveFormsModule],
   template: `
     <div class="table-filter-container">
-      <mat-form-field>
-        <mat-label>Search</mat-label>
-        <input
-          matInput
-          (keyup)="onFilterInsert($event)"
-          placeholder="Email"
-          #input
-        />
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Search By</mat-label>
-        <mat-select (selectionChange)="onSelect($event)" #select>
+      <form
+        class="table-filter-container--form"
+        [formGroup]="searchContactForm"
+      >
+      <div class="table-filter-container--form--group">
+        <input formControlName="search" (keyup)="onFilterInsert($event)" />
+      </div>
+      <div class="table-filter-container--form--group">
+        <select formControlName="searchBy" (change)="onSelect($event)">
           @for (entityForFilter of entitiesForFilter; track $index) {
-            <mat-option [value]="entityForFilter">
+            <option [value]="entityForFilter">
               {{ entityForFilter }}
-            </mat-option>
+            </option>
           }
-        </mat-select>
-      </mat-form-field>
+        </select>
+        </div>
+      </form>
     </div>
   `,
   styleUrl: './table-filter.component.scss',
 })
 export class TableFilterComponent {
-  @ViewChild('input') inputRef!: ElementRef;
-  @ViewChild(MatSelect) select!: MatSelect;
-
   private readonly store = inject(Store<AppState>);
+
+  searchContactForm = new FormGroup({
+    search: new FormControl(''),
+    searchBy: new FormControl('Email', Validators.required)
+  });
 
   entitiesForFilter: ReadonlyArray<string> = [
     'FirstName',
@@ -53,11 +48,14 @@ export class TableFilterComponent {
     'MiddleInitial',
   ];
 
-  onSelect(matSelectChange: MatSelectChange) {
+  onSelect(_: Event) {
+    if(!this.searchContactForm.valid)
+      return;
+
     this.store.dispatch(
       ContactRestActions.loadContacts({
         expression: `
-          ${matSelectChange.value}.Contains("${this.inputRef.nativeElement.value}")
+          ${this.searchContactForm.value.searchBy}.Contains("${this.searchContactForm.value.search}")
             && !string.IsNullOrEmpty(FirstName)
             && !string.IsNullOrEmpty(LastName)
             && !string.IsNullOrEmpty(Email)
@@ -67,12 +65,15 @@ export class TableFilterComponent {
     );
   }
 
-  onFilterInsert({ target }: KeyboardEvent) {
+  onFilterInsert(_: Event) {
+    if(!this.searchContactForm.valid)
+      return;
+
     this.store.dispatch(
       ContactRestActions.loadContacts({
         ...resolveQuery({
-          filterValue: (target as HTMLInputElement)?.value,
-          entityForFilter: this.select.value,
+          filterValue: this.searchContactForm.value.search!,
+          entityForFilter: this.searchContactForm.value.searchBy!,
         }),
       })
     );
