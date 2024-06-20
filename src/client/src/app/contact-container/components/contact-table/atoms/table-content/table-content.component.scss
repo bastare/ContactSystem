@@ -16,13 +16,22 @@
     height: 100%;
   }
 
-  button {
-    height: 4vh;
-    width: 4vw;
+  &--btn-group {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
 
-    img {
-      height: 100%;
-      width: 100%;
+    width: 100%;
+
+    button {
+      height: 4vh;
+      width: 4vw;
+
+      img {
+        height: 100%;
+        width: 100%;
+      }
     }
   }
 }

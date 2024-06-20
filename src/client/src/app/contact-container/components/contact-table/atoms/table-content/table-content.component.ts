@@ -88,12 +88,14 @@ import { MatButton } from '@angular/material/button';
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let contact">
-            <button type="button" (click)="openEditContactDialog(contact)">
-              <img src="contact/edit-icon.svg" alt="edit-icon">
-            </button>
-            <button type="button" (click)="removeContact(contact.id)">
-              <img src="contact/trash-icon.svg" alt="trash-icon">
-            </button>
+            <div class="table-content-container--btn-group">
+              <button type="button" (click)="openEditContactDialog(contact)">
+                <img src="contact/edit-icon.svg" alt="edit-icon">
+              </button>
+              <button type="button" (click)="removeContact(contact.id)">
+                <img src="contact/trash-icon.svg" alt="trash-icon">
+              </button>
+            </div>
           </td>
         </ng-container>
 
