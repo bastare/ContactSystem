@@ -25,13 +25,18 @@
       flex-direction: row;
 
       input {
-        border: none;
+        height: 30px;
+        width: 40vw;
 
+        border: none;
         outline: none;
       }
 
       select {
         border: none;
+        outline: none;
+
+        background-color: white;
       }
     }
   }
