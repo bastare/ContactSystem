@@ -22,6 +22,16 @@ public sealed class PatchContactEndpoint ( IRequestClient<PatchContactContract> 
 	{
 		HttpContext.Request.RouteValues.TryGetValue ( "id" , out var idRouteFragment );
 
+		if ( string.IsNullOrEmpty ( idRouteFragment?.ToString () ) )
+		{
+			await SendAsync (
+				response: "Id is required" ,
+				statusCode: StatusCodes.Status400BadRequest ,
+				cancellation: cancellationToken );
+
+			return;
+		}
+
 		var (response, fault) =
 			await _requestClient.GetResponse<SubmitPatchedContactsContract , FaultContract> (
 				new ( ContactForPatch: new ()

@@ -36,7 +36,7 @@ import { ContactRestActions } from '../../../../store-features/actions/contact-r
   ],
   template: `
     <div class="edit-form-container">
-      <form [formGroup]="createContactForm" (ngSubmit)="onEdit()">
+      <form [formGroup]="createContactForm" (ngSubmit)="onSubmit()">
         <mat-dialog-content class="edit-form-container--input-list">
           <mat-form-field class="edit-form-container--input-list--input">
             <mat-label>First name</mat-label>
@@ -92,7 +92,7 @@ export class EditFormComponent {
     middleInitial: new FormControl(this.dialogInitData.middleInitial),
   });
 
-  onEdit() {
+  onSubmit() {
     this.store.dispatch(
       ContactRestActions.updateContact({
         contact: {
@@ -100,7 +100,7 @@ export class EditFormComponent {
           changes: {
             ...this.createContactForm.value as ContactState,
           }
-        },
+        }
       })
     );
 

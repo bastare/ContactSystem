@@ -8,6 +8,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { getContactsForTableBySpecification } from '../../../../injectable/rest-client/specifications/get-contacts-by.specification';
 
 @Component({
   selector: 'app-table-filter',
@@ -57,26 +58,20 @@ export class TableFilterComponent {
     if (!this.searchContactForm.valid)
       return;
 
-    this.store.dispatch(
-      ContactRestActions.loadContacts({
-        expression: `
-          ${this.searchContactForm.value.searchBy}.Contains("${this.searchContactForm.value.search}")
-            && !string.IsNullOrEmpty(FirstName)
-            && !string.IsNullOrEmpty(LastName)
-            && !string.IsNullOrEmpty(Email)
-            && !string.IsNullOrEmpty(Phone)
-        `,
-      })
-    );
+    this.fetchContacts();
   }
 
   onFilterInsert(_: KeyboardEvent) {
     if (!this.searchContactForm.valid)
       return;
 
+    this.fetchContacts();
+  }
+
+  private fetchContacts() {
     this.store.dispatch(
       ContactRestActions.loadContacts({
-        ...resolveQuery({
+        ...getContactsForTableBySpecification({
           ...(this.searchContactForm.value as {
             search?: string;
             searchBy: string;
@@ -84,30 +79,5 @@ export class TableFilterComponent {
         }),
       })
     );
-
-    function resolveQuery({
-      search,
-      searchBy,
-    }: {
-      search?: string;
-      searchBy: string;
-    }) {
-      return {
-        expression: search
-          ? `
-            ${searchBy}.Contains("${search}")
-              && !string.IsNullOrEmpty(FirstName)
-              && !string.IsNullOrEmpty(LastName)
-              && !string.IsNullOrEmpty(Email)
-              && !string.IsNullOrEmpty(Phone)
-          `
-          : `
-            !string.IsNullOrEmpty(FirstName)
-              && !string.IsNullOrEmpty(LastName)
-              && !string.IsNullOrEmpty(Email)
-              && !string.IsNullOrEmpty(Phone)
-        `,
-      };
-    }
   }
 }

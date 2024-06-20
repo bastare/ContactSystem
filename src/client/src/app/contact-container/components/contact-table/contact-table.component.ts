@@ -6,6 +6,7 @@ import { TableComponent } from './atoms/table-content/table-content.component';
 import { TablePaginatorComponent } from './atoms/table-paginator/table-paginator.component';
 import { TableFilterComponent } from './atoms/table-filter/table-filter.component';
 import { AddContactBtnComponent } from './atoms/add-contact-btn/add-contact-btn.component';
+import { getContactsForTableBySpecification } from '../../injectable/rest-client/specifications/get-contacts-by.specification';
 
 @Component({
   selector: 'app-contact-table',
@@ -36,23 +37,7 @@ export class ContactTableComponent implements OnInit {
   ngOnInit() {
     this.store.dispatch(
       ContactRestActions.loadContacts({
-        expression: `
-          !string.IsNullOrEmpty(FirstName)
-            && !string.IsNullOrEmpty(LastName)
-            && !string.IsNullOrEmpty(Email)
-            && !string.IsNullOrEmpty(Phone)
-        `,
-        projection: `
-          new(
-            Id,
-            FirstName,
-            LastName,
-            Title,
-            Email,
-            Phone,
-            MiddleInitial
-          )
-        `
+        ...getContactsForTableBySpecification({}),
       })
     );
   }

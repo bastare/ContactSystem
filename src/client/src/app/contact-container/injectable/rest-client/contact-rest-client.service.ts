@@ -4,6 +4,7 @@ import { PaginationListDto } from './dtos/pagination-dto-list.type';
 import { ContactForTableDto } from './dtos/contact-for-table-dto.type';
 import { ContactState } from '../../store-features/contact-state.model';
 import { environment } from '../../../../environments/environment';
+import { QueryPropsDto } from './dtos/query-props-dto.type';
 
 @Injectable({
   providedIn: 'root',
@@ -11,14 +12,7 @@ import { environment } from '../../../../environments/environment';
 export class ContactRestClient {
   private readonly http = inject(HttpClient);
 
-  fetchContacts$(queryProps: {
-    expression?: string;
-    orderBy?: string;
-    isDescending?: boolean;
-    offset?: number;
-    limit?: number;
-    projection?: string;
-  }) {
+  fetchContacts$(queryProps: QueryPropsDto) {
     return this.http.get<PaginationListDto<ContactForTableDto>>(
       `${environment.restApiV1}/contacts`,
       {
