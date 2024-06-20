@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, OnDestroy } from '@angular/core';
 import { MatPaginatorModule, PageEvent } from '@angular/material/paginator';
 import { ContactRestActions } from '../../../../store-features/actions/contact-rest.actions';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AppState, selectMetaPaginationOffsetData } from '../../../../store-features/contact.reducer';
 import { Subscription } from 'rxjs';
 
@@ -28,7 +28,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   private readonly store = inject(Store<AppState>);
   private readonly subscriptionsForUnsubscribe: Subscription[] = [];
 
-  contactTableMetaPageOffsetStream$ = this.store.pipe(select(selectMetaPaginationOffsetData))
+  contactTableMetaPageOffsetStream$ = this.store.select(selectMetaPaginationOffsetData)
 
   currentOffset: number = 1;
   totalCount: number = 0;

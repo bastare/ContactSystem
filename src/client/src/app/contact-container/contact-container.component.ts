@@ -8,8 +8,8 @@ import { NgxNotifierComponent } from 'ngx-notifier';
   imports: [ContactTableComponent, NgxNotifierComponent],
   template: `
     <div class="contact-container">
-      <ngx-notifier></ngx-notifier>
-      <app-contact-table></app-contact-table>
+      <ngx-notifier />
+      <app-contact-table />
     </div>`,
   styleUrl: './contact-container.component.scss'
 })

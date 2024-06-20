@@ -7,7 +7,7 @@ import {
   inject
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Store, select } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { AppState, selectAll } from '../../../../store-features/contact.reducer';
 import { ContactRestActions } from '../../../../store-features/actions/contact-rest.actions';
 import { ContactState } from '../../../../store-features/contact-state.model';
@@ -129,7 +129,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   dataSource: MatTableDataSource<ContactState> = new MatTableDataSource([] as ContactState[]);
 
-  contactsTableDataStream$ = this.store.pipe(select(selectAll));
+  contactsTableDataStream$ = this.store.select(selectAll);
 
   ngOnInit() {
     this.subscriptionsForUnsubscribe.push(

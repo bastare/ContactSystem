@@ -28,9 +28,9 @@ import {
         <mat-label>Search By</mat-label>
         <mat-select (selectionChange)="onSelect($event)" #select>
           @for (entityForFilter of entitiesForFilter; track $index) {
-          <mat-option [value]="entityForFilter">
-            {{ entityForFilter }}
-          </mat-option>
+            <mat-option [value]="entityForFilter">
+              {{ entityForFilter }}
+            </mat-option>
           }
         </mat-select>
       </mat-form-field>

@@ -17,8 +17,8 @@ import { AddContactBtnComponent } from './atoms/add-contact-btn/add-contact-btn.
     AddContactBtnComponent
   ],
   template: `
-    <div class="container-table">
-      <div class="container-table--form">
+    <div class="contact-table-container">
+      <div class="contact-table-container--form">
         <app-table-filter />
         <app-table-content />
         <app-table-paginator
