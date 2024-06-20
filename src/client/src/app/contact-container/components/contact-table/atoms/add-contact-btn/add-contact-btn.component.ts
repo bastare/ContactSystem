@@ -8,7 +8,7 @@ import { AddFormComponent } from '../add-form/add-form.component';
   imports: [],
   template: `
     <div class="add-contact-btn-container">
-      <button (click)="openAddContactDialog()">
+      <button (click)="openAddContactDialog($event)">
         Add
       </button>
     </div>
@@ -18,7 +18,7 @@ import { AddFormComponent } from '../add-form/add-form.component';
 export class AddContactBtnComponent {
   private readonly dialog = inject(MatDialog);
 
-  openAddContactDialog() {
+  openAddContactDialog(_: MouseEvent) {
     this.dialog.open(AddFormComponent);
   }
 }

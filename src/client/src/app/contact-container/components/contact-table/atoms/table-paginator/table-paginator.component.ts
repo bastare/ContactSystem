@@ -17,7 +17,6 @@ import { Subscription } from 'rxjs';
         [pageIndex]="currentOffset - 1"
         [pageSizeOptions]="[10]"
         [length]="totalCount"
-        aria-label="Contacts paginator"
         (page)="onPageChange($event)"
       />
     </div>

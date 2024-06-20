@@ -69,7 +69,7 @@ import { ContactRestActions } from '../../../../store-features/actions/contact-r
           </mat-form-field>
         </mat-dialog-content>
         <mat-dialog-actions>
-          <button [disabled]="createContactForm.invalid" mat-button type="submit" cdkFocusInitial>
+          <button [disabled]="createContactForm.invalid" type="submit" cdkFocusInitial>
             Patch
           </button>
         </mat-dialog-actions>

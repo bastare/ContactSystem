@@ -113,13 +113,13 @@ export const contactsFeature = createFeature({
       filter: state._meta.filter,
     })),
 
-    selectMetaPagination: createSelector(featureSelector, (state) => ({
-      ...state._meta.pagination
-    })),
+    selectMetaPagination: createSelector(featureSelector, (state) =>
+      state._meta.pagination
+    ),
 
-    selectMetaFilter: createSelector(featureSelector, (state) => ({
-      ...state._meta.filter
-    })),
+    selectMetaFilter: createSelector(featureSelector, (state) =>
+      state._meta.filter
+    ),
 
     selectMetaPaginationOffsetData: createSelector(featureSelector, (state) => ({
       currentOffset: state._meta.pagination.currentOffset,

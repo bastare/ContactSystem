@@ -70,7 +70,7 @@ export class TableFilterComponent {
     );
   }
 
-  onFilterInsert(_: Event) {
+  onFilterInsert(_: KeyboardEvent) {
     if (!this.searchContactForm.valid)
       return;
 

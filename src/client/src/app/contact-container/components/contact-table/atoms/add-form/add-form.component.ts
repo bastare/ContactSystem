@@ -37,7 +37,7 @@ import { ContactRestActions } from '../../../../store-features/actions/contact-r
   ],
   template: `
     <div class="add-form-container">
-      <form [formGroup]="createContactForm" (ngSubmit)="onCreate()">
+      <form [formGroup]="createContactForm" (ngSubmit)="onSubmit()">
         <mat-dialog-content class="add-form-container--input-list">
           <mat-form-field class="add-form-container--input-list--input">
             <mat-label>First name</mat-label>
@@ -92,7 +92,7 @@ export class AddFormComponent {
     middleInitial: new FormControl(''),
   });
 
-  onCreate() {
+  onSubmit() {
     this.store.dispatch(
       ContactRestActions.addContact({
         contact: this.createContactForm.value as ContactState,

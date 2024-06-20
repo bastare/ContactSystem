@@ -32,8 +32,8 @@ import { MatButton } from '@angular/material/button';
     <div class="table-content-container">
       <table
         mat-table
-        [dataSource]="dataSource"
         matSort
+        [dataSource]="dataSource"
         (matSortChange)="onSort($event)"
       >
         <ng-container matColumnDef="id">
