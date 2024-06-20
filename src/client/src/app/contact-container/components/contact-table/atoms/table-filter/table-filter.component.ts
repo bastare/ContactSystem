@@ -54,7 +54,8 @@ export class TableFilterComponent {
   ];
 
   onSelect(_: Event) {
-    if (!this.searchContactForm.valid) return;
+    if (!this.searchContactForm.valid)
+      return;
 
     this.store.dispatch(
       ContactRestActions.loadContacts({
@@ -70,7 +71,8 @@ export class TableFilterComponent {
   }
 
   onFilterInsert(_: Event) {
-    if (!this.searchContactForm.valid) return;
+    if (!this.searchContactForm.valid)
+      return;
 
     this.store.dispatch(
       ContactRestActions.loadContacts({
