@@ -72,14 +72,14 @@ export class TableFilterComponent {
 
   private fetchContacts() {
     this.store.dispatch(
-      ContactRestActions.loadContacts({
-        ...getContactsForTableBySpecification({
+      ContactRestActions.loadContacts(
+        getContactsForTableBySpecification({
           ...(this.searchContactForm.value as {
             search?: string;
             searchBy: string;
           }),
         }),
-      })
+      )
     );
   }
 }

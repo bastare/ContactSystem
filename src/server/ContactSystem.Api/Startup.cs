@@ -190,7 +190,7 @@ public sealed class Startup ( IConfiguration configuration , IWebHostEnvironment
 			{
 				/*
 					! If swagger doesn't work (white screen):
-					1. Uncomment this 2 lines (Yarp mapping)
+					1. Comment this 2 lines (Yarp mapping)
 					2. Launch server & manually move to swagger page (http://localhost:5000/swagger/index.html)
 					3. Uncomment it back
 					4. Launch server again & don't close previously opened tab with swagger (step 1)

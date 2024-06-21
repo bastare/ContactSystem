@@ -7,14 +7,12 @@ using ContactSystem.Infrastructure.Persistence.Uow.Interfaces;
 using ContactSystem.Infrastructure.Persistence.Context;
 using Domain.Core.Models.Contact;
 using Domain.Contracts.ContactContracts.Command.RemoveContact;
-using ContactSystem.Domain.Caching.Interfaces;
 
-public sealed class RemoveContactConsumer ( IEfUnitOfWork<EfContext , int> efUnitOfWork , ICacheService cacheService ) :
+public sealed class RemoveContactConsumer ( IEfUnitOfWork<EfContext , int> efUnitOfWork ) :
 	IConsumer<RemoveContactContract>
 {
 	private readonly IEfUnitOfWork<EfContext , int> _efUnitOfWork = efUnitOfWork;
 
-	private readonly ICacheService _cacheService = cacheService;
 
 	public async Task Consume ( ConsumeContext<RemoveContactContract> context )
 	{
@@ -22,10 +20,6 @@ public sealed class RemoveContactConsumer ( IEfUnitOfWork<EfContext , int> efUni
 		{
 			var removedContact =
 				await RemoveContactsAsync ( context.Message.Id );
-
-			if ( !string.IsNullOrEmpty ( removedContact?.Email ) )
-				// ? Indexer doesn't work with `InMemory` :(
-				FeatureNotBugEmailIndexer ( contactEmailForCacheRemove: removedContact.Email! );
 
 			await _efUnitOfWork.TryCommitAsync ( context.CancellationToken );
 
@@ -42,11 +36,5 @@ public sealed class RemoveContactConsumer ( IEfUnitOfWork<EfContext , int> efUni
 				.RemoveByAsync (
 					( contact ) => contact.Id == contactIdForRemove ,
 					cancellationToken: context.CancellationToken );
-
-		void FeatureNotBugEmailIndexer ( string contactEmailForCacheRemove )
-		{
-			_cacheService.Remove (
-				key: $"[FeatureNotBugEmailIndexer]:{contactEmailForCacheRemove}" );
-		}
 	}
 }

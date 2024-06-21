@@ -36,9 +36,9 @@ export class ContactTableComponent implements OnInit {
 
   ngOnInit() {
     this.store.dispatch(
-      ContactRestActions.loadContacts({
-        ...getContactsForTableBySpecification({}),
-      })
+      ContactRestActions.loadContacts(
+        getContactsForTableBySpecification({})
+      )
     );
   }
 }

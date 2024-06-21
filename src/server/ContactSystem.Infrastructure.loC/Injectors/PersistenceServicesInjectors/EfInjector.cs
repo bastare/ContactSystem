@@ -3,6 +3,7 @@ namespace ContactSystem.Infrastructure.loC.Injectors.PersistenceServicesInjector
 using Configurations.EntityFrameworkTriggers.AuditionTriggers;
 using InjectorBuilder.Common.Attributes;
 using InjectorBuilder.Common.Interfaces;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,16 +18,18 @@ public sealed class EfInjector : IInjectable
 {
 	public void Inject ( IServiceCollection serviceCollection , IConfiguration configuration )
 	{
+		var sqliteConnection_ = new SqliteConnection ( "DataSource=:memory:" );
+		sqliteConnection_.Open ();
+
+		serviceCollection.TryAddSingleton ( sqliteConnection_ );
+
 		serviceCollection.AddDbContext<EfContext> (
 			optionsAction: ( dbContextOptionsBuilder ) =>
 			{
 				dbContextOptionsBuilder
 					.UseLoggerFactory ( loggerFactory: ResolveLoggerFactory ( serviceCollection ) )
 
-					// TODO: Fix me for proper indexing
-					// .UseSqlite ( "DataSource=:memory:" )
-
-					.UseInMemoryDatabase ( "_" )
+					.UseSqlite ( sqliteConnection_ )
 
 					.UseTriggers ( triggerOptions =>
 						triggerOptions.AddTrigger<OnAuditionTrigger> () );
@@ -36,8 +39,20 @@ public sealed class EfInjector : IInjectable
 		serviceCollection.TryAddScoped<IEfUnitOfWork<EfContext , int> , EfUnitOfWork<EfContext , int>> ();
 		serviceCollection.TryAddScoped<ITransaction , EfUnitOfWork<EfContext , int>> ();
 
+		// TODO: Don't forget to create post-operation life-hook for injectors
+		EnsureCreated ( serviceCollection );
+
 		static ILoggerFactory ResolveLoggerFactory ( IServiceCollection serviceCollection )
 			=> serviceCollection.BuildServiceProvider ()
 				.GetRequiredService<ILoggerFactory> ();
+
+		static void EnsureCreated ( IServiceCollection serviceCollection )
+		{
+			var efUnitOfWork_ =
+				serviceCollection.BuildServiceProvider ()
+					.GetRequiredService<IEfUnitOfWork<EfContext , int>> ();
+
+			efUnitOfWork_.EnsureCreated ();
+		}
 	}
 }

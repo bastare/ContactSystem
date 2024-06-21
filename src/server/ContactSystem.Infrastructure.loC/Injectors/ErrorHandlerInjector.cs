@@ -6,6 +6,7 @@ using GlobalExceptionHandler;
 using GlobalExceptionHandler.Builders;
 using GlobalExceptionHandler.ExceptionHandlers;
 using InjectorBuilder.Common.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
@@ -84,6 +85,20 @@ public sealed class ErrorHandlerInjector : IInjectable
 							new PageErrorMessage (
 								StatusCode: ( int ) HttpStatusCode.BadRequest ,
 								Message: exception.Message )
+					} )
+
+				.WithErrorHandler (
+					exceptionHandler: new ExceptionHandler (
+						id: 6 ,
+						isAllowedException: ( _ , exception ) =>
+							exception.GetType () == typeof ( DbUpdateException )
+								&& exception.InnerException!.Message.Contains ( "UNIQUE constraint failed" ) )
+					{
+						InjectStatusCode = ( _ , _ ) => HttpStatusCode.BadRequest ,
+						InjectExceptionMessage = ( exception ) =>
+							new PageErrorMessage (
+								StatusCode: ( int ) HttpStatusCode.BadRequest ,
+								Message: "This email exist already" )
 					} )
 
 				.Build ();
