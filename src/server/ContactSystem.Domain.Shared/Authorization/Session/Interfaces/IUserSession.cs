@@ -1,8 +1,13 @@
 namespace ContactSystem.Domain.Shared.Authorization.Session.Interfaces;
 
+public interface IUserSession<TKey> : IUserSession
+{
+	new TKey Id { get; }
+}
+
 public interface IUserSession
 {
-	int? Id { get; }
+	object Id { get; }
 
 	bool IsAuthorizedUser ();
 }

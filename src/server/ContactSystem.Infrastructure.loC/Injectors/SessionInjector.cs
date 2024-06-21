@@ -1,18 +1,19 @@
 namespace ContactSystem.Infrastructure.loC.Injectors;
 
-using Domain.Shared.Authorization.Session;
+using Autofac;
+using ContactSystem.Domain.Shared.Authorization.Session;
 using Domain.Shared.Authorization.Session.Interfaces;
-using InjectorBuilder.Common.Attributes;
-using InjectorBuilder.Common.Interfaces;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
-[InjectionOrder ( order: 1 )]
-public sealed class SessionInjector : IInjectable
+public sealed class SessionInjector : Module
 {
-	public void Inject ( IServiceCollection serviceCollection , IConfiguration _ )
+	protected override void Load ( ContainerBuilder builder )
 	{
-		serviceCollection.TryAddTransient<IUserSession , UserSession> ();
+		builder.RegisterGeneric ( typeof ( UserSession<> ) )
+			.As ( typeof ( IUserSession<> ) )
+			.InstancePerLifetimeScope ();
+
+		builder.Register ( context => context.Resolve<IUserSession<int>> () )
+			.As<IUserSession> ()
+			.InstancePerLifetimeScope ();
 	}
 }

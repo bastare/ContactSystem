@@ -4,11 +4,11 @@ using Domain.Core.Models;
 using Domain.Shared.Authorization.Session.Interfaces;
 using EntityFrameworkCore.Triggered;
 
-public sealed class OnAuditionTrigger ( IUserSession session ) : IBeforeSaveTrigger<IAuditable<int>>
+public sealed class OnAuditionTrigger ( IUserSession session ) : IBeforeSaveTrigger<IAuditable>
 {
 	private readonly IUserSession _session = session;
 
-	public Task BeforeSave ( ITriggerContext<IAuditable<int>> context , CancellationToken cancellationToken )
+	public Task BeforeSave ( ITriggerContext<IAuditable> context , CancellationToken cancellationToken )
 	{
 		return _session.IsAuthorizedUser ()
 			? InsertUserAuditionData ()
@@ -19,13 +19,13 @@ public sealed class OnAuditionTrigger ( IUserSession session ) : IBeforeSaveTrig
 			switch ( context.ChangeType )
 			{
 				case ChangeType.Added:
-					context.Entity.CreatedBy = _session.Id!.Value;
+					context.Entity.CreatedBy = _session.Id;
 					context.Entity.Created = DateTime.UtcNow;
 
 					break;
 
 				case ChangeType.Modified:
-					context.Entity.LastModifiedBy = _session.Id!.Value;
+					context.Entity.LastModifiedBy = _session.Id!;
 					context.Entity.LastModified = DateTime.UtcNow;
 
 					break;

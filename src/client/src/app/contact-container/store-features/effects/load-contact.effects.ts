@@ -7,7 +7,7 @@ import { ContactRestActions } from '../actions/contact-rest.actions';
 import { ContactMetaActions } from '../actions/contact-meta.actions';
 import { ContactRestClient } from '../../injectable/rest-client/contact-rest-client.service';
 import { Store } from '@ngrx/store';
-import { AppState, selectMetaFilter, selectMetaPagination } from '../contact.reducer';
+import { AppState, selectMetaFilter, selectMetaPaginationOffsetData } from '../contact.reducer';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgxNotifierService } from 'ngx-notifier';
 
@@ -25,12 +25,12 @@ export class LoadContactEffects {
       ofType(ContactRestActions.loadContacts),
       debounce(_ => interval(250)),
       withLatestFrom(
-        this.store.select(selectMetaPagination),
+        this.store.select(selectMetaPaginationOffsetData),
         this.store.select(selectMetaFilter)
       ),
-      switchMap(([newQuery, previousPaginationQueryFragment, previousFilterQueryFragment]) =>
+      switchMap(([newQuery, previousPaginationOffsetQueryFragment, previousFilterQueryFragment]) =>
         this.contactRestClient.fetchContacts$({
-          ...previousPaginationQueryFragment,
+          ...previousPaginationOffsetQueryFragment,
           ...previousFilterQueryFragment,
           ...newQuery
         })
