@@ -20,26 +20,11 @@ public sealed class PatchContactEndpoint ( IRequestClient<PatchContactContract> 
 
 	public override async Task HandleAsync ( ContactForPatchRequestBody requestBody , CancellationToken cancellationToken = default )
 	{
-		HttpContext.Request.RouteValues.TryGetValue ( "id" , out var idRouteFragment );
-
-		if ( string.IsNullOrEmpty ( idRouteFragment?.ToString () ) )
-		{
-			await SendAsync (
-				response: "Id is required" ,
-				statusCode: StatusCodes.Status400BadRequest ,
-				cancellation: cancellationToken );
-
-			return;
-		}
-
 		var (response, fault) =
 			await _requestClient.GetResponse<SubmitPatchedContactsContract , FaultContract> (
 				new ( ContactForPatch: new ()
 				{
-					Id =
-						int.TryParse ( idRouteFragment?.ToString () , out var id )
-							? id
-							: default ,
+					Id = ResolveIdFromQuery () ,
 					FirstName = requestBody.FirstName ,
 					LastName = requestBody.LastName ,
 					Email = requestBody.Email ,
@@ -55,5 +40,17 @@ public sealed class PatchContactEndpoint ( IRequestClient<PatchContactContract> 
 		await SendAsync (
 			response: ( await response ).Message.ContactFromPatch ,
 			cancellation: cancellationToken );
+
+		int ResolveIdFromQuery ()
+		{
+			HttpContext.Request.RouteValues.TryGetValue ( "id" , out var idRouteFragment );
+
+			if ( string.IsNullOrEmpty ( idRouteFragment?.ToString () ) )
+				throw new ArgumentException ( $"There is no `Id` fragment" );
+
+			return int.TryParse ( idRouteFragment?.ToString () , out var id )
+				? id
+				: throw new ArgumentException ( $"`Id` value with wrong type: {id.GetType ().Name}" );
+		}
 	}
 }
