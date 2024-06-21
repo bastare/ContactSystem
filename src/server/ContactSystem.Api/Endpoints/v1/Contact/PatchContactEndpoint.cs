@@ -48,7 +48,7 @@ public sealed class PatchContactEndpoint ( IRequestClient<PatchContactContract> 
 			if ( string.IsNullOrEmpty ( idRouteFragment?.ToString () ) )
 				throw new ArgumentException ( $"There is no `Id` fragment" );
 
-			return int.TryParse ( idRouteFragment?.ToString () , out var id )
+			return int.TryParse ( idRouteFragment.ToString () , out var id )
 				? id
 				: throw new ArgumentException ( $"`Id` value with wrong type: {id.GetType ().Name}" );
 		}

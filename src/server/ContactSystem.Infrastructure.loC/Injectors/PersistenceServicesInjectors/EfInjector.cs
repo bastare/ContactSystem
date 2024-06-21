@@ -18,10 +18,7 @@ public sealed class EfInjector : IInjectable
 {
 	public void Inject ( IServiceCollection serviceCollection , IConfiguration configuration )
 	{
-		var sqliteConnection_ = new SqliteConnection ( "DataSource=:memory:" );
-		sqliteConnection_.Open ();
-
-		serviceCollection.TryAddSingleton ( sqliteConnection_ );
+		var sqliteConnection_ = CreateAndPersistSqlConnection ( serviceCollection );
 
 		serviceCollection.AddDbContext<EfContext> (
 			optionsAction: ( dbContextOptionsBuilder ) =>
@@ -45,6 +42,16 @@ public sealed class EfInjector : IInjectable
 		static ILoggerFactory ResolveLoggerFactory ( IServiceCollection serviceCollection )
 			=> serviceCollection.BuildServiceProvider ()
 				.GetRequiredService<ILoggerFactory> ();
+
+		static SqliteConnection CreateAndPersistSqlConnection ( IServiceCollection serviceCollection )
+		{
+			var sqliteConnection_ = new SqliteConnection ( "DataSource=:memory:" );
+			sqliteConnection_.Open ();
+
+			serviceCollection.TryAddSingleton ( sqliteConnection_ );
+
+			return sqliteConnection_;
+		}
 
 		static void EnsureCreated ( IServiceCollection serviceCollection )
 		{
