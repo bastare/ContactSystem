@@ -11,5 +11,5 @@ public interface IModel<TKey> : IModel
 public interface IModel
 {
 	[Key, DatabaseGenerated ( DatabaseGeneratedOption.Identity )]
-	object Id { get; }
+	object Id { get; set; }
 }
