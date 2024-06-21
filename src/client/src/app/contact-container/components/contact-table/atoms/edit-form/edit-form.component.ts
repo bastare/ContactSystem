@@ -97,9 +97,7 @@ export class EditFormComponent {
       ContactRestActions.updateContact({
         contact: {
           id: this.dialogInitData.id,
-          changes: {
-            ...this.createContactForm.value as ContactState,
-          }
+          changes: this.createContactForm.value as ContactState
         }
       })
     );

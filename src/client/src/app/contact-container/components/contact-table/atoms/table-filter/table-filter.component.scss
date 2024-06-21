@@ -23,19 +23,26 @@
       align-items: center;
       flex-direction: row;
 
-      input {
-        height: 30px;
-        width: 40vw;
+      &--item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
 
-        border: none;
-        outline: none;
-      }
+        input {
+          height: 30px;
+          width: 40vw;
 
-      select {
-        background-color: white;
+          border: none;
+          outline: none;
+        }
 
-        border: none;
-        outline: none;
+        select {
+          background-color: white;
+
+          border: none;
+          outline: none;
+        }
       }
     }
   }

@@ -16,7 +16,8 @@ export class ContactRestClient {
     return this.http.get<PaginationListDto<ContactForTableDto>>(
       `${environment.restApiV1}/contacts`,
       {
-        params: new HttpParams().appendAll({ ...queryProps }),
+        params: new HttpParams()
+          .appendAll(queryProps),
       }
     );
   }

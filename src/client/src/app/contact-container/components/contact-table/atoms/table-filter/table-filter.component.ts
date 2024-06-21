@@ -21,16 +21,18 @@ import { getContactsForTableBySpecification } from '../../../../injectable/rest-
         [formGroup]="searchContactForm"
       >
         <div class="table-filter-container--form--group">
-          <input formControlName="search" (keyup)="onFilterInsert($event)" />
-        </div>
-        <div class="table-filter-container--form--group">
-          <select formControlName="searchBy" (change)="onSelect($event)">
-            @for (entityForFilter of entitiesForFilter; track $index) {
-              <option [value]="entityForFilter">
-                {{ entityForFilter }}
-              </option>
-            }
-          </select>
+          <div class="table-filter-container--form--group--item">
+            <input formControlName="search" (keyup)="onFilterInsert($event)" />
+          </div>
+          <div class="table-filter-container--form--group--item">
+            <select formControlName="searchBy" (change)="onSelect($event)">
+              @for (entityForFilter of entitiesForFilter; track $index) {
+                <option [value]="entityForFilter">
+                  {{ entityForFilter }}
+                </option>
+              }
+            </select>
+          </div>
         </div>
       </form>
     </div>

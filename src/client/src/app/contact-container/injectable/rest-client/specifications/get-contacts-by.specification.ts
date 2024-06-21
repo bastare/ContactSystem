@@ -15,17 +15,17 @@ export const getContactsForTableBySpecification: (
   expression:
     search && searchBy
       ? `
-      ${searchBy}.Contains("${search}")
-        && !string.IsNullOrEmpty(FirstName)
-        && !string.IsNullOrEmpty(LastName)
-        && !string.IsNullOrEmpty(Email)
-        && !string.IsNullOrEmpty(Phone)
+        ${searchBy}.Contains("${search}")
+          && !string.IsNullOrEmpty(FirstName)
+          && !string.IsNullOrEmpty(LastName)
+          && !string.IsNullOrEmpty(Email)
+          && !string.IsNullOrEmpty(Phone)
       `
       : `
-      !string.IsNullOrEmpty(FirstName)
-        && !string.IsNullOrEmpty(LastName)
-        && !string.IsNullOrEmpty(Email)
-        && !string.IsNullOrEmpty(Phone)
+        !string.IsNullOrEmpty(FirstName)
+          && !string.IsNullOrEmpty(LastName)
+          && !string.IsNullOrEmpty(Email)
+          && !string.IsNullOrEmpty(Phone)
     `,
 
   projection: `

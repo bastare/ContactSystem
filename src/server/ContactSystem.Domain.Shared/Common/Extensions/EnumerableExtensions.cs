@@ -19,12 +19,12 @@ public static class EnumerableExtensions
 	public static Task<T[]> WhenAllAsync<T> ( this IEnumerable<Task<T>> collection )
         => Task.WhenAll ( collection );
 
-    public static async Task WhenAllAsync<T> ( this IEnumerable<T> collection , Func<T , Task> selector )
-        => await Task.WhenAll (
+    public static Task WhenAllAsync<T> ( this IEnumerable<T> collection , Func<T , Task> selector )
+        => Task.WhenAll (
             tasks: collection.Select ( selector ) );
 
-	public static async Task WhenAllAsync<T> ( this IEnumerable<Task> collection )
-        => await Task.WhenAll ( collection );
+	public static Task WhenAllAsync<T> ( this IEnumerable<Task> collection )
+        => Task.WhenAll ( collection );
 
     public static async IAsyncEnumerable<T> ToAsyncEnumerable<T> ( this IEnumerable<Task<T>> collection )
     {
