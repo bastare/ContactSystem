@@ -10,11 +10,10 @@ public sealed class FluentValidationInjector : IInjectable
 {
 	public void Inject ( IServiceCollection serviceCollection , IConfiguration _ )
 	{
-		serviceCollection
-			.AddValidatorsFromAssemblies (
-				assemblies: [
-					Assembly.GetEntryAssembly ()!,
-					typeof ( ExpressionQueryDto ).Assembly
-				] );
+		serviceCollection.AddValidatorsFromAssemblies (
+			assemblies: [
+				Assembly.GetEntryAssembly ()!,
+				typeof ( ExpressionQueryDto ).Assembly
+			] );
 	}
 }

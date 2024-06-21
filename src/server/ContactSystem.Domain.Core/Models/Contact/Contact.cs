@@ -38,4 +38,6 @@ public sealed class Contact : IAuditableModel<int>
 	object IAuditable.CreatedBy { get; set; }
 
 	object? IAuditable.LastModifiedBy { get; set; }
+
+	object IModel.Id => Id;
 }

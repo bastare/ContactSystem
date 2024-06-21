@@ -19,7 +19,7 @@ public sealed class OptionsInjector : IInjectable
 			.SelectMany ( ResolveAllTypes )
 			.Where ( IsOptionType )
 			.ForEach ( optionType =>
-				  InjectOptionType ( configuration , optionType ) );
+				InjectOptionType ( configuration , optionType ) );
 
 		static IEnumerable<Type> ResolveAllTypes ( Assembly assembly )
 			=> assembly.GetTypes ();

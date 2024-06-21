@@ -36,6 +36,7 @@ public sealed class PatchContactConsumer ( IEfUnitOfWork<EfContext , int> efUnit
 
 		async Task<Contact> PatchContactAsync ( ContactForPatchDto contactForPatch )
 		{
+			// TODO: Integrate `ExecuteUpdate`
 			var config = new TypeAdapterConfig ();
 			config.Default.IgnoreNullValues ( true );
 
