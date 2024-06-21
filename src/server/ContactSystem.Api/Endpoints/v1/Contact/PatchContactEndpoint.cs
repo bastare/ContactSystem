@@ -24,7 +24,7 @@ public sealed class PatchContactEndpoint ( IRequestClient<PatchContactContract> 
 			await _requestClient.GetResponse<SubmitPatchedContactsContract , FaultContract> (
 				new ( ContactForPatch: new ()
 				{
-					Id = ResolveIdFromQuery () ,
+					Id = ResolveIdFromRoute () ,
 					FirstName = requestBody.FirstName ,
 					LastName = requestBody.LastName ,
 					Email = requestBody.Email ,
@@ -41,7 +41,7 @@ public sealed class PatchContactEndpoint ( IRequestClient<PatchContactContract> 
 			response: ( await response ).Message.ContactFromPatch ,
 			cancellation: cancellationToken );
 
-		int ResolveIdFromQuery ()
+		int ResolveIdFromRoute ()
 		{
 			HttpContext.Request.RouteValues.TryGetValue ( "id" , out var idRouteFragment );
 

@@ -39,10 +39,6 @@ public sealed class EfInjector : IInjectable
 		// TODO: Don't forget to create post-operation life-hook for injectors
 		EnsureCreated ( serviceCollection );
 
-		static ILoggerFactory ResolveLoggerFactory ( IServiceCollection serviceCollection )
-			=> serviceCollection.BuildServiceProvider ()
-				.GetRequiredService<ILoggerFactory> ();
-
 		static SqliteConnection CreateAndPersistSqlConnection ( IServiceCollection serviceCollection )
 		{
 			var sqliteConnection_ = new SqliteConnection ( "DataSource=:memory:" );
@@ -53,13 +49,15 @@ public sealed class EfInjector : IInjectable
 			return sqliteConnection_;
 		}
 
+		static ILoggerFactory ResolveLoggerFactory ( IServiceCollection serviceCollection )
+			=> serviceCollection.BuildServiceProvider ()
+				.GetRequiredService<ILoggerFactory> ();
+
 		static void EnsureCreated ( IServiceCollection serviceCollection )
 		{
-			var efUnitOfWork_ =
-				serviceCollection.BuildServiceProvider ()
-					.GetRequiredService<IEfUnitOfWork<EfContext , int>> ();
-
-			efUnitOfWork_.EnsureCreated ();
+			serviceCollection.BuildServiceProvider ()
+				.GetRequiredService<IEfUnitOfWork<EfContext , int>> ()
+					.EnsureCreated ();
 		}
 	}
 }
