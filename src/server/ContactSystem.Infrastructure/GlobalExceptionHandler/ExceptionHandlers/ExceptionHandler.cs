@@ -1,5 +1,6 @@
 namespace ContactSystem.Infrastructure.GlobalExceptionHandler.ExceptionHandlers;
 
+using Delegates;
 using Domain.Shared.Common.Classes.HttpMessages.Error;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -9,7 +10,7 @@ public sealed record ExceptionHandler : IExceptionHandler
 {
 	public int Id { get; }
 
-	public Func<HttpContext , Exception, CancellationToken?, Task>? OnHoldAsync { get; init; }
+	public OnExceptionHoldAsync? OnHoldAsync { get; init; }
 
 	public Func<Exception , object> InjectExceptionMessage { get; init; } = DefaultExceptionMessageInjector;
 

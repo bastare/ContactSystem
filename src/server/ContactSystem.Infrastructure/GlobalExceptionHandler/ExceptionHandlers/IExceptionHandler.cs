@@ -1,5 +1,6 @@
 namespace ContactSystem.Infrastructure.GlobalExceptionHandler.ExceptionHandlers;
 
+using Delegates;
 using Microsoft.AspNetCore.Http;
 using System.Net;
 
@@ -12,7 +13,7 @@ public interface IExceptionHandler
 {
 	int Id { get; }
 
-	Func<HttpContext , Exception, CancellationToken?, Task>? OnHoldAsync { get; }
+	OnExceptionHoldAsync? OnHoldAsync { get; }
 
 	Func<Exception , object> InjectExceptionMessage { get; }
 
