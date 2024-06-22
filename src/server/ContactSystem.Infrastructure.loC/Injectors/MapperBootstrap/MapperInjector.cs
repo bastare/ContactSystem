@@ -28,8 +28,7 @@ public sealed class MapperInjector : IInjectable
 			TypeAdapterConfig.GlobalSettings.Default.AvoidInlineMapping ( value: true );
 
 			TypeAdapterConfig.GlobalSettings.Scan (
-				assemblies:
-				[
+				assemblies: [
 					Assembly.GetEntryAssembly ()!,
 					typeof (PaginationConfiguration).GetAssembly()
 				] );

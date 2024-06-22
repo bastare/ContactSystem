@@ -5,9 +5,11 @@ using FastEndpoints;
 using MassTransit;
 using Domain.Contracts;
 using Domain.Contracts.ContactContracts.Command.PatchContact;
+using Domain.Shared.Common.Classes.HttpMessages.Error;
+using Domain.Contracts.ContactContracts.Command.PatchContact.Dtos;
 
 public sealed class PatchContactEndpoint ( IRequestClient<PatchContactContract> requestClient )
-	: Endpoint<ContactForPatchRequestBody>
+	: Endpoint<ContactForPatchRequestBody , ContactFromPatchDto>
 {
 	private readonly IRequestClient<PatchContactContract> _requestClient = requestClient;
 
@@ -16,6 +18,10 @@ public sealed class PatchContactEndpoint ( IRequestClient<PatchContactContract> 
 		Verbs ( Http.PATCH );
 		Routes ( "api/v1/contacts/{id}" );
 		AllowAnonymous ();
+		Description ( builder => builder
+			.Produces<ContactFromPatchDto> ( StatusCodes.Status200OK , "application/json+custom" )
+			.ProducesProblemFE<PageErrorMessage> ( StatusCodes.Status400BadRequest )
+			.ProducesProblemFE<PageErrorMessage> ( StatusCodes.Status500InternalServerError ) );
 	}
 
 	public override async Task HandleAsync ( ContactForPatchRequestBody requestBody , CancellationToken cancellationToken = default )

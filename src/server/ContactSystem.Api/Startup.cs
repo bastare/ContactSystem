@@ -195,8 +195,8 @@ public sealed class Startup ( IConfiguration configuration , IWebHostEnvironment
 					3. Uncomment it back
 					4. Launch server again & don't close previously opened tab with swagger (step 1)
 				*/
-				if ( WebHostEnvironmentExtensions.IsDevelopment ( _webHostEnvironment ) )
-					endpoints.MapSpaYarp ();
+				// if ( WebHostEnvironmentExtensions.IsDevelopment ( _webHostEnvironment ) )
+				// 	endpoints.MapSpaYarp ();
 
 				if ( WebHostEnvironmentExtensions.IsProduction ( _webHostEnvironment ) )
 					endpoints.MapFallbackToFile (

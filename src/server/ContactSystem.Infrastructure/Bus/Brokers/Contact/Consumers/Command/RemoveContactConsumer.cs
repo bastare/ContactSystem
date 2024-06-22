@@ -18,8 +18,7 @@ public sealed class RemoveContactConsumer ( IEfUnitOfWork<EfContext , int> efUni
 	{
 		try
 		{
-			var removedContact =
-				await RemoveContactsAsync ( context.Message.Id );
+			await RemoveContactsAsync ( context.Message.Id );
 
 			await _efUnitOfWork.TryCommitAsync ( context.CancellationToken );
 
@@ -31,7 +30,7 @@ public sealed class RemoveContactConsumer ( IEfUnitOfWork<EfContext , int> efUni
 				new ( exception ) );
 		}
 
-		Task<Contact?> RemoveContactsAsync ( int contactIdForRemove )
+		Task RemoveContactsAsync ( int contactIdForRemove )
 			=> _efUnitOfWork.Repository<Contact> ()
 				.RemoveByAsync (
 					( contact ) => contact.Id == contactIdForRemove ,

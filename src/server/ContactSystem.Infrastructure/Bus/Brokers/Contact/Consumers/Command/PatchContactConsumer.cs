@@ -40,7 +40,7 @@ public sealed class PatchContactConsumer ( IEfUnitOfWork<EfContext , int> efUnit
 			var config = new TypeAdapterConfig ();
 			config.Default.IgnoreNullValues ( true );
 
-			var contactForUpdate =
+			var contactForUpdate_ =
 				await _efUnitOfWork.Repository<Contact> ()
 					.FindByAsync (
 						contact => contact.Id == contactForPatch.Id ,
@@ -50,7 +50,7 @@ public sealed class PatchContactConsumer ( IEfUnitOfWork<EfContext , int> efUnit
 
 			return await _efUnitOfWork.Repository<Contact> ()
 				.UpdateAsync (
-					contactForPatch.Adapt ( contactForUpdate , config )! ,
+					contactForPatch.Adapt ( contactForUpdate_ , config )! ,
 					context.CancellationToken );
 		}
 	}
