@@ -75,6 +75,33 @@ public sealed class ErrorHandlerInjector : IInjectable
 								Message: exception.Message )
 					} )
 
+				.WithErrorHandler (
+					exceptionHandler: new ExceptionHandler (
+						id: 5 ,
+						isAllowedException: ( _ , exception ) =>
+							exception.GetType () == typeof ( ArgumentException ) )
+					{
+						InjectStatusCode = ( _ , _ ) => HttpStatusCode.BadRequest ,
+						InjectExceptionMessage = ( exception ) =>
+							new PageErrorMessage (
+								StatusCode: StatusCodes.Status400BadRequest ,
+								Message: exception.Message )
+					} )
+
+				.WithErrorHandler (
+					exceptionHandler: new ExceptionHandler (
+						id: 6 ,
+						isAllowedException: ( _ , exception ) =>
+							exception.GetType () == typeof ( DbUpdateException )
+								&& exception.InnerException!.Message.Contains ( "UNIQUE constraint failed" ) )
+					{
+						InjectStatusCode = ( _ , _ ) => HttpStatusCode.BadRequest ,
+						InjectExceptionMessage = ( exception ) =>
+							new PageErrorMessage (
+								StatusCode: StatusCodes.Status400BadRequest ,
+								Message: "This email exist already" )
+					} )
+
 				.Build ();
 	}
 }

@@ -1,8 +1,11 @@
 @import "../../ui/styles/variables/index";
+@import "../../ui/styles/templates/spacing";
 
 .contact-table-container {
+  @include card-item-spacing;
+
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
 
@@ -17,17 +20,14 @@
   box-shadow: -2px 8px 17px 5px rgba(0, 0, 0, 0.35);
 
   &--form {
+    @include card-item-spacing;
+
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 
     background-color: white;
-
-    gap: 20px;
-
-    padding: 20px;
-    margin: 20px;
 
     border-radius: 20px;
   }

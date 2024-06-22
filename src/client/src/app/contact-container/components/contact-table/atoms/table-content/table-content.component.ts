@@ -118,7 +118,9 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly dialog = inject(MatDialog);
   private readonly subscriptionsForUnsubscribe: Subscription[] = [];
 
-  displayedColumns: ReadonlyArray<string> = [
+  private readonly contactsTableDataStream$ = this.store.select(selectAll);
+
+  readonly displayedColumns: ReadonlyArray<string> = [
     'id',
     'firstName',
     'lastName',
@@ -130,8 +132,6 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
   ];
 
   dataSource: MatTableDataSource<ContactState> = new MatTableDataSource([] as ContactState[]);
-
-  contactsTableDataStream$ = this.store.select(selectAll);
 
   ngOnInit() {
     this.subscriptionsForUnsubscribe.push(

@@ -15,7 +15,7 @@ import { Subscription } from 'rxjs';
     <div class="contact-table-paginator-container">
       <mat-paginator
         [pageIndex]="currentOffset - 1"
-        [pageSizeOptions]="[10]"
+        [pageSizeOptions]="[pageSize]"
         [length]="totalCount"
         (page)="onPageChange($event)"
       />
@@ -27,7 +27,9 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   private readonly store = inject(Store<AppState>);
   private readonly subscriptionsForUnsubscribe: Subscription[] = [];
 
-  contactTableMetaPageOffsetStream$ = this.store.select(selectMetaPaginationOffsetData)
+  private readonly contactTableMetaPageOffsetStream$ = this.store.select(selectMetaPaginationOffsetData)
+
+  readonly pageSize: number = 10;
 
   currentOffset: number = 1;
   totalCount: number = 0;

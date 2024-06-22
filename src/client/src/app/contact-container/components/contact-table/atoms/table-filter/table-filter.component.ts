@@ -22,7 +22,7 @@ import { getContactsForTableBySpecification } from '../../../../injectable/rest-
       >
         <div class="table-filter-container--form--group">
           <div class="table-filter-container--form--group--item">
-            <input formControlName="search" (keyup)="onFilterInsert($event)" />
+            <input type="text" placeholder="Search" formControlName="search" (keyup)="onFilterInsert($event)" />
           </div>
           <div class="table-filter-container--form--group--item">
             <select formControlName="searchBy" (change)="onSelect($event)">
@@ -42,12 +42,7 @@ import { getContactsForTableBySpecification } from '../../../../injectable/rest-
 export class TableFilterComponent {
   private readonly store = inject(Store<AppState>);
 
-  searchContactForm = new FormGroup({
-    search: new FormControl(''),
-    searchBy: new FormControl('Email', Validators.required),
-  });
-
-  entitiesForFilter: ReadonlyArray<string> = [
+  readonly entitiesForFilter: ReadonlyArray<string> = [
     'FirstName',
     'LastName',
     'Email',
@@ -55,6 +50,11 @@ export class TableFilterComponent {
     'Title',
     'MiddleInitial',
   ];
+
+  searchContactForm = new FormGroup({
+    search: new FormControl(''),
+    searchBy: new FormControl('Email', Validators.required),
+  });
 
   onSelect(_: Event) {
     if (!this.searchContactForm.valid)
