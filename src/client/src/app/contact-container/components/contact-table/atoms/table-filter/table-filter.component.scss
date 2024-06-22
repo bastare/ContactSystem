@@ -1,4 +1,5 @@
 @import "../../../../ui/styles/templates/fonts";
+@import "../../../../ui/styles/templates/containers";
 
 .table-filter-container {
   display: flex;
@@ -32,24 +33,9 @@
         flex-direction: row;
 
         input {
-          border: none;
-          outline: none;
+          @include contact-input-container(40vw, 2.5vh);
 
           border-right: #ccc 1px solid;
-
-          height: 30px;
-          width: 40vw;
-
-          &::placeholder {
-            font-style: italic;
-            font-family: Inter;
-          }
-
-          &[type="text"] {
-            @include search-font;
-
-            padding-left: 1.5rem;
-          }
         }
 
         select {
@@ -59,14 +45,16 @@
           @include select-font;
 
           display: block;
-          width: 100%;
-          padding: 10px;
           color: #333;
           background-color: #fff;
           appearance: none;
           -webkit-appearance: none;
           -moz-appearance: none;
           background: none;
+
+          width: 100%;
+
+          padding: 10px;
 
           text-align: center;
 

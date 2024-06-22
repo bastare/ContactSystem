@@ -77,11 +77,19 @@
     align-items: center;
     justify-content: center;
 
+    gap: 20px;
+
     &--input {
       width: 20vw;
 
       @media (min-width: 1024px) {
         width: 10vw;
+      }
+
+      input {
+        @include contact-input-container(100%, 50px);
+
+        border-radius: 20px;
       }
     }
   }
@@ -104,14 +112,12 @@
   }
 }
 
-@mixin contact-input-container {
+@mixin contact-input-container($width, $height) {
   border: none;
   outline: none;
 
-  border-right: #ccc 1px solid;
-
-  height: 30px;
-  width: 40vw;
+  height: $height;
+  width: $width;
 
   &::placeholder {
     font-style: italic;

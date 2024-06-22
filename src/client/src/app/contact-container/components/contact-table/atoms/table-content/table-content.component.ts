@@ -103,7 +103,7 @@ import { MatButton } from '@angular/material/button';
         <tr mat-row *matRowDef="let contact; columns: displayedColumns"></tr>
 
         <tr class="mat-row" *matNoDataRow>
-          <td class="mat-cell" colspan="4">No data matching the filter</td>
+          TODO: finish me
         </tr>
       </table>
     </div>
