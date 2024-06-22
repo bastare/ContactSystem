@@ -3,6 +3,10 @@ import { QueryPropsDto } from '../dtos/query-props-dto.type';
 type Props = {
   search?: string;
   searchBy?: string;
+  sorting?: {
+    orderBy?: string;
+    isDescending?: boolean;
+  }
   pagination?: {
     offset?: number;
     limit?: number;
@@ -11,7 +15,7 @@ type Props = {
 
 export const getContactsForTableBySpecification: (
   props: Props
-) => QueryPropsDto = ({ search, searchBy, pagination }) => ({
+) => QueryPropsDto = ({ search, searchBy, sorting, pagination }) => ({
   expression:
     search && searchBy
       ? `
@@ -40,5 +44,6 @@ export const getContactsForTableBySpecification: (
     )
   `,
 
-  ...pagination,
+  ...sorting,
+  ...pagination
 });

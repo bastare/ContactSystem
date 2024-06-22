@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, concatMap, tap } from 'rxjs/operators';
+import { catchError, concatMap } from 'rxjs/operators';
 import { EMPTY, of } from 'rxjs';
 import { ContactRestClient } from '../../injectable/rest-client/contact-rest-client.service';
 import { ContactRestActions } from '../actions/contact-rest.actions';
