@@ -12,3 +12,7 @@ $contact-card-container__border-gray-color: #ccc;
 
 $contact-card__border-radius: 20px;
 $contact-card--filter__border-radius: 10px;
+
+$contact-btn-container__shadow:
+  0px 10px 13px -7px black,
+  -10px 5px 15px -1px $contact-btn__shadow-color;

@@ -18,12 +18,8 @@
 
   background: $contact-table--background__teal-color;
 
-  -webkit-box-shadow:
-    0px 10px 13px -7px #000000,
-    -10px 5px 15px -1px $contact-btn__shadow-color;
-  box-shadow:
-    0px 10px 13px -7px #000000,
-    -10px 5px 15px -1px $contact-btn__shadow-color;
+  box-shadow: $contact-btn-container__shadow;
+  -webkit-box-shadow: $contact-btn-container__shadow;
 
   z-index: $contact-table--add-btn__zIndex;
 

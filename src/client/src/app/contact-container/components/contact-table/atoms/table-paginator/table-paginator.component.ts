@@ -12,7 +12,7 @@ import { Subscription } from 'rxjs';
     MatPaginatorModule
   ],
   template: `
-    <div class="contact-table-paginator-container">
+    <div>
       <mat-paginator
         [style]="{ backgroundColor: 'white' }"
         [pageIndex]="currentOffset - 1"
