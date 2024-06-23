@@ -23,12 +23,18 @@
     @include card-item-spacing;
 
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     flex-direction: column;
+
+    height: 85vh;
 
     background-color: white;
 
     border-radius: $contact-card__border-radius;
+
+    & > *:last-child {
+      margin-top: auto;
+    }
   }
 }
