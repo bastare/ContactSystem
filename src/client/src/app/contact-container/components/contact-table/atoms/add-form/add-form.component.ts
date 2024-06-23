@@ -25,50 +25,81 @@ import { ContactRestActions } from '../../../../store-features/actions/contact-r
     <div class="add-form-container">
       <form [formGroup]="createContactForm" (ngSubmit)="onSubmit()">
         <mat-dialog-content class="add-form-container--input-list">
-          <div class="add-form-container--input-list--input">
+          <div
+            class="add-form-container--input-list--input"
+            [class.add-form-container--input-list--input__error]="
+              !isValid('firstName', ['required'])
+            "
+          >
             <input type="text" placeholder="First Name" formControlName="firstName" />
-            @if (createContactForm.controls.firstName.errors && createContactForm.controls.firstName.errors['required']) {
+
+            @if (!isValid('firstName', ['required'])) {
               <small class="add-form-container--input-list--input--error">
                  First Name required
               </small>
             }
           </div>
 
-          <div class="add-form-container--input-list--input">
+          <div
+            class="add-form-container--input-list--input"
+            [class.add-form-container--input-list--input__error]="
+              !isValid('lastName', ['required'])
+            "
+          >
             <input type="text" placeholder="Last Name" formControlName="lastName" />
-            @if (createContactForm.controls.lastName.errors && createContactForm.controls.lastName.errors['required']) {
+
+            @if (!isValid('lastName', ['required'])) {
               <small class="add-form-container--input-list--input--error">
                 Last Name required
               </small>
             }
           </div>
 
-          <div class="add-form-container--input-list--input">
+          <div
+            class="add-form-container--input-list--input"
+            [class.add-form-container--input-list--input__error]="
+              !isValid('email', ['required', 'email'])
+            "
+          >
             <input type="text" placeholder="Email" formControlName="email" />
-            @if (createContactForm.controls.email.errors && createContactForm.controls.email.errors['required']) {
+
+            @if (!isValid('email', ['required'])) {
               <small class="add-form-container--input-list--input--error">
                 Email required
               </small>
             }
-            @if (createContactForm.controls.email.errors && createContactForm.controls.email.errors['email']) {
+
+            @if (!isValid('email', ['email'])) {
               <small class="add-form-container--input-list--input--error">
                 Wrong email format
               </small>
             }
           </div>
 
-          <div class="add-form-container--input-list--input">
+          <div
+            class="add-form-container--input-list--input"
+            [class.add-form-container--input-list--input__error]="
+              !isValid('phone', ['required'])
+            "
+          >
             <input type="text" placeholder="Phone" formControlName="phone" />
-            @if (createContactForm.controls.phone.errors && createContactForm.controls.phone.errors['required']) {
+
+            @if (!isValid('phone', ['required'])) {
               <small class="add-form-container--input-list--input--error">
                 Phone required
               </small>
             }
           </div>
 
-          <div class="add-form-container--input-list--input">
+          <div
+            class="add-form-container--input-list--input"
+            [class.add-form-container--input-list--input__error]="
+              !isValid('title', ['required'])
+            "
+          >
             <input type="text" placeholder="Title" formControlName="title" />
-            @if (createContactForm.controls.title.errors && createContactForm.controls.title.errors['required']) {
+
+            @if (!isValid('title', ['required'])) {
               <small class="add-form-container--input-list--input--error">
                 Title required
               </small>
@@ -80,7 +111,7 @@ import { ContactRestActions } from '../../../../store-features/actions/contact-r
           </div>
 
           <div class="add-form-container--input-list--btn">
-            <button [disabled]="!createContactForm.valid" type="submit" cdkFocusInitial>
+            <button [disabled]="!createContactForm.valid" type="submit">
               Create
             </button>
           </div>
@@ -111,5 +142,9 @@ export class AddFormComponent {
     );
 
     this.dialogRef.close();
+  }
+
+  isValid(controlName: string, rules: readonly string[]) {
+    return rules.every((rule) => !this.createContactForm.get(controlName)?.getError(rule));
   }
 }

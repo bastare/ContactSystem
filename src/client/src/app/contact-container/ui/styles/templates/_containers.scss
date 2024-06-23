@@ -114,6 +114,10 @@
       }
     }
 
+    &--input__error {
+      border-color: red;
+    }
+
     &--btn {
       display: flex;
       flex-direction: column;
