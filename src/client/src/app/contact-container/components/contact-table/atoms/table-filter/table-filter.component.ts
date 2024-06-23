@@ -38,8 +38,8 @@ import { getContactsForTableBySpecification } from '../../../../injectable/rest-
             -->
             <select formControlName="searchBy" (change)="onSelect($event)">
               @for (entityForFilter of entitiesForFilter; track $index) {
-                <option [value]="entityForFilter">
-                  {{ entityForFilter }}
+                <option [value]="entityForFilter.id">
+                  {{ entityForFilter.label }}
                 </option>
               }
             </select>
@@ -53,13 +53,13 @@ import { getContactsForTableBySpecification } from '../../../../injectable/rest-
 export class TableFilterComponent {
   private readonly store = inject(Store<AppState>);
 
-  readonly entitiesForFilter: ReadonlyArray<string> = [
-    'FirstName',
-    'LastName',
-    'Email',
-    'Phone',
-    'Title',
-    'MiddleInitial',
+  readonly entitiesForFilter: ReadonlyArray<{ id: string, label: string }> = [
+    { id: 'FirstName', label: 'First Name' },
+    { id: 'LastName', label: 'Last Name' },
+    { id: 'Email', label: 'Email' },
+    { id: 'Phone', label: 'Phone' },
+    { id: 'Title', label: 'Title' },
+    { id: 'MiddleInitial', label: 'Middle Initial' },
   ];
 
   searchContactForm = new FormGroup({
