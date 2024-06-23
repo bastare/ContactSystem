@@ -4,4 +4,4 @@ export const isReactiveFormControlValid = (
   form: FormGroup,
   controlName: string,
   rules: readonly string[]
-) => rules.every((rule) => !form.get(controlName)?.getError(rule));
+) => !rules.every((rule) => form.get(controlName)?.getError(rule));
