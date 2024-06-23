@@ -91,6 +91,8 @@
     gap: 20px;
 
     &--input {
+      position: relative;
+
       width: 100%;
 
       border: 1px solid $contact-card-container__border-gray-color;
@@ -100,6 +102,15 @@
         @include contact-input-container(100%, 50px);
 
         border-radius: $contact-card__border-radius;
+      }
+
+      &--error {
+        color: red;
+
+        position: absolute;
+
+        left: 0;
+        bottom: -40%;
       }
     }
 

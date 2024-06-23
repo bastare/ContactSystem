@@ -27,27 +27,58 @@ import { ContactRestActions } from '../../../../store-features/actions/contact-r
         <mat-dialog-content class="add-form-container--input-list">
           <div class="add-form-container--input-list--input">
             <input type="text" placeholder="First Name" formControlName="firstName" />
+            @if (createContactForm.controls.firstName.errors && createContactForm.controls.firstName.errors['required']) {
+              <small class="add-form-container--input-list--input--error">
+                 First Name required
+              </small>
+            }
           </div>
 
           <div class="add-form-container--input-list--input">
             <input type="text" placeholder="Last Name" formControlName="lastName" />
+            @if (createContactForm.controls.lastName.errors && createContactForm.controls.lastName.errors['required']) {
+              <small class="add-form-container--input-list--input--error">
+                Last Name required
+              </small>
+            }
           </div>
 
           <div class="add-form-container--input-list--input">
             <input type="text" placeholder="Email" formControlName="email" />
+            @if (createContactForm.controls.email.errors && createContactForm.controls.email.errors['required']) {
+              <small class="add-form-container--input-list--input--error">
+                Email required
+              </small>
+            }
+            @if (createContactForm.controls.email.errors && createContactForm.controls.email.errors['email']) {
+              <small class="add-form-container--input-list--input--error">
+                Wrong email format
+              </small>
+            }
           </div>
 
           <div class="add-form-container--input-list--input">
             <input type="text" placeholder="Phone" formControlName="phone" />
+            @if (createContactForm.controls.phone.errors && createContactForm.controls.phone.errors['required']) {
+              <small class="add-form-container--input-list--input--error">
+                Phone required
+              </small>
+            }
           </div>
 
           <div class="add-form-container--input-list--input">
             <input type="text" placeholder="Title" formControlName="title" />
+            @if (createContactForm.controls.title.errors && createContactForm.controls.title.errors['required']) {
+              <small class="add-form-container--input-list--input--error">
+                Title required
+              </small>
+            }
           </div>
 
           <div class="add-form-container--input-list--input">
             <input type="text" placeholder="Middle Initial" formControlName="middleInitial" />
           </div>
+
           <div class="add-form-container--input-list--btn">
             <button [disabled]="!createContactForm.valid" type="submit" cdkFocusInitial>
               Create
