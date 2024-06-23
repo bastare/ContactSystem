@@ -11,7 +11,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
-using System.Text.RegularExpressions;
 
 public sealed class ErrorHandlerInjector : IInjectable
 {

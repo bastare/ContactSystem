@@ -30,7 +30,7 @@ export const getContactsForTableBySpecification: (
           && !string.IsNullOrEmpty(LastName)
           && !string.IsNullOrEmpty(Email)
           && !string.IsNullOrEmpty(Phone)
-    `,
+      `,
 
   projection: `
     new(
