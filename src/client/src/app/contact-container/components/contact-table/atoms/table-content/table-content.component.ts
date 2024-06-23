@@ -92,6 +92,7 @@ import { SvgIconComponent } from 'angular-svg-icon';
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let contact">
             <div class="table-content-container--btn-group">
+              <!-- TODO: Put 'on hover' animation 'red & green' etc  -->
               <button type="button" (click)="openEditContactDialog(contact)">
                 <svg-icon
                   src="contact/edit-icon.svg"
