@@ -14,6 +14,7 @@ import { Subscription } from 'rxjs';
   template: `
     <div class="contact-table-paginator-container">
       <mat-paginator
+        [style]="{ backgroundColor: 'white' }"
         [pageIndex]="currentOffset - 1"
         [pageSizeOptions]="[pageSize]"
         [length]="totalCount"
@@ -21,7 +22,6 @@ import { Subscription } from 'rxjs';
       />
     </div>
   `,
-  styleUrl: './table-paginator.component.scss',
 })
 export class TablePaginatorComponent implements OnInit, OnDestroy {
   private readonly store = inject(Store<AppState>);

@@ -101,7 +101,7 @@ public sealed class ErrorHandlerInjector : IInjectable
 						InjectExceptionMessage = ( exception ) =>
 							new PageErrorMessage (
 								StatusCode: StatusCodes.Status400BadRequest ,
-								Message: "User with this email created already")
+								Message: "The user with this email created already" )
 					} )
 
 				.Build ();

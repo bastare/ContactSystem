@@ -33,6 +33,7 @@ import { SvgIconComponent } from 'angular-svg-icon';
   template: `
     <div class="table-content-container">
       <table
+        [style]="{ backgroundColor: 'white' }"
         mat-table
         matSort
         [dataSource]="dataSource"
@@ -109,10 +110,6 @@ import { SvgIconComponent } from 'angular-svg-icon';
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let contact; columns: displayedColumns"></tr>
-
-        <tr class="mat-row" *matNoDataRow>
-          TODO: finish me
-        </tr>
       </table>
     </div>
   `,
