@@ -30,6 +30,12 @@ import { getContactsForTableBySpecification } from '../../../../injectable/rest-
             />
           </div>
           <div class="table-filter-container--form--group--item">
+            /*
+              TODO: Use structural directive:
+              - create programmatically 'select' & 'div'
+              - hide 'select' & show 'div' only
+              - create & sync events for 'div' from 'select'
+            */
             <select formControlName="searchBy" (change)="onSelect($event)">
               @for (entityForFilter of entitiesForFilter; track $index) {
                 <option [value]="entityForFilter">
