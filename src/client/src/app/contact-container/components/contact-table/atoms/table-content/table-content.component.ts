@@ -38,42 +38,42 @@ import { MatButton } from '@angular/material/button';
       >
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="Id">ID</th>
-          <td mat-cell *matCellDef="let contact">{{ contact.id }}</td>
+          <td mat-cell *matCellDef="let contact">{{ contact?.id }}</td>
         </ng-container>
 
         <ng-container matColumnDef="firstName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="FirstName">
             First Name
           </th>
-          <td mat-cell *matCellDef="let contact">{{ contact.firstName }}</td>
+          <td mat-cell *matCellDef="let contact">{{ contact?.firstName }}</td>
         </ng-container>
 
         <ng-container matColumnDef="lastName">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="LastName">
             Last Name
           </th>
-          <td mat-cell *matCellDef="let contact">{{ contact.lastName }}</td>
+          <td mat-cell *matCellDef="let contact">{{ contact?.lastName }}</td>
         </ng-container>
 
         <ng-container matColumnDef="email">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="Email">
             Email
           </th>
-          <td mat-cell *matCellDef="let contact">{{ contact.email }}</td>
+          <td mat-cell *matCellDef="let contact">{{ contact?.email }}</td>
         </ng-container>
 
         <ng-container matColumnDef="phone">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="Phone">
             Phone
           </th>
-          <td mat-cell *matCellDef="let contact">{{ contact.phone }}</td>
+          <td mat-cell *matCellDef="let contact">{{ contact?.phone }}</td>
         </ng-container>
 
         <ng-container matColumnDef="title">
           <th mat-header-cell *matHeaderCellDef mat-sort-header="Title">
             Title
           </th>
-          <td mat-cell *matCellDef="let contact">{{ contact.title }}</td>
+          <td mat-cell *matCellDef="let contact">{{ contact?.title }}</td>
         </ng-container>
 
         <ng-container matColumnDef="middleInitial">
@@ -81,7 +81,7 @@ import { MatButton } from '@angular/material/button';
             Middle Initial
           </th>
           <td mat-cell *matCellDef="let contact">
-            {{ contact.middleInitial }}
+            {{ contact?.middleInitial }}
           </td>
         </ng-container>
 

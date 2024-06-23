@@ -30,7 +30,7 @@ export class PatchContactEffects {
               ContactActions.updateContact({
                 contact: {
                   id: patchedContact.id,
-                  changes: { ...patchedContact },
+                  changes: patchedContact
                 },
               })
             )

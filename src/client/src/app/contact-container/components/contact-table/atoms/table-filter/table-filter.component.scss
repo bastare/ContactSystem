@@ -1,5 +1,6 @@
 @import "../../../../ui/styles/templates/fonts";
 @import "../../../../ui/styles/templates/containers";
+@import "../../../../ui/styles/variables/index";
 
 .table-filter-container {
   display: flex;
@@ -10,7 +11,7 @@
   padding: 5px;
 
   border: 1px solid #ccc;
-  border-radius: 10px;
+  border-radius: $contact-card--filter__border-radius;
 
   gap: 20px;
 

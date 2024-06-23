@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 
 public sealed class ErrorHandlerInjector : IInjectable
 {
@@ -68,7 +69,8 @@ public sealed class ErrorHandlerInjector : IInjectable
 						isAllowedException: ( _ , exception ) =>
 							exception.GetType () == typeof ( HttpRequestException ) )
 					{
-						InjectStatusCode = ( httpContext , _ ) => httpContext.ResolveException<HttpRequestException> ()!.StatusCode!.Value ,
+						InjectStatusCode = ( httpContext , _ ) =>
+							httpContext.ResolveException<HttpRequestException> ()!.StatusCode!.Value ,
 						InjectExceptionMessage = ( exception ) =>
 							new PageErrorMessage (
 								StatusCode: ( int ) ( ( HttpRequestException ) exception ).StatusCode!.Value ,
@@ -84,7 +86,7 @@ public sealed class ErrorHandlerInjector : IInjectable
 						InjectStatusCode = ( _ , _ ) => HttpStatusCode.BadRequest ,
 						InjectExceptionMessage = ( exception ) =>
 							new PageErrorMessage (
-								StatusCode: StatusCodes.Status400BadRequest ,
+								StatusCode: ( int ) HttpStatusCode.BadRequest ,
 								Message: exception.Message )
 					} )
 
@@ -93,13 +95,13 @@ public sealed class ErrorHandlerInjector : IInjectable
 						id: 6 ,
 						isAllowedException: ( _ , exception ) =>
 							exception.GetType () == typeof ( DbUpdateException )
-								&& exception.InnerException!.Message.Contains ( "UNIQUE constraint failed" ) )
+								&& exception.InnerException!.Message.Contains ( "UNIQUE constraint failed: Contact.Email" ) )
 					{
 						InjectStatusCode = ( _ , _ ) => HttpStatusCode.BadRequest ,
 						InjectExceptionMessage = ( exception ) =>
 							new PageErrorMessage (
 								StatusCode: StatusCodes.Status400BadRequest ,
-								Message: "This email exist already" )
+								Message: "User with this email created already")
 					} )
 
 				.Build ();

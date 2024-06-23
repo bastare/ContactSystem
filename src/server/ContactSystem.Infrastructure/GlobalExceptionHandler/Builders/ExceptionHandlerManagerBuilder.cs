@@ -6,7 +6,7 @@ using ExceptionHandlers;
 
 public sealed class ExceptionHandlerManagerBuilder : IBuilder<ExceptionHandlerManager>
 {
-	private readonly Stack<IExceptionHandler> _exceptionHandlers = new ();
+	private readonly Stack<IExceptionHandler> _exceptionHandlers = [];
 
 	private IExceptionHandler _defaultExceptionHandler;
 
