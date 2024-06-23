@@ -1,6 +1,6 @@
 namespace ContactSystem.Infrastructure.Persistence.Context.Configurations.ModelConfigurations.ContactConfiguration;
 
-using ContactSystem.Domain.Core.Models.Contact;
+using Domain.Core.Models.Contact;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 public sealed class ContactConfiguration : AuditableEntityTypeConfiguration<Contact , int>

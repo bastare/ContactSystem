@@ -4,12 +4,12 @@ using MassTransit;
 using Mapster;
 using System.Threading.Tasks;
 using Domain.Contracts;
-using ContactSystem.Infrastructure.Persistence.Uow.Interfaces;
-using ContactSystem.Infrastructure.Persistence.Context;
-using ContactSystem.Domain.Core.Models.Contact;
-using ContactSystem.Domain.Contracts.ContactContracts.Command.PatchContact.Dtos;
-using ContactSystem.Domain.Contracts.ContactContracts.Command.PatchContact;
-using ContactSystem.Domain.Shared.Common.Exceptions;
+using Infrastructure.Persistence.Uow.Interfaces;
+using Infrastructure.Persistence.Context;
+using Domain.Core.Models.Contact;
+using Domain.Contracts.ContactContracts.Command.PatchContact.Dtos;
+using Domain.Contracts.ContactContracts.Command.PatchContact;
+using Domain.Shared.Common.Exceptions;
 
 public sealed class PatchContactConsumer ( IEfUnitOfWork<EfContext , int> efUnitOfWork ) :
 	IConsumer<PatchContactContract>

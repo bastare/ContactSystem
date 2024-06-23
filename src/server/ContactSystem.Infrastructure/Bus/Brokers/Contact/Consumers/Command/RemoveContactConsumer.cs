@@ -3,8 +3,8 @@ namespace ContactSystem.Infrastructure.Bus.Brokers.Contact.Consumers.Command;
 using MassTransit;
 using System.Threading.Tasks;
 using Domain.Contracts;
-using ContactSystem.Infrastructure.Persistence.Uow.Interfaces;
-using ContactSystem.Infrastructure.Persistence.Context;
+using Persistence.Uow.Interfaces;
+using Persistence.Context;
 using Domain.Core.Models.Contact;
 using Domain.Contracts.ContactContracts.Command.RemoveContact;
 

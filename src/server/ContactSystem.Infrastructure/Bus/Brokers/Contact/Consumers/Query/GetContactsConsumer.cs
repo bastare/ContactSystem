@@ -4,12 +4,12 @@ using MassTransit;
 using System.Threading.Tasks;
 using Domain.Contracts;
 using Domain.Contracts.ContactContracts.Query.GetContacts;
-using ContactSystem.Infrastructure.Persistence.Uow.Interfaces;
-using ContactSystem.Infrastructure.Persistence.Context;
-using ContactSystem.Infrastructure.Persistence.Specifications.Inline;
-using ContactSystem.Domain.Core.Models.Contact;
-using ContactSystem.Infrastructure.Persistence.Pagination.Interfaces;
-using ContactSystem.Domain.Contracts.Dtos.WrapDtos.Interfaces;
+using Domain.Core.Models.Contact;
+using Domain.Contracts.Dtos.WrapDtos.Interfaces;
+using Persistence.Uow.Interfaces;
+using Persistence.Context;
+using Persistence.Pagination.Interfaces;
+using Persistence.Specifications.Inline;
 using Mapster;
 
 public sealed class GetContactsConsumer ( IEfUnitOfWork<EfContext , int> efUnitOfWork ) :
