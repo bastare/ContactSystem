@@ -14,6 +14,7 @@ import { ContactState } from '../../../../store-features/contact-state.model';
 import { AppState } from '../../../../store-features/contact.reducer';
 import { Store } from '@ngrx/store';
 import { ContactRestActions } from '../../../../store-features/actions/contact-rest.actions';
+import { isReactiveFormValid } from '../../../../../utility/form/is-reactive-form-valid';
 
 @Component({
   selector: 'app-edit-form',
@@ -149,6 +150,6 @@ export class EditFormComponent {
   }
 
   isValid(controlName: string, rules: readonly string[]) {
-    return rules.every((rule) => !this.patchContactForm.get(controlName)?.getError(rule));
+    return isReactiveFormValid(this.patchContactForm, controlName, rules);
   }
 }
