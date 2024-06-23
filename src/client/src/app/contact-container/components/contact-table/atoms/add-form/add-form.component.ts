@@ -21,8 +21,6 @@ import { ContactRestActions } from '../../../../store-features/actions/contact-r
   standalone: true,
   imports: [
     MatDialogContent,
-    MatDialogActions,
-    MatDialogClose,
     ReactiveFormsModule,
   ],
   template: `
@@ -52,12 +50,12 @@ import { ContactRestActions } from '../../../../store-features/actions/contact-r
           <div class="add-form-container--input-list--input">
             <input type="text" placeholder="Middle Initial" formControlName="middleInitial" />
           </div>
+          <div class="add-form-container--input-list--btn">
+            <button [disabled]="!createContactForm.valid" type="submit" cdkFocusInitial>
+              Create
+            </button>
+          </div>
         </mat-dialog-content>
-        <mat-dialog-actions>
-          <button [disabled]="!createContactForm.valid" type="submit" cdkFocusInitial>
-            Create
-          </button>
-        </mat-dialog-actions>
       </form>
     </div>
   `,

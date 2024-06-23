@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { catchError, concatMap } from 'rxjs/operators';
+import { catchError, concatMap, distinctUntilChanged } from 'rxjs/operators';
 import { ContactActions } from '../actions/contact.actions';
 import { EMPTY, of } from 'rxjs';
 import { ContactRestActions } from '../actions/contact-rest.actions';
@@ -8,6 +8,7 @@ import { ContactRestClient } from '../../injectable/rest-client/contact-rest-cli
 import { ContactState } from '../contact-state.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { NgxNotifierService } from 'ngx-notifier';
+import { isEqual } from 'lodash';
 
 @Injectable({
   providedIn: 'root',
@@ -20,6 +21,7 @@ export class PatchContactEffects {
   patchContactEffectsStream$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ContactRestActions.updateContact),
+      distinctUntilChanged(isEqual),
       concatMap(({ contact: { id, changes } }) =>
         this.contactRestClient.patchContact$({
           contactId: id as number,

@@ -48,10 +48,7 @@ public sealed class PatchContactConsumer ( IEfUnitOfWork<EfContext , int> efUnit
 						cancellationToken: context.CancellationToken ) ??
 							throw new NotFoundException ( message: $"There is no `Contact` with this id: {contactForPatch.Id}" );
 
-			return await _efUnitOfWork.Repository<Contact> ()
-				.UpdateAsync (
-					contactForPatch.Adapt ( contactForUpdate_ , config )! ,
-					context.CancellationToken );
+			return contactForPatch.Adapt ( contactForUpdate_ , config )!;
 		}
 	}
 }

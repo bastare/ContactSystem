@@ -22,7 +22,12 @@ import { getContactsForTableBySpecification } from '../../../../injectable/rest-
       >
         <div class="table-filter-container--form--group">
           <div class="table-filter-container--form--group--item">
-            <input type="text" placeholder="Search" formControlName="search" (keyup)="onFilterInsert($event)" />
+            <input
+              type="text"
+              placeholder="Search"
+              formControlName="search"
+              (keyup)="onFilterInsert($event)"
+            />
           </div>
           <div class="table-filter-container--form--group--item">
             <select formControlName="searchBy" (change)="onSelect($event)">

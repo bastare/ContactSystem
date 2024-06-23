@@ -21,10 +21,10 @@ public sealed class GetContactsConsumer ( IEfUnitOfWork<EfContext , int> efUnitO
 	{
 		try
 		{
-			var contacts_ = await GetContactsAsync ();
+			var contacts_ = await GetContactsAsync ( context.Message );
 
 			await context.RespondAsync<SubmitContactsContract> (
-				new ( ContactsForQueryResponse: contacts_.Adapt<IPaginationRowsDto> ()  ) );
+				new ( ContactsForQueryResponse: contacts_.Adapt<IPaginationRowsDto> () ) );
 		}
 		catch ( Exception exception )
 		{
@@ -32,14 +32,14 @@ public sealed class GetContactsConsumer ( IEfUnitOfWork<EfContext , int> efUnitO
 				new ( exception ) );
 		}
 
-		async Task<IPagedList> GetContactsAsync ()
+		async Task<IPagedList> GetContactsAsync ( GetContactsContract getContactsContract )
 			=> await _efUnitOfWork.Repository<Contact> ()
 				.FilterByAsync (
 					specification: new InlinePaginationQuerySpecification<Contact , int> (
-						context.Message.ExpressionQuery ,
-						context.Message.OrderQuery ,
-						context.Message.PaginationQuery ,
-						context.Message.ProjectionQuery ) ,
+						getContactsContract.ExpressionQuery ,
+						getContactsContract.OrderQuery ,
+						getContactsContract.PaginationQuery ,
+						getContactsContract.ProjectionQuery ) ,
 					context.CancellationToken );
 	}
 }

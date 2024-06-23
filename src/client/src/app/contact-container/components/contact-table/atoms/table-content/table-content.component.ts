@@ -18,6 +18,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
 import { Subscription } from 'rxjs';
 import { MatButton } from '@angular/material/button';
+import { SvgIconComponent } from 'angular-svg-icon';
 
 @Component({
   selector: 'app-table-content',
@@ -26,7 +27,8 @@ import { MatButton } from '@angular/material/button';
     MatInputModule,
     MatTableModule,
     MatSortModule,
-    MatButton
+    MatButton,
+    SvgIconComponent
   ],
   template: `
     <div class="table-content-container">
@@ -90,10 +92,16 @@ import { MatButton } from '@angular/material/button';
           <td mat-cell *matCellDef="let contact">
             <div class="table-content-container--btn-group">
               <button type="button" (click)="openEditContactDialog(contact)">
-                <img src="contact/edit-icon.svg" alt="edit-icon">
+                <svg-icon
+                  src="contact/edit-icon.svg"
+                  alt="edit-icon"
+                />
               </button>
               <button type="button" (click)="removeContact(contact.id)">
-                <img src="contact/trash-icon.svg" alt="trash-icon">
+                <svg-icon
+                  src="contact/trash-icon.svg"
+                  alt="trash-icon"
+                />
               </button>
             </div>
           </td>

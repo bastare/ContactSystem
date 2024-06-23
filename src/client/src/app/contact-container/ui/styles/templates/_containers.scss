@@ -71,20 +71,30 @@
 
   background-color: $contact-card-container__background-color;
 
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+  }
+
   &--input-list {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 
+    width: 100%;
+
     gap: 20px;
 
     &--input {
-      width: 20vw;
+      width: 85%;
 
-      @media (min-width: 1024px) {
-        width: 10vw;
-      }
+      border: 1px solid #ccc;
+      border-radius: $contact-card__border-radius;
 
       input {
         @include contact-input-container(100%, 50px);
@@ -92,21 +102,21 @@
         border-radius: $contact-card__border-radius;
       }
     }
-  }
 
-  form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+    &--btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
 
-    button {
-      @include contact-btn-container;
+      width: 100%;
 
-      width: 20vw;
+      gap: 20px;
 
-      @media (min-width: 1024px) {
-        width: 10vw;
+      button {
+        @include contact-btn-container;
+
+        width: 85%;
       }
     }
   }
