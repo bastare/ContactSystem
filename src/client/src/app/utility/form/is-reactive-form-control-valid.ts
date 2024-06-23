@@ -1,6 +1,6 @@
 import { FormGroup } from '@angular/forms';
 
-export const isReactiveFormValid = (
+export const isReactiveFormControlValid = (
   form: FormGroup,
   controlName: string,
   rules: readonly string[]
