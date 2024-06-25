@@ -199,8 +199,7 @@ public sealed class Startup ( IConfiguration configuration , IWebHostEnvironment
 					endpoints.MapSpaYarp ();
 
 				if ( WebHostEnvironmentExtensions.IsProduction ( _webHostEnvironment ) )
-					endpoints.MapFallbackToFile (
-						filePath: Path.Combine ( _webHostEnvironment.WebRootPath , "index.html" ) );
+					endpoints.MapFallbackToFile ( "index.html" );
 
 				endpoints.MapFastEndpoints ();
 
