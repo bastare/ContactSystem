@@ -26,22 +26,23 @@ export class PatchContactEffects {
         this.contactRestClient.patchContact$({
           contactId: id as number,
           contactForPatch: changes as ContactState
-        }).pipe(
-          concatMap((patchedContact) =>
-            of(
-              ContactActions.updateContact({
-                contact: {
-                  id: patchedContact.id,
-                  changes: patchedContact
-                },
-              })
-            )
-          ),
-          catchError(({ error }: HttpErrorResponse) => {
-            this.ngxNotifierService.createToast(error.message, 'danger');
+        })
+          .pipe(
+            concatMap((patchedContact) =>
+              of(
+                ContactActions.updateContact({
+                  contact: {
+                    id: patchedContact.id,
+                    changes: patchedContact
+                  },
+                })
+              )
+            ),
+            catchError(({ error }: HttpErrorResponse) => {
+              this.ngxNotifierService.createToast(error.message, 'danger');
 
-            return EMPTY;
-          })
+              return EMPTY;
+            })
         )
       )
     )
