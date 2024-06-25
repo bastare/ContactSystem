@@ -21,12 +21,12 @@ RUN dotnet dev-certs https --trust
 
 ARG DOCKER_ENVIRONMENT
 ENV ASPNETCORE_ENVIRONMENT=${DOCKER_ENVIRONMENT}
-ENV ASPNETCORE_URLS=https://+:5003;http://+:80
+ENV ASPNETCORE_URLS=https://+:5003;http://+:8080
 ENV ASPNETCORE_HTTPS_PORT=5003
 ENV ASPNETCORE_Kestrel__Certificates__Default__Password=
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
 
-EXPOSE 80
+EXPOSE 8080
 EXPOSE 5003
 
 CMD ["dotnet", "ContactSystem.Api.dll"]
