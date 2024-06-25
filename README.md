@@ -10,7 +10,17 @@ Contact CMS
 dotnet run --project 'src/server/ContactSystem.Api/'
 ```
 
-P.S. Manually move to [http://localhost:5000/](http://localhost:5000/)
+* How to run on docker
+```
+docker build --build-arg DOCKER_ENVIRONMENT=Production -t contact-cms .
+docker run -e ASPNETCORE_ENVIRONMENT=Production -p 8080:8080 -p 5003:5003 contact-cms
+```
+
+Where `contact-cms` name of ur image on choice
+
+P.S. Manually move to [http://localhost:5000/](http://localhost:5000/) (local & docker)
+
+
 
 
 

@@ -9,7 +9,7 @@ COPY src/client/ .
 RUN npm install --progress=true --loglevel=silent
 RUN npm install -g @angular/cli
 ARG DOCKER_ENVIRONMENT
-RUN ng build --configuration=${DOCKER_ENVIRONMENT}
+RUN ng build --configuration=$(echo ${DOCKER_ENVIRONMENT} | tr '[:upper:]' '[:lower:]')
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine
 WORKDIR /app
