@@ -1,7 +1,7 @@
 import { FormGroup } from '@angular/forms';
 
 export const isReactiveFormControlValid = (
-  { get }: FormGroup,
+  form: FormGroup,
   controlName: string,
   rules: readonly string[]
-) => !rules.every((rule) => get(controlName)?.getError(rule));
+) => !rules.every((rule) => form.get(controlName)?.getError(rule));
