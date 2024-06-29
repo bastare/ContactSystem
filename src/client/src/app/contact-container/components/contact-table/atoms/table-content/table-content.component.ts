@@ -149,7 +149,7 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptionsForUnsubscribe
-      .forEach(({ unsubscribe }) => unsubscribe());
+      .forEach((subscription) => subscription.unsubscribe());
   }
 
   ngAfterViewInit() {

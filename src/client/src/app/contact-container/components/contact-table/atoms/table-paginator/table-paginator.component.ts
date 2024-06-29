@@ -45,7 +45,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptionsForUnsubscribe
-      .forEach(({ unsubscribe }) => unsubscribe());
+      .forEach((subscription) => subscription.unsubscribe());
   }
 
   onPageChange({ pageIndex, pageSize }: PageEvent) {
