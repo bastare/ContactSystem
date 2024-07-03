@@ -3,8 +3,8 @@ namespace ContactSystem.Infrastructure.Bus.Brokers.Contact.Consumers.Command;
 using MassTransit;
 using System.Threading.Tasks;
 using Domain.Contracts;
-using ContactSystem.Infrastructure.Persistence.Uow.Interfaces;
-using ContactSystem.Infrastructure.Persistence.Context;
+using Persistence.Uow.Interfaces;
+using Persistence.Context;
 using Domain.Core.Models.Contact;
 using Domain.Contracts.ContactContracts.Command.RemoveContact;
 
@@ -12,6 +12,7 @@ public sealed class RemoveContactConsumer ( IEfUnitOfWork<EfContext , int> efUni
 	IConsumer<RemoveContactContract>
 {
 	private readonly IEfUnitOfWork<EfContext , int> _efUnitOfWork = efUnitOfWork;
+
 
 	public async Task Consume ( ConsumeContext<RemoveContactContract> context )
 	{
@@ -32,7 +33,7 @@ public sealed class RemoveContactConsumer ( IEfUnitOfWork<EfContext , int> efUni
 		Task RemoveContactsAsync ( int contactIdForRemove )
 			=> _efUnitOfWork.Repository<Contact> ()
 				.RemoveByAsync (
-					( contact ) =>  contact.Id == contactIdForRemove ,
+					( contact ) => contact.Id == contactIdForRemove ,
 					cancellationToken: context.CancellationToken );
 	}
 }

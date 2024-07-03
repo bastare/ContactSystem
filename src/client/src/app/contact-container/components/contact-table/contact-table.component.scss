@@ -1,15 +1,40 @@
-@import "../../../../styles.scss";
+@import "../../ui/styles/variables/index";
+@import "../../ui/styles/templates/spacing";
 
-.container-table {
+.contact-table-container {
+  @include card-item-spacing;
+
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   flex-direction: column;
-  height: 100vh;
 
-  &--add-button {
-    position: sticky;
-    top: 0;
-    z-index: $add-btn-zIndex;
+  height: 95vh;
+  min-width: 85vw;
+
+  border-radius: $contact-card__border-radius;
+
+  background-color: $contact-card-container__background-color;
+
+  -webkit-box-shadow: -2px 8px 17px 5px rgba(0, 0, 0, 0.35);
+  box-shadow: -2px 8px 17px 5px rgba(0, 0, 0, 0.35);
+
+  &--form {
+    @include card-item-spacing;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-direction: column;
+
+    height: 85vh;
+
+    background-color: white;
+
+    border-radius: $contact-card__border-radius;
+
+    & > *:last-child {
+      margin-top: auto;
+    }
   }
 }

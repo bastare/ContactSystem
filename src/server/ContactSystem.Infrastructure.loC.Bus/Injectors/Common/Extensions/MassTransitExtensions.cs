@@ -2,7 +2,7 @@ namespace ContactSystem.Infrastructure.loC.Bus.Injectors.Common.Extensions;
 
 using MassTransit;
 using MoreLinq;
-using ContactSystem.Domain.Contracts.Common.Attributes;
+using Domain.Contracts.Common.Attributes;
 
 public static class MassTransitExtensions
 {

@@ -35,6 +35,7 @@
         <PackageReference Include="Dapper" Version="2.1.44" />
         <PackageReference Include="Dapper.Transaction" Version="2.1.28" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.6" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\ContactSystem.Domain.Shared\ContactSystem.Domain.Shared.csproj" />

@@ -4,11 +4,12 @@ using MassTransit;
 using Mapster;
 using System.Threading.Tasks;
 using Domain.Contracts;
-using ContactSystem.Infrastructure.Persistence.Uow.Interfaces;
-using ContactSystem.Infrastructure.Persistence.Context;
-using ContactSystem.Domain.Core.Models.Contact;
-using ContactSystem.Domain.Contracts.ContactContracts.Command.PatchContact.Dtos;
-using ContactSystem.Domain.Contracts.ContactContracts.Command.PatchContact;
+using Infrastructure.Persistence.Uow.Interfaces;
+using Infrastructure.Persistence.Context;
+using Domain.Core.Models.Contact;
+using Domain.Contracts.ContactContracts.Command.PatchContact.Dtos;
+using Domain.Contracts.ContactContracts.Command.PatchContact;
+using Domain.Shared.Common.Exceptions;
 
 public sealed class PatchContactConsumer ( IEfUnitOfWork<EfContext , int> efUnitOfWork ) :
 	IConsumer<PatchContactContract>
@@ -25,7 +26,7 @@ public sealed class PatchContactConsumer ( IEfUnitOfWork<EfContext , int> efUnit
 			await _efUnitOfWork.TryCommitAsync ( context.CancellationToken );
 
 			await context.RespondAsync<SubmitPatchedContactsContract> (
-				new ( ContactFromPatch: patchedContact_.Adapt<ContactFromPatchDto>() ) );
+				new ( ContactFromPatch: patchedContact_.Adapt<ContactFromPatchDto> () ) );
 		}
 		catch ( Exception exception )
 		{
@@ -35,20 +36,19 @@ public sealed class PatchContactConsumer ( IEfUnitOfWork<EfContext , int> efUnit
 
 		async Task<Contact> PatchContactAsync ( ContactForPatchDto contactForPatch )
 		{
-			var config = new TypeAdapterConfig();
-			config.Default.IgnoreNullValues(true);
+			// TODO: Integrate `ExecuteUpdate`
+			var config = new TypeAdapterConfig ();
+			config.Default.IgnoreNullValues ( true );
 
-			var contactForUpdate =
+			var contactForUpdate_ =
 				await _efUnitOfWork.Repository<Contact> ()
 					.FindByAsync (
 						contact => contact.Id == contactForPatch.Id ,
 						isTracking: true ,
-						cancellationToken: context.CancellationToken );
+						cancellationToken: context.CancellationToken ) ??
+							throw new NotFoundException ( message: $"There is no `Contact` with this id: {contactForPatch.Id}" );
 
-			return await _efUnitOfWork.Repository<Contact> ()
-				.UpdateAsync (
-					contactForPatch.Adapt ( contactForUpdate, config )! ,
-					context.CancellationToken );
+			return contactForPatch.Adapt ( contactForUpdate_ , config )!;
 		}
 	}
 }

@@ -1,0 +1,146 @@
+@import "../variables/index";
+@import "./fonts";
+
+@mixin contact-btn-container {
+  @include btn-font;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  color: white;
+
+  height: 50px;
+
+  border: 0;
+  border-radius: $contact-card__border-radius;
+
+  background: $contact-table--background__teal-color;
+
+  box-shadow: $contact-btn-container__shadow;
+  -webkit-box-shadow: $contact-btn-container__shadow;
+
+  z-index: $contact-table--add-btn__zIndex;
+
+  &:hover {
+    cursor: pointer;
+
+    background: $contact-btn__active-color;
+  }
+
+  &:not(:disabled):active {
+    background: $contact-btn__active-color;
+
+    transform: translateY(5px);
+
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+
+  &:hover:disabled {
+    cursor: auto;
+  }
+
+  &:disabled {
+    background: gray;
+
+    transform: translateY(5px);
+
+    -webkit-box-shadow: none;
+    box-shadow: none;
+  }
+}
+
+@mixin contact-card-form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background-color: $contact-card-container__background-color;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+  }
+
+  &--input-list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+
+    gap: 20px;
+
+    &--input {
+      position: relative;
+
+      width: 100%;
+
+      border: 1px solid $contact-card-container__border-gray-color;
+      border-radius: $contact-card__border-radius;
+
+      input {
+        @include contact-input-container(100%, 50px);
+
+        border-radius: $contact-card__border-radius;
+      }
+
+      &--error {
+        color: red;
+
+        position: absolute;
+
+        left: 0;
+        bottom: -40%;
+      }
+    }
+
+    &--input__error {
+      border-color: red;
+    }
+
+    &--btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+
+      width: 100%;
+
+      gap: 20px;
+
+      button {
+        @include contact-btn-container;
+
+        width: 100%;
+      }
+    }
+  }
+}
+
+@mixin contact-input-container($width, $height) {
+  border: none;
+  outline: none;
+
+  height: $height;
+  width: $width;
+
+  &::placeholder {
+    font-style: italic;
+    font-family: Inter;
+  }
+
+  &[type="text"] {
+    @include search-font;
+
+    padding-left: 1.5rem;
+  }
+}

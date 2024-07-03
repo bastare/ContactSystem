@@ -15,7 +15,6 @@ public abstract class ModelEntityTypeConfiguration<TModelEntity, TKey> : IEntity
 		void ConfigurePrimaryKey ()
 		{
 			builder.Property ( model => model.Id )
-				.HasDefaultValueSql ( "gen_random_uuid()" )
 				.IsRequired ();
 		}
 	}

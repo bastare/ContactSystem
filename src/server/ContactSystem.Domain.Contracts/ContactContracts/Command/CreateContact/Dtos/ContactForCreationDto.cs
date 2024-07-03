@@ -2,15 +2,15 @@ namespace ContactSystem.Domain.Contracts.ContactContracts.Command.CreateContact.
 
 public sealed record ContactForCreationDto
 {
-	public string? FirstName { get; set; }
+	public string? FirstName { get; init; }
 
-	public string? LastName { get; set; }
+	public string? LastName { get; init; }
 
-	public string? Email { get; set; }
+	public string? Email { get; init; }
 
-	public string? Phone { get; set; }
+	public string? Phone { get; init; }
 
-	public string? Title { get; set; }
+	public string? Title { get; init; }
 
-	public string? MiddleInitial { get; set; }
+	public string? MiddleInitial { get; init; }
 }

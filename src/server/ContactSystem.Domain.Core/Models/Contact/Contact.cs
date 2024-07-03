@@ -34,4 +34,22 @@ public sealed class Contact : IAuditableModel<int>
 	public int? LastModifiedBy { get; set; }
 
 	public DateTime? LastModified { get; set; }
+
+	object IAuditable.CreatedBy
+	{
+		get => CreatedBy;
+		set => CreatedBy = ( int ) value;
+	}
+
+	object? IAuditable.LastModifiedBy
+	{
+		get => LastModifiedBy;
+		set => LastModifiedBy = ( int ) value!;
+	}
+
+	object IModel.Id
+	{
+		get => Id;
+		set => Id = ( int ) value;
+	}
 }

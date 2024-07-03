@@ -9,8 +9,7 @@ using MoreLinq;
 
 public sealed class OptionsInjector : IInjectable
 {
-	private readonly Assembly[] _assembliesWithOptions =
-	[
+	private readonly Assembly[] _assembliesWithOptions = [
 		typeof ( RabbitMqOption ).Assembly
 	];
 
@@ -20,7 +19,7 @@ public sealed class OptionsInjector : IInjectable
 			.SelectMany ( ResolveAllTypes )
 			.Where ( IsOptionType )
 			.ForEach ( optionType =>
-				  InjectOptionType ( configuration , optionType ) );
+				InjectOptionType ( configuration , optionType ) );
 
 		static IEnumerable<Type> ResolveAllTypes ( Assembly assembly )
 			=> assembly.GetTypes ();

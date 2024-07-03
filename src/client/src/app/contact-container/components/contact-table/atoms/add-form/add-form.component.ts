@@ -1,105 +1,151 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
   FormControl,
   FormGroup,
-  FormsModule,
   ReactiveFormsModule,
+  Validators,
 } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import {
-  MatDialogTitle,
   MatDialogContent,
-  MatDialogActions,
-  MatDialogClose,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { Contact } from '../../../../store-features/contact.model';
-import { State } from '../../../../store-features/contact.reducer';
+import { ContactState } from '../../../../store-features/contact-state.model';
+import { AppState } from '../../../../store-features/contact.reducer';
 import { Store } from '@ngrx/store';
-import { ContactActions } from '../../../../store-features/actions/contact.actions';
+import { ContactRestActions } from '../../../../store-features/actions/contact-rest.actions';
+import { isReactiveFormControlValid } from '../../../../../utility/form/is-reactive-form-control-valid';
 
 @Component({
   selector: 'app-add-form',
   standalone: true,
   imports: [
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatButtonModule,
-    MatDialogTitle,
     MatDialogContent,
-    MatDialogActions,
-    MatDialogClose,
     ReactiveFormsModule,
   ],
   template: `
-    <form [formGroup]="createContactForm" (ngSubmit)="onCreate()">
-      <mat-dialog-content>
-        <mat-form-field>
-          <mat-label>First name</mat-label>
-          <input matInput placeholder="First Name" formControlName="firstName" />
-        </mat-form-field>
+    <div class="add-form-container">
+      <form [formGroup]="createContactForm" (ngSubmit)="onSubmit()">
+        <mat-dialog-content class="add-form-container--input-list">
+          <div
+            class="add-form-container--input-list--input"
+            [class.add-form-container--input-list--input__error]="
+              !isValid('firstName', ['required'])
+            "
+          >
+            <input type="text" placeholder="First Name" formControlName="firstName" />
 
-        <mat-form-field>
-          <mat-label>Last name</mat-label>
-          <input matInput placeholder="Last Name" formControlName="lastName" />
-        </mat-form-field>
+            @if (!isValid('firstName', ['required'])) {
+              <small class="add-form-container--input-list--input--error">
+                 First Name required
+              </small>
+            }
+          </div>
 
-        <mat-form-field>
-          <mat-label>Email</mat-label>
-          <input matInput placeholder="Email" formControlName="email" />
-        </mat-form-field>
+          <div
+            class="add-form-container--input-list--input"
+            [class.add-form-container--input-list--input__error]="
+              !isValid('lastName', ['required'])
+            "
+          >
+            <input type="text" placeholder="Last Name" formControlName="lastName" />
 
-        <mat-form-field>
-          <mat-label>Phone</mat-label>
-          <input matInput placeholder="Phone" formControlName="phone" />
-        </mat-form-field>
+            @if (!isValid('lastName', ['required'])) {
+              <small class="add-form-container--input-list--input--error">
+                Last Name required
+              </small>
+            }
+          </div>
 
-        <mat-form-field>
-          <mat-label>Title</mat-label>
-          <input matInput placeholder="Title" formControlName="title" />
-        </mat-form-field>
+          <div
+            class="add-form-container--input-list--input"
+            [class.add-form-container--input-list--input__error]="
+              !isValid('email', ['required', 'email'])
+            "
+          >
+            <input type="text" placeholder="Email" formControlName="email" />
 
-        <mat-form-field>
-          <mat-label>Middle initial</mat-label>
-          <input
-            matInput
-            placeholder="First Name"
-            formControlName="middleInitial"
-          />
-        </mat-form-field>
-      </mat-dialog-content>
-      <mat-dialog-actions>
-        <button mat-button type="submit" cdkFocusInitial>Ok</button>
-      </mat-dialog-actions>
-    </form>
+            @if (!isValid('email', ['required'])) {
+              <small class="add-form-container--input-list--input--error">
+                Email required
+              </small>
+            }
+
+            @if (!isValid('email', ['email'])) {
+              <small class="add-form-container--input-list--input--error">
+                Wrong email format
+              </small>
+            }
+          </div>
+
+          <div
+            class="add-form-container--input-list--input"
+            [class.add-form-container--input-list--input__error]="
+              !isValid('phone', ['required'])
+            "
+          >
+            <input type="text" placeholder="Phone" formControlName="phone" />
+
+            @if (!isValid('phone', ['required'])) {
+              <small class="add-form-container--input-list--input--error">
+                Phone required
+              </small>
+            }
+          </div>
+
+          <div
+            class="add-form-container--input-list--input"
+            [class.add-form-container--input-list--input__error]="
+              !isValid('title', ['required'])
+            "
+          >
+            <input type="text" placeholder="Title" formControlName="title" />
+
+            @if (!isValid('title', ['required'])) {
+              <small class="add-form-container--input-list--input--error">
+                Title required
+              </small>
+            }
+          </div>
+
+          <div class="add-form-container--input-list--input">
+            <input type="text" placeholder="Middle Initial" formControlName="middleInitial" />
+          </div>
+
+          <div class="add-form-container--input-list--btn">
+            <button [disabled]="!createContactForm.valid" type="submit">
+              Create
+            </button>
+          </div>
+        </mat-dialog-content>
+      </form>
+    </div>
   `,
   styleUrl: './add-form.component.scss',
 })
 export class AddFormComponent {
+  private readonly store = inject(Store<AppState>)
+  private readonly dialogRef = inject(MatDialogRef<AddFormComponent>)
+
   createContactForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
-    email: new FormControl(''),
-    phone: new FormControl(''),
-    title: new FormControl(''),
+    firstName: new FormControl('', Validators.required),
+    lastName: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    phone: new FormControl('', [Validators.required]),
+    title: new FormControl('', Validators.required),
     middleInitial: new FormControl(''),
   });
 
-  onCreate() {
+  onSubmit() {
     this.store.dispatch(
-      ContactActions['[REST/API]AddContact']({
-        contact: this.createContactForm.value as Contact,
+      ContactRestActions.addContact({
+        contact: this.createContactForm.value as ContactState,
       })
     );
 
     this.dialogRef.close();
   }
 
-  constructor(
-    private readonly store: Store<State>,
-    private readonly dialogRef: MatDialogRef<AddFormComponent>
-  ) { }
+  isValid(controlName: string, rules: readonly string[]) {
+    return isReactiveFormControlValid(this.createContactForm, controlName, rules);
+  }
 }

@@ -1,0 +1,5 @@
+@import "../../../../ui/styles/templates/index";
+
+.add-form-container {
+  @include contact-card-form-container;
+}

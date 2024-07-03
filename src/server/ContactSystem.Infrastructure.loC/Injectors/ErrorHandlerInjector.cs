@@ -6,6 +6,8 @@ using GlobalExceptionHandler;
 using GlobalExceptionHandler.Builders;
 using GlobalExceptionHandler.ExceptionHandlers;
 using InjectorBuilder.Common.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
@@ -27,7 +29,7 @@ public sealed class ErrorHandlerInjector : IInjectable
 						InjectStatusCode = ( _ , _ ) => HttpStatusCode.BadRequest ,
 						InjectExceptionMessage = ( _ ) =>
 							new PageErrorMessage (
-								StatusCode: ( int ) HttpStatusCode.BadRequest ,
+								StatusCode: StatusCodes.Status400BadRequest ,
 								Message: "Unexpected format" ,
 								Description: "Sorry, try use other format." )
 					} )
@@ -41,38 +43,66 @@ public sealed class ErrorHandlerInjector : IInjectable
 						InjectStatusCode = ( _ , _ ) => HttpStatusCode.Forbidden ,
 						InjectExceptionMessage = ( _ ) =>
 							new PageErrorMessage (
-								StatusCode: ( int ) HttpStatusCode.Forbidden ,
+								StatusCode: StatusCodes.Status403Forbidden ,
 								Message: "Forbidden" ,
 								Description: "User have no permission to this resource" )
 					} )
 
-					.WithErrorHandler (
-						exceptionHandler: new ExceptionHandler (
-							id: 3 ,
-							isAllowedException: ( _ , exception ) =>
-								exception.GetType () == typeof ( NotFoundException ) )
-						{
-							InjectStatusCode = ( _ , _ ) => HttpStatusCode.NotFound ,
-							InjectExceptionMessage = ( _ ) =>
-								new PageErrorMessage (
-									StatusCode: ( int ) HttpStatusCode.NotFound ,
-									Message: "The requested url is not found" ,
-									Description: "Sorry, the page you are looking for does not exist." )
-						} )
+				.WithErrorHandler (
+					exceptionHandler: new ExceptionHandler (
+						id: 3 ,
+						isAllowedException: ( _ , exception ) =>
+							exception.GetType () == typeof ( NotFoundException ) )
+					{
+						InjectStatusCode = ( _ , _ ) => HttpStatusCode.NotFound ,
+						InjectExceptionMessage = ( _ ) =>
+							new PageErrorMessage (
+								StatusCode: StatusCodes.Status404NotFound ,
+								Message: "The requested url is not found" ,
+								Description: "Sorry, the page you are looking for does not exist." )
+					} )
 
-					.WithErrorHandler (
-						exceptionHandler: new ExceptionHandler (
-							id: 4 ,
-							isAllowedException: ( _ , exception ) =>
-								exception.GetType () == typeof ( HttpRequestException ) )
-						{
-							InjectStatusCode = ( httpContext , _ ) => httpContext.ResolveException<HttpRequestException> ()!.StatusCode!.Value ,
-							InjectExceptionMessage = ( exception ) =>
-								new PageErrorMessage (
-									StatusCode: ( int ) ( ( HttpRequestException ) exception ).StatusCode!.Value ,
-									Message: exception.Message )
-						} )
+				.WithErrorHandler (
+					exceptionHandler: new ExceptionHandler (
+						id: 4 ,
+						isAllowedException: ( _ , exception ) =>
+							exception.GetType () == typeof ( HttpRequestException ) )
+					{
+						InjectStatusCode = ( httpContext , _ ) =>
+							httpContext.ResolveException<HttpRequestException> ()!.StatusCode!.Value ,
+						InjectExceptionMessage = ( exception ) =>
+							new PageErrorMessage (
+								StatusCode: ( int ) ( ( HttpRequestException ) exception ).StatusCode!.Value ,
+								Message: exception.Message )
+					} )
 
-					.Build ();
+				.WithErrorHandler (
+					exceptionHandler: new ExceptionHandler (
+						id: 5 ,
+						isAllowedException: ( _ , exception ) =>
+							exception.GetType () == typeof ( ArgumentException ) )
+					{
+						InjectStatusCode = ( _ , _ ) => HttpStatusCode.BadRequest ,
+						InjectExceptionMessage = ( exception ) =>
+							new PageErrorMessage (
+								StatusCode: ( int ) HttpStatusCode.BadRequest ,
+								Message: exception.Message )
+					} )
+
+				.WithErrorHandler (
+					exceptionHandler: new ExceptionHandler (
+						id: 6 ,
+						isAllowedException: ( _ , exception ) =>
+							exception.GetType () == typeof ( DbUpdateException )
+								&& exception.InnerException!.Message.Contains ( "UNIQUE constraint failed: Contact.Email" ) )
+					{
+						InjectStatusCode = ( _ , _ ) => HttpStatusCode.BadRequest ,
+						InjectExceptionMessage = ( exception ) =>
+							new PageErrorMessage (
+								StatusCode: StatusCodes.Status400BadRequest ,
+								Message: "The user with this email created already" )
+					} )
+
+				.Build ();
 	}
 }

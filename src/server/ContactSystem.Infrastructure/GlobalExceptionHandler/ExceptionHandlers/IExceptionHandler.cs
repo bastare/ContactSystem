@@ -1,22 +1,22 @@
 namespace ContactSystem.Infrastructure.GlobalExceptionHandler.ExceptionHandlers;
 
+using Delegates;
 using Microsoft.AspNetCore.Http;
-using System.Net;
 
-public interface IExceptionHandler<out IErrorMessage> : IExceptionHandler
+public interface IExceptionHandler<out TErrorMessage> : IExceptionHandler
 {
-	new Func<Exception , IErrorMessage> InjectExceptionMessage { get; }
+	new InjectExceptionMessageDelegate<TErrorMessage> InjectExceptionMessage { get; }
 }
 
 public interface IExceptionHandler
 {
 	int Id { get; }
 
-	Action<HttpContext , Exception>? OnHold { get; }
+	OnExceptionHoldAsyncDelegate? OnHoldAsync { get; }
 
-	Func<Exception , object> InjectExceptionMessage { get; }
+	InjectExceptionMessageDelegate<object> InjectExceptionMessage { get; }
 
-	Func<HttpContext , Exception , HttpStatusCode> InjectStatusCode { get; }
+	InjectStatusCodeDelegate InjectStatusCode { get; }
 
 	bool IsHold ( HttpContext context , Exception exception );
 }

@@ -4,12 +4,12 @@ using MassTransit;
 using System.Threading.Tasks;
 using Domain.Contracts;
 using Domain.Contracts.ContactContracts.Query.GetContacts;
-using ContactSystem.Infrastructure.Persistence.Uow.Interfaces;
-using ContactSystem.Infrastructure.Persistence.Context;
-using ContactSystem.Infrastructure.Persistence.Specifications.Inline;
-using ContactSystem.Domain.Core.Models.Contact;
-using ContactSystem.Infrastructure.Persistence.Pagination.Interfaces;
-using ContactSystem.Domain.Contracts.Dtos.WrapDtos.Interfaces;
+using Domain.Core.Models.Contact;
+using Domain.Contracts.Dtos.WrapDtos.Interfaces;
+using Persistence.Uow.Interfaces;
+using Persistence.Context;
+using Persistence.Pagination.Interfaces;
+using Persistence.Specifications.Inline;
 using Mapster;
 
 public sealed class GetContactsConsumer ( IEfUnitOfWork<EfContext , int> efUnitOfWork ) :
@@ -21,10 +21,10 @@ public sealed class GetContactsConsumer ( IEfUnitOfWork<EfContext , int> efUnitO
 	{
 		try
 		{
-			var contacts_ = await GetContactsAsync ();
+			var contacts_ = await GetContactsAsync ( context.Message );
 
 			await context.RespondAsync<SubmitContactsContract> (
-				new ( ContactsForTable: contacts_.Adapt<IPaginationRowsDto> ()  ) );
+				new ( ContactsForQueryResponse: contacts_.Adapt<IPaginationRowsDto> () ) );
 		}
 		catch ( Exception exception )
 		{
@@ -32,13 +32,14 @@ public sealed class GetContactsConsumer ( IEfUnitOfWork<EfContext , int> efUnitO
 				new ( exception ) );
 		}
 
-		async Task<IPagedList> GetContactsAsync ()
+		async Task<IPagedList> GetContactsAsync ( GetContactsContract getContactsContract )
 			=> await _efUnitOfWork.Repository<Contact> ()
 				.FilterByAsync (
 					specification: new InlinePaginationQuerySpecification<Contact , int> (
-						context.Message.ExpressionQuery ,
-						context.Message.OrderQuery ,
-						context.Message.PaginationQuery ,
-						context.Message.ProjectionQuery ) );
+						getContactsContract.ExpressionQuery ,
+						getContactsContract.OrderQuery ,
+						getContactsContract.PaginationQuery ,
+						getContactsContract.ProjectionQuery ) ,
+					context.CancellationToken );
 	}
 }

@@ -7,6 +7,5 @@
 		<ProjectReference Include="..\ContactSystem.Infrastructure\ContactSystem.Infrastructure.csproj" />
 		<ProjectReference Include="..\ContactSystem.Domain.Shared\ContactSystem.Domain.Shared.csproj" />
 		<ProjectReference Include="..\ContactSystem.Domain.Contracts\ContactSystem.Domain.Contracts.csproj" />
-
 	</ItemGroup>
 </Project>

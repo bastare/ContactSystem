@@ -1,0 +1,69 @@
+@import "../../../../ui/styles/templates/fonts";
+@import "../../../../ui/styles/templates/containers";
+@import "../../../../ui/styles/variables/index";
+
+.table-filter-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+
+  padding: 5px;
+
+  border: 1px solid $contact-card-container__border-gray-color;
+  border-radius: $contact-card--filter__border-radius;
+
+  gap: 20px;
+
+  &--form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+
+    &--group {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: row;
+
+      &--item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+
+        input {
+          @include contact-input-container(40vw, 2.5vh);
+
+          border-right: $contact-card-container__border-gray-color 1px solid;
+        }
+
+        select {
+          border: none;
+          outline: none;
+
+          @include select-font;
+
+          display: block;
+          color: #333;
+          background-color: white;
+          appearance: none;
+          -webkit-appearance: none;
+          -moz-appearance: none;
+          background: none;
+
+          width: 100%;
+
+          padding: 10px;
+
+          text-align: center;
+
+          &::-ms-expand {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+}

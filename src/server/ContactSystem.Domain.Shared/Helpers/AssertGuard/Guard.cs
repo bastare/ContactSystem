@@ -14,7 +14,7 @@ public sealed class Guard ( IHttpContextAccessor httpContextAccessor ) : IGuard
 	private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 
 	public static string NotNullOrEmpty<TException> ( string? @string ,
-													  [CallerArgumentExpression ( "string" )] string? variableName = default ,
+													  [CallerArgumentExpression ( nameof ( @string ) )] string? variableName = default ,
 													  string? message = default )
 		where TException : ArgumentNullException
 	{
@@ -26,7 +26,7 @@ public sealed class Guard ( IHttpContextAccessor httpContextAccessor ) : IGuard
 		return @string!;
 	}
 
-	public TValue Validate<TValidator, TValue, TException> ( TValue value , [CallerArgumentExpression ( "value" )] string? variableName = default )
+	public TValue Validate<TValidator, TValue, TException> ( TValue value , [CallerArgumentExpression ( nameof ( value ) )] string? variableName = default )
 		where TValidator : IValidator<TValue>
 		where TException : ArgumentException
 	{
@@ -59,7 +59,7 @@ public sealed class Guard ( IHttpContextAccessor httpContextAccessor ) : IGuard
 	}
 
 	public static string NotNullOrEmpty ( string? @string ,
-										  [CallerArgumentExpression ( "string" )] string? variableName = default ,
+										  [CallerArgumentExpression ( nameof ( @string ) )] string? variableName = default ,
 										  string? message = default )
 	{
 		message ??= $"`{variableName}` is null or empty";
@@ -71,7 +71,7 @@ public sealed class Guard ( IHttpContextAccessor httpContextAccessor ) : IGuard
 	}
 
 	public static TValue NotNull<TValue, TException> ( TValue? value ,
-													   [CallerArgumentExpression ( "value" )] string? variableName = default ,
+													   [CallerArgumentExpression ( nameof ( value ) )] string? variableName = default ,
 													   string? message = default )
 		where TValue : class
 		where TException : ArgumentNullException
@@ -85,7 +85,7 @@ public sealed class Guard ( IHttpContextAccessor httpContextAccessor ) : IGuard
 	}
 
 	public static TValue NotNull<TValue> ( TValue? value ,
-										   [CallerArgumentExpression ( "value" )] string? variableName = default ,
+										   [CallerArgumentExpression ( nameof ( value ) )] string? variableName = default ,
 										   string? message = default )
 		where TValue : class
 	{
@@ -98,7 +98,7 @@ public sealed class Guard ( IHttpContextAccessor httpContextAccessor ) : IGuard
 	}
 
 	public static IEnumerable NotNullOrEmpty<TException> ( IEnumerable? collection ,
-														   [CallerArgumentExpression ( "collection" )] string? variableName = default ,
+														   [CallerArgumentExpression ( nameof ( collection ) )] string? variableName = default ,
 														   string? message = default )
 		where TException : ArgumentNullException
 	{
@@ -111,7 +111,7 @@ public sealed class Guard ( IHttpContextAccessor httpContextAccessor ) : IGuard
 	}
 
 	public static IEnumerable NotNullOrEmpty ( IEnumerable? collection ,
-											   [CallerArgumentExpression ( "collection" )] string? variableName = default ,
+											   [CallerArgumentExpression ( nameof ( collection ) )] string? variableName = default ,
 											   string? message = default )
 	{
 		message ??= $"`{variableName}` is null or empty";

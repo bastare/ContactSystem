@@ -6,7 +6,7 @@ using ExceptionHandlers;
 
 public sealed class ExceptionHandlerManagerBuilder : IBuilder<ExceptionHandlerManager>
 {
-	private readonly Stack<IExceptionHandler> _exceptionHandlers = new ();
+	private readonly Stack<IExceptionHandler> _exceptionHandlers = [];
 
 	private IExceptionHandler _defaultExceptionHandler;
 
@@ -19,7 +19,7 @@ public sealed class ExceptionHandlerManagerBuilder : IBuilder<ExceptionHandlerMa
 				id: 0 ,
 				isAllowedException: ( _ , _ ) => true )
 			{
-				OnHold = ( _ , _ ) => { } ,
+				OnHoldAsync = ( _ , _ , _) => Task.CompletedTask ,
 				InjectStatusCode = ( _ , _ ) => HttpStatusCode.InternalServerError ,
 				InjectExceptionMessage =
 					( _ ) =>

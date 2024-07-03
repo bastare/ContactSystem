@@ -16,14 +16,12 @@ public sealed class MassTransitInMemoryInjector : IInjectable
 		serviceCollection.AddMediator ( mediatorRegistrationConfigurator =>
 		{
 			mediatorRegistrationConfigurator.AddConsumers (
-				assemblies:
-				[
+				assemblies: [
 					typeof ( GetContactsConsumer ).Assembly
 				] );
 
 			mediatorRegistrationConfigurator.AddRequestClient (
-				assembliesWithRequestClients:
-				[
+				assembliesWithRequestClients: [
 					typeof ( GetContactsContract ).Assembly
 				] );
 

@@ -4,7 +4,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <SpaRoot>../../client</SpaRoot>
         <SpaClientUrl>http://localhost:4200</SpaClientUrl>
-        <SpaLaunchCommand>ng serve</SpaLaunchCommand>
+        <SpaLaunchCommand>ng serve --hmr</SpaLaunchCommand>
         <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     </PropertyGroup>
 
@@ -47,20 +47,6 @@
         <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
     </Target>
 
-    <Target Name="PublishRunWebpack" AfterTargets="ComputeFilesToPublish">
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm install" />
-        <Exec WorkingDirectory="$(SpaRoot)" Command="npm run build-production" />
-
-        <ItemGroup>
-            <DistFiles Include="$(SpaRoot)dist\**; $(SpaRoot)dist-server\**" />
-            <ResolvedFileToPublish Include="@(DistFiles->'%(FullPath)')" Exclude="@(ResolvedFileToPublish)">
-                <RelativePath>webroot\%(RecursiveDir)%(FileName)%(Extension)</RelativePath>
-                <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-                <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
-            </ResolvedFileToPublish>
-        </ItemGroup>
-    </Target>
-
     <ItemGroup>
         <PackageReference Include="AspNetCore.SpaYarp" Version="2.0.1" />
         <PackageReference Include="FastEndpoints" Version="5.26.0" />
@@ -92,6 +78,9 @@
         <PackageReference Include="FastEndpoints.Security" Version="5.26.0" />
         <PackageReference Include="LazyCache" Version="2.4.0" />
         <PackageReference Include="LazyCache.AspNetCore" Version="2.4.0" />
+        <PackageReference Include="EntityFrameworkCore.Triggered" Version="3.2.2" />
+        <PackageReference Include="EntityFrameworkCore.Triggered.Abstractions" Version="3.2.2" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\ContactSystem.Domain.Shared\ContactSystem.Domain.Shared.csproj" />
