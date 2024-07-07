@@ -1,4 +1,4 @@
-namespace ContactSystem.Core.Api.WrapDtos;
+namespace ContactSystem.Core.Api.Decorators;
 
 using Interfaces;
 
