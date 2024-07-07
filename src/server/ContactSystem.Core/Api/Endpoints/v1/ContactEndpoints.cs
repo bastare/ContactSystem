@@ -1,17 +1,17 @@
 namespace ContactSystem.Core.Api.Endpoints.v1;
 
 using Contracts;
-using Persistence.Common.Extensions;
-using Persistence.Context;
-using Persistence.Specifications;
-using Persistence.Specifications.Evaluator.Common.Extensions;
-using Persistence.Pagination;
 using Microsoft.AspNetCore.Mvc;
 using Domain.Contact;
 using Mapster;
 using Core.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Decorators;
+using Infrastructure.Persistence.Common.Extensions;
+using Infrastructure.Persistence.Context;
+using Infrastructure.Persistence.Pagination;
+using Infrastructure.Persistence.Specifications.Evaluator.Common.Extensions;
+using Infrastructure.Persistence.Specifications;
 
 public static class ContactEndpoints
 {

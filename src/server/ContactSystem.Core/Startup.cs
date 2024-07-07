@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.GlobalExceptionHandler;
-using loC;
+using Infrastructure.loC;
 
 public sealed class Startup ( IConfiguration configuration , IWebHostEnvironment webHostEnvironment )
 {
