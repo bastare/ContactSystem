@@ -1,4 +1,4 @@
-namespace ContactSystem.Core.Api.WrapDtos.Interfaces;
+namespace ContactSystem.Core.Api.Decorators.Interfaces;
 
 public interface IPaginationRowsDecoratorDto
 {

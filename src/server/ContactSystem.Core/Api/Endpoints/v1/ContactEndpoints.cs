@@ -7,11 +7,11 @@ using Persistence.Specifications;
 using Persistence.Specifications.Evaluator.Common.Extensions;
 using Persistence.Pagination;
 using Microsoft.AspNetCore.Mvc;
-using ContactSystem.Core.Domain.Contact;
+using Domain.Contact;
 using Mapster;
-using ContactSystem.Core.Common.Exceptions;
+using Core.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
-using WrapDtos;
+using Decorators;
 
 public static class ContactEndpoints
 {
