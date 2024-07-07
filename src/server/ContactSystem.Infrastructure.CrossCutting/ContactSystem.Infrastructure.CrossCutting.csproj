@@ -12,21 +12,10 @@
         <PackageReference Include="MassTransit" Version="8.2.2" />
         <PackageReference Include="MediatR" Version="12.3.0" />
         <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="8.0.6" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="8.0.6" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.1" />
         <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Options" Version="8.0.2" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.6">
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-            <PrivateAssets>all</PrivateAssets>
-        </PackageReference>
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.6" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.6" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
         <PackageReference Include="Microsoft.Identity.Web.MicrosoftGraph" Version="2.19.0" />
         <PackageReference Include="Microsoft.Identity.Web.UI" Version="2.19.0" />
@@ -42,7 +31,6 @@
         <PackageReference Include="System.Text.Json" Version="8.0.3" />
         <PackageReference Include="Thinktecture.EntityFrameworkCore.Relational" Version="8.1.1" />
         <PackageReference Include="Swashbuckle.AspNetCore.Newtonsoft" Version="6.6.2" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.6" />
         <PackageReference Include="EasyData.EntityFrameworkCore.Relational" Version="1.5.5" />
         <PackageReference Include="SignalRSwaggerGen" Version="4.5.0" />
         <PackageReference Include="Azure.Core" Version="1.40.0" />
@@ -50,10 +38,7 @@
         <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="9.0.0" />
         <PackageReference Include="Autofac.Configuration" Version="6.0.0" />
         <PackageReference Include="Asp.Versioning.Http" Version="8.1.0" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.6" />
         <PackageReference Include="System.Linq.Dynamic.Core" Version="1.4.0" />
-        <PackageReference Include="EFCore.BulkExtensions" Version="8.0.4" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\ContactSystem.Infrastructure\ContactSystem.Infrastructure.csproj" />
