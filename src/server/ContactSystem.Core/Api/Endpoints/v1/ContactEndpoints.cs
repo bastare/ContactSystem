@@ -29,7 +29,6 @@ public static class ContactEndpoints
 				TotalPages = contacts_.TotalPages ,
 				CurrentOffset = contacts_.CurrentOffset ,
 				TotalCount = contacts_.TotalCount
-
 			} );
 
 		Task<PagedList<object>> GetContactsAsync ( GetContactsQuery getContactsQuery )
