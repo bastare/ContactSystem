@@ -1,4 +1,4 @@
-namespace ContactSystem.Infrastructure.Persistence.Pagination;
+namespace ContactSystem.Core.Persistence.Pagination;
 
 using Interfaces;
 

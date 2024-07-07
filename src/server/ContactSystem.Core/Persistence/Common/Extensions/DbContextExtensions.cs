@@ -1,6 +1,6 @@
-namespace ContactSystem.Infrastructure.Persistence.Common.Extensions;
+namespace ContactSystem.Core.Persistence.Common.Extensions;
 
-using ContactSystem.Infrastructure.Persistence.Common.Exceptions;
+using Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 public static class DbContextExtensions
@@ -15,7 +15,7 @@ public static class DbContextExtensions
 
 	public static async Task CommitAsync ( this DbContext dbContext , CancellationToken cancellationToken = default )
 	{
-		if ( await TryCommitAsync ( dbContext , cancellationToken ) )
+		if ( await dbContext.TryCommitAsync ( cancellationToken ) )
 			return;
 
 		throw new DataWasNotSavedException ();

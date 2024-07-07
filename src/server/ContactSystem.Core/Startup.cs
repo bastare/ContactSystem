@@ -13,10 +13,11 @@ using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.GlobalExceptionHandler;
+using loC;
 
 public sealed class Startup ( IConfiguration configuration , IWebHostEnvironment webHostEnvironment )
 {
-	private readonly IConfiguration _ = configuration;
+	private readonly IConfiguration _configuration = configuration;
 
 	private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
 
@@ -56,7 +57,9 @@ public sealed class Startup ( IConfiguration configuration , IWebHostEnvironment
 						MimeTypesMap.GetMimeType("woff2")
 					]
 				);
-			} );
+			} )
+
+			.InjectLayersDependency ( _configuration );
 
 		if ( WebHostEnvironmentExtensions.IsDevelopment ( _webHostEnvironment ) )
 		{

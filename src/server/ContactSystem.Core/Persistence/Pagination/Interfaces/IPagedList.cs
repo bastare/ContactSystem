@@ -1,5 +1,4 @@
-namespace ContactSystem.Infrastructure.Persistence.Pagination.Interfaces;
-
+namespace ContactSystem.Core.Persistence.Pagination.Interfaces;
 public interface IPagedList : IEnumerable
 {
 	ulong CurrentOffset { get; }

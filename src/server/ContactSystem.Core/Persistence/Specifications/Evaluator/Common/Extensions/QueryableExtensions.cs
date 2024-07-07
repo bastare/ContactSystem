@@ -1,7 +1,6 @@
 namespace ContactSystem.Core.Persistence.Specifications.Evaluator.Common.Extensions;
 
-using ContactSystem.Core.Persistence.Specifications;
-using Domain.Core.Models;
+using Domain;
 
 public static class QueryableExtensions
 {

@@ -1,6 +1,4 @@
-namespace ContactSystem.Domain.Core.Models;
-
-using System;
+namespace ContactSystem.Core.Domain;
 
 public interface IAuditable<TKey> : IAuditable
 	where TKey : struct

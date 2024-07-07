@@ -1,4 +1,4 @@
-namespace ContactSystem.Infrastructure.Persistence.Common.Extensions;
+namespace ContactSystem.Core.Persistence.Common.Extensions;
 
 using Microsoft.EntityFrameworkCore;
 using Pagination;

@@ -1,6 +1,6 @@
 namespace ContactSystem.Core.Persistence.Specifications.Interfaces;
 
-using Domain.Core.Models;
+using Domain;
 
 public interface IQuerySpecification<TModel, TKey> : IQuerySpecification
 	where TModel : IModel<TKey>

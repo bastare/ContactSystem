@@ -1,4 +1,4 @@
-namespace ContactSystem.Infrastructure.Persistence.Common.Exceptions;
+namespace ContactSystem.Core.Persistence.Common.Exceptions;
 
 public sealed class RepositoryException : Exception
 {

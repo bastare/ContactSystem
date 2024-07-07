@@ -1,4 +1,4 @@
-namespace ContactSystem.Domain.Core.Models;
+namespace ContactSystem.Core.Domain;
 
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
