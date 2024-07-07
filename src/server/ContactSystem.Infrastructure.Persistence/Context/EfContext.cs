@@ -1,21 +1,18 @@
 namespace ContactSystem.Infrastructure.Persistence.Context;
 
 using AgileObjects.NetStandardPolyfills;
-using Configurations.ConfigurationBootstrapper;
 using Configurations.ModelConfigurations;
+using ContactSystem.Domain.Core.Models.Contact;
 using Microsoft.EntityFrameworkCore;
 
-public sealed class EfContext (
-	DbContextOptions<EfContext> options ,
-	ModelCreatingConfigurator modelCreatingConfigurator )
-		: DbContext( options )
+public sealed class EfContext ( DbContextOptions<EfContext> options ) :
+	DbContext ( options )
 {
-	private readonly ModelCreatingConfigurator _modelCreatingConfigurator = modelCreatingConfigurator;
+	public DbSet<Contact> Contacts { get; set; }
 
 	protected override void OnModelCreating ( ModelBuilder modelBuilder )
 	{
 		ApplyConfigurationsFromAssembly ( modelBuilder );
-		ApplyConfigurationsFromConfigurator ( modelBuilder );
 
 		static void ApplyConfigurationsFromAssembly ( ModelBuilder modelBuilder )
 		{
@@ -24,11 +21,6 @@ public sealed class EfContext (
 			static Assembly GetAssemblyWithConfigurations ()
 				=> typeof ( ModelEntityTypeConfiguration<,> )
 					.GetAssembly ();
-		}
-
-		void ApplyConfigurationsFromConfigurator ( ModelBuilder modelBuilder )
-		{
-			_modelCreatingConfigurator.Configure ( modelBuilder );
 		}
 	}
 }

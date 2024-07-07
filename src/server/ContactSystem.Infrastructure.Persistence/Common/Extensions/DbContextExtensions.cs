@@ -1,5 +1,6 @@
 namespace ContactSystem.Infrastructure.Persistence.Common.Extensions;
 
+using ContactSystem.Infrastructure.Persistence.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 
 public static class DbContextExtensions
@@ -11,4 +12,15 @@ public static class DbContextExtensions
 
 				: dbContext.Set<TModel> ()
 					.AsNoTracking ();
+
+	public static async Task CommitAsync ( this DbContext dbContext , CancellationToken cancellationToken = default )
+	{
+		if ( await TryCommitAsync ( dbContext , cancellationToken ) )
+			return;
+
+		throw new DataWasNotSavedException ();
+	}
+
+	public static async Task<bool> TryCommitAsync ( this DbContext dbContext , CancellationToken cancellationToken = default )
+		=> await dbContext.SaveChangesAsync ( cancellationToken ) != 0;
 }

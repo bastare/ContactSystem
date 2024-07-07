@@ -1,11 +1,11 @@
-namespace ContactSystem.Infrastructure.Persistence.Specifications.DynamicLinqDecorator;
+namespace ContactSystem.Infrastructure.Persistence.Specifications.DynamicLinqDecorator.Common.Extensions;
 
 using System.Linq.Dynamic.Core;
 using Domain.Contracts.Dtos.QueryDtos;
 
-public static class DynamicLinqDecoratorExtensions
+public static class QueryableExtensions
 {
-	public static IQueryable<TModel> Where<TModel> ( this IQueryable<TModel> query , ExpressionQueryDto? expressionQuery )
+	public static IQueryable Where ( this IQueryable query , ExpressionQueryDto? expressionQuery )
 	{
 		NotNull ( query );
 		NotNullOrEmpty ( expressionQuery?.Expression );
@@ -22,7 +22,7 @@ public static class DynamicLinqDecoratorExtensions
 		}
 	}
 
-	public static IOrderedQueryable<TModel> OrderBy<TModel> ( this IQueryable<TModel> query , OrderQueryDto? orderQuery )
+	public static IOrderedQueryable OrderBy ( this IQueryable query , OrderQueryDto? orderQuery )
 	{
 		NotNull ( query );
 		NotNullOrEmpty ( orderQuery?.OrderBy );

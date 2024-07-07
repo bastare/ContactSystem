@@ -4,18 +4,18 @@ using MassTransit;
 using System.Threading.Tasks;
 using Domain.Contracts;
 using Domain.Contracts.ContactContracts.Query.GetContacts;
-using Domain.Core.Models.Contact;
+using Mapster;
 using Domain.Contracts.Dtos.WrapDtos.Interfaces;
-using Persistence.Uow.Interfaces;
 using Persistence.Context;
 using Persistence.Pagination.Interfaces;
-using Persistence.Specifications.Inline;
-using Mapster;
+using Persistence.Specifications.Evaluator.Common.Extensions;
+using Persistence.Specifications;
+using Persistence.Common.Extensions;
 
-public sealed class GetContactsConsumer ( IEfUnitOfWork<EfContext , int> efUnitOfWork ) :
+public sealed class GetContactsConsumer ( EfContext efContext ) :
 	IConsumer<GetContactsContract>
 {
-	private readonly IEfUnitOfWork<EfContext , int> _efUnitOfWork = efUnitOfWork;
+	private readonly EfContext _efContext = efContext;
 
 	public async Task Consume ( ConsumeContext<GetContactsContract> context )
 	{
@@ -33,13 +33,16 @@ public sealed class GetContactsConsumer ( IEfUnitOfWork<EfContext , int> efUnitO
 		}
 
 		async Task<IPagedList> GetContactsAsync ( GetContactsContract getContactsContract )
-			=> await _efUnitOfWork.Repository<Contact> ()
-				.FilterByAsync (
-					specification: new InlinePaginationQuerySpecification<Contact , int> (
+			=> await _efContext.Contacts
+				.SpecifiedQuery (
+					inlineSpecification: new InlineQuerySpecification (
 						getContactsContract.ExpressionQuery ,
 						getContactsContract.OrderQuery ,
-						getContactsContract.PaginationQuery ,
-						getContactsContract.ProjectionQuery ) ,
+						getContactsContract.ProjectionQuery ) )
+
+				.ToPagedListAsync (
+					getContactsContract.PaginationQuery!.Offset ,
+					getContactsContract.PaginationQuery!.Limit ,
 					context.CancellationToken );
 	}
 }

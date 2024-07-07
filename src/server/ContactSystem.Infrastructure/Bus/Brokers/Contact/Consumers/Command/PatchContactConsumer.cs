@@ -4,17 +4,17 @@ using MassTransit;
 using Mapster;
 using System.Threading.Tasks;
 using Domain.Contracts;
-using Infrastructure.Persistence.Uow.Interfaces;
-using Infrastructure.Persistence.Context;
+using Persistence.Context;
 using Domain.Core.Models.Contact;
 using Domain.Contracts.ContactContracts.Command.PatchContact.Dtos;
 using Domain.Contracts.ContactContracts.Command.PatchContact;
 using Domain.Shared.Common.Exceptions;
+using Persistence.Common.Extensions;
 
-public sealed class PatchContactConsumer ( IEfUnitOfWork<EfContext , int> efUnitOfWork ) :
+public sealed class PatchContactConsumer ( EfContext efContext ) :
 	IConsumer<PatchContactContract>
 {
-	private readonly IEfUnitOfWork<EfContext , int> _efUnitOfWork = efUnitOfWork;
+	private readonly EfContext _efContext = efContext;
 
 	public async Task Consume ( ConsumeContext<PatchContactContract> context )
 	{
@@ -23,7 +23,7 @@ public sealed class PatchContactConsumer ( IEfUnitOfWork<EfContext , int> efUnit
 			var patchedContact_ =
 				await PatchContactAsync ( context.Message.ContactForPatch );
 
-			await _efUnitOfWork.TryCommitAsync ( context.CancellationToken );
+			await _efContext.TryCommitAsync ( context.CancellationToken );
 
 			await context.RespondAsync<SubmitPatchedContactsContract> (
 				new ( ContactFromPatch: patchedContact_.Adapt<ContactFromPatchDto> () ) );
@@ -41,12 +41,8 @@ public sealed class PatchContactConsumer ( IEfUnitOfWork<EfContext , int> efUnit
 			config.Default.IgnoreNullValues ( true );
 
 			var contactForUpdate_ =
-				await _efUnitOfWork.Repository<Contact> ()
-					.FindByAsync (
-						contact => contact.Id == contactForPatch.Id ,
-						isTracking: true ,
-						cancellationToken: context.CancellationToken ) ??
-							throw new NotFoundException ( message: $"There is no `Contact` with this id: {contactForPatch.Id}" );
+				await _efContext.Contacts.FindAsync ( contactForPatch.Id , context.CancellationToken ) ??
+					throw new NotFoundException ( message: $"There is no `Contact` with this id: {contactForPatch.Id}" );
 
 			return contactForPatch.Adapt ( contactForUpdate_ , config )!;
 		}
