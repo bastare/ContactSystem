@@ -1,4 +1,4 @@
-namespace ContactSystem.Core.loC.Configurations.EntityFrameworkTriggers.AuditionTriggers;
+namespace ContactSystem.Core.loC.Configurations.Triggers;
 
 using Domain;
 using Domain.Authorization.Session.Interfaces;

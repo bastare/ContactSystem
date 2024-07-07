@@ -1,6 +1,6 @@
 ﻿namespace ContactSystem.Core.loC;
 
-using ContactSystem.Core.loC.Injectors;
+using Injectors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

@@ -1,7 +1,7 @@
 namespace ContactSystem.Core.loC.Injectors;
 
-using Configurations.EntityFrameworkTriggers.AuditionTriggers;
-using ContactSystem.Core.Persistence.Context;
+using Configurations.Triggers;
+using Persistence.Context;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -26,7 +26,6 @@ public static class EfInjector
 						triggerOptions.AddTrigger<OnAuditionTrigger> () );
 			} );
 
-		// TODO: Don't forget to create post-operation life-hook for injectors
 		EnsureCreated ( serviceCollection );
 
 		static SqliteConnection CreateAndPersistSqlConnection ( IServiceCollection serviceCollection )
