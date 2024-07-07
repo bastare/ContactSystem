@@ -7,7 +7,7 @@ using System.Linq.Dynamic.Core;
 
 public static class QueryableExtensions
 {
-	public async static Task<PagedList<T>> ToPagedListAsync<T> ( this IQueryable<T> queryable , ulong offset , ulong limit , CancellationToken cancellationToken = default )
+	public async static Task<PagedList<T>> ToPagedListAsync<T> ( this IQueryable<T> queryable , long offset , long limit , CancellationToken cancellationToken = default )
 		where T : class
 	{
 		var count = await GetCountOfTableRecordsAsync ( queryable , cancellationToken );
@@ -16,7 +16,7 @@ public static class QueryableExtensions
 			await GetPagedRecords ( queryable , ( int ) offset , ( int ) limit )
 				.ToListAsync ( cancellationToken );
 
-		return PagedList<T>.Create ( pagedData , ( ulong ) count , offset , limit );
+		return PagedList<T>.Create ( pagedData , count , offset , limit );
 
 		static Task<long> GetCountOfTableRecordsAsync ( IQueryable<T> queryable , CancellationToken cancellationToken = default )
 			=> queryable.LongCountAsync ( cancellationToken );
@@ -24,8 +24,8 @@ public static class QueryableExtensions
 
 	public async static Task<PagedList<object>> ToPagedListAsync (
 		this IQueryable queryable ,
-		ulong offset ,
-		ulong limit ,
+		long offset ,
+		long limit ,
 		CancellationToken cancellationToken = default )
 	{
 		var count = GetCountOfTableRecords ( queryable );
@@ -34,7 +34,7 @@ public static class QueryableExtensions
 			await GetPagedRecords ( queryable , ( int ) offset , ( int ) limit )
 				.ToDynamicListAsync ( cancellationToken );
 
-		return PagedList<object>.Create ( pagedData , ( ulong ) count , offset , limit );
+		return PagedList<object>.Create ( pagedData , count , offset , limit );
 
 		static long GetCountOfTableRecords ( IQueryable queryable )
 			=> queryable.LongCount ();

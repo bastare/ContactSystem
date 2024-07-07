@@ -7,8 +7,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Interfaces;
 
-public static class EfInjector
+public sealed class EfInjector : IInjector
 {
 	public static void Inject ( IServiceCollection serviceCollection )
 	{

@@ -11,9 +11,12 @@ public static class InjectionBootstrapper
 		NotNull ( serviceCollection );
 		NotNull ( configuration );
 
+		serviceCollection.AddHttpContextAccessor ();
+
 		EfInjector.Inject ( serviceCollection );
 		ErrorHandlerInjector.Inject ( serviceCollection );
 		MapperInjector.Inject ( serviceCollection );
+		SessionInjector.Inject ( serviceCollection );
 
 		return serviceCollection;
 	}

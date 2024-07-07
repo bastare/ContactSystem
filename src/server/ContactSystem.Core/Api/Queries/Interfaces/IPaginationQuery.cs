@@ -2,7 +2,7 @@ namespace ContactSystem.Core.Api.Queries.Interfaces;
 
 public interface IPaginationQuery
 {
-	int? Offset { get; }
+	long? Offset { get; }
 
-	int? Limit { get; }
+	long? Limit { get; }
 }

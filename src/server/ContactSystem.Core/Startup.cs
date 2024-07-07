@@ -1,9 +1,7 @@
 namespace ContactSystem.Core;
 
 using System.IO.Compression;
-using System.Linq;
 using Api.Common.Extensions;
-using Asp.Versioning;
 using HeyRed.Mime;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -23,68 +21,60 @@ public sealed class Startup ( IConfiguration configuration , IWebHostEnvironment
 
 	public void ConfigureServices ( IServiceCollection serviceCollection )
 	{
-		serviceCollection.AddApiVersioning ( setupAction =>
-		{
-			setupAction.DefaultApiVersion = new ( 1 , 0 );
-			setupAction.ReportApiVersions = true;
-			setupAction.AssumeDefaultVersionWhenUnspecified = true;
-			setupAction.ApiVersionReader = new QueryStringApiVersionReader ( "v" );
-		} );
-
 		serviceCollection
+			.AddEndpointsApiExplorer ()
+
 			.Configure<BrotliCompressionProviderOptions> ( options => options.Level = CompressionLevel.Fastest )
 			.Configure<ApiBehaviorOptions> ( options => options.SuppressModelStateInvalidFilter = true )
+
 			.AddResponseCompression ( options =>
 			{
 				options.EnableForHttps = true;
 
 				options.Providers.Add<BrotliCompressionProvider> ();
 
-				options.MimeTypes = Enumerable.Concat (
-					first: ResponseCompressionDefaults.MimeTypes ,
-					second: [
-						MimeTypesMap.GetMimeType("svg"),
-						MimeTypesMap.GetMimeType("gif"),
-						MimeTypesMap.GetMimeType("html"),
-						MimeTypesMap.GetMimeType("txt"),
-						MimeTypesMap.GetMimeType("css"),
-						MimeTypesMap.GetMimeType("png"),
-						MimeTypesMap.GetMimeType("jpg"),
-						MimeTypesMap.GetMimeType("js"),
-						MimeTypesMap.GetMimeType("json"),
-						MimeTypesMap.GetMimeType("ico"),
-						MimeTypesMap.GetMimeType("woff"),
-						MimeTypesMap.GetMimeType("woff2")
-					]
-				);
+				options.MimeTypes = [
+					.. ResponseCompressionDefaults.MimeTypes ,
+					MimeTypesMap.GetMimeType("svg"),
+					MimeTypesMap.GetMimeType("gif"),
+					MimeTypesMap.GetMimeType("html"),
+					MimeTypesMap.GetMimeType("txt"),
+					MimeTypesMap.GetMimeType("css"),
+					MimeTypesMap.GetMimeType("png"),
+					MimeTypesMap.GetMimeType("jpg"),
+					MimeTypesMap.GetMimeType("js"),
+					MimeTypesMap.GetMimeType("json"),
+					MimeTypesMap.GetMimeType("ico"),
+					MimeTypesMap.GetMimeType("woff"),
+					MimeTypesMap.GetMimeType("woff2")
+				];
 			} )
 
 			.InjectLayersDependency ( _configuration );
 
-		if ( WebHostEnvironmentExtensions.IsDevelopment ( _webHostEnvironment ) )
+		if ( _webHostEnvironment.IsDevelopment () )
 		{
 			serviceCollection
-				// TODO: Add swagger
-				// .SwaggerDocument ()
+				.AddSwaggerGen ()
 				.AddCors ()
 				.AddSpaYarp ();
 		}
 	}
 
-	public void Configure ( IApplicationBuilder applicationBuilder )
+	public void Configure ( WebApplication webApplication )
 	{
-		if ( WebHostEnvironmentExtensions.IsProduction ( _webHostEnvironment ) )
-			applicationBuilder.UseSecureHeaders ();
+		if ( _webHostEnvironment.IsProduction () )
+			webApplication.UseSecureHeaders ();
 
-		if ( WebHostEnvironmentExtensions.IsDevelopment ( _webHostEnvironment ) )
-			applicationBuilder
+		if ( _webHostEnvironment.IsDevelopment () )
+			webApplication
 				.UseCors ( builder =>
 					builder
 						.AllowAnyOrigin ()
 						.AllowAnyHeader ()
 						.AllowAnyMethod () );
 
-		applicationBuilder
+		webApplication
 			.UseResponseCompression ()
 			.UseDefaultFiles ()
 			.UseStaticFiles (
@@ -103,27 +93,14 @@ public sealed class Startup ( IConfiguration configuration , IWebHostEnvironment
 				}
 			)
 			.UseRedirectValidation ()
-			.UseSpaYarpMiddleware ()
-			.UseRouting ()
 			.UseExceptionHandler ( GlobalExceptionHandlerConfigurator.ExceptionFiltersConfigurator )
-			.UseEndpoints ( endpoints =>
-			{
-				/*
-					! If swagger doesn't work (white screen):
-					1. Comment this 2 lines (Yarp mapping)
-					2. Launch server & manually move to swagger page (http://localhost:5000/swagger/index.html)
-					3. Uncomment it back
-					4. Launch server again & don't close previously opened tab with swagger (step 1)
-				*/
-				if ( WebHostEnvironmentExtensions.IsDevelopment ( _webHostEnvironment ) )
-					endpoints.MapSpaYarp ();
+			.UseStaticFiles ()
+			.UseRouting ();
 
-				if ( WebHostEnvironmentExtensions.IsProduction ( _webHostEnvironment ) )
-					endpoints.MapFallbackToFile ( "index.html" );
+		if ( _webHostEnvironment.IsDevelopment () )
+			webApplication.UseSpaYarp ();
 
-				// TODO: Add swagger
-				// if ( WebHostEnvironmentExtensions.IsDevelopment ( _webHostEnvironment ) )
-				// 	applicationBuilder.UseSwaggerGen ();
-			} );
+		if ( _webHostEnvironment.IsProduction () )
+			webApplication.MapFallbackToFile ( "index.html" );
 	}
 }

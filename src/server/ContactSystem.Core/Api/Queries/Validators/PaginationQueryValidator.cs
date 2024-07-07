@@ -1,8 +1,9 @@
 namespace ContactSystem.Core.Api.Queries.Validators;
 
+using Interfaces;
 using FluentValidation;
 
-public sealed class PaginationQueryValidator : AbstractValidator<PaginationQuery>
+public sealed class PaginationQueryValidator : AbstractValidator<IPaginationQuery>
 {
 	public PaginationQueryValidator ()
 	{

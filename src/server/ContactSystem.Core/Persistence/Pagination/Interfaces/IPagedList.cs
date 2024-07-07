@@ -1,13 +1,13 @@
 namespace ContactSystem.Core.Persistence.Pagination.Interfaces;
 public interface IPagedList : IEnumerable
 {
-	ulong CurrentOffset { get; }
+    long CurrentOffset { get; }
 
-	ulong TotalPages { get; }
+    long TotalPages { get; }
 
-	ulong Limit { get; }
+    long Limit { get; }
 
-	ulong TotalCount { get; }
+    long TotalCount { get; }
 }
 
 public interface IPagedList<out T> : IPagedList, IEnumerable<T>

@@ -2,6 +2,7 @@ namespace ContactSystem.Core.loC.Injectors;
 
 using Common.Classes.HttpMessages.Error;
 using Common.Exceptions;
+using Interfaces;
 using Infrastructure.GlobalExceptionHandler;
 using Infrastructure.GlobalExceptionHandler.Builders;
 using Infrastructure.GlobalExceptionHandler.ExceptionHandlers;
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
 
-public static class ErrorHandlerInjector
+public sealed class ErrorHandlerInjector : IInjector
 {
 	public static void Inject ( IServiceCollection serviceCollection )
 	{

@@ -1,20 +1,41 @@
 using ContactSystem.Core;
+using ContactSystem.Core.Api.Endpoints.v1;
 
-var builder_ = WebApplication.CreateBuilder (
+var builder = WebApplication.CreateBuilder (
 	options: new ()
 	{
 		Args = args ,
 		WebRootPath = "webroot"
 	} );
 
-var startup_ = new Startup ( builder_.Configuration , builder_.Environment );
+var startup = new Startup ( builder.Configuration , builder.Environment );
 
-builder_.Configuration.AddEnvironmentVariables ();
+builder.Configuration.AddEnvironmentVariables ();
 
-startup_.ConfigureServices ( builder_.Services );
+startup.ConfigureServices ( builder.Services );
 
-var webApplication_ = builder_.Build ();
+var webApplication = builder.Build ();
 
-startup_.Configure ( webApplication_ );
+startup.Configure ( webApplication );
 
-await webApplication_.RunAsync ();
+webApplication.MapGet (
+	pattern: "/api/v1/contacts" ,
+	handler: ContactEndpoints.GetAllAsync )
+.WithOpenApi ();
+
+webApplication.MapPost (
+	pattern: "/api/v1/contacts" ,
+	handler: ContactEndpoints.CreateAsync )
+.WithOpenApi ();
+
+webApplication.MapDelete (
+	pattern: "/api/v1/contacts/{contactId:long}" ,
+	handler: ContactEndpoints.RemoveAsync )
+.WithOpenApi ();
+
+webApplication.MapPatch (
+	pattern: "/api/v1/contacts/{contactId:long}" ,
+	handler: ContactEndpoints.PatchAsync )
+.WithOpenApi ();
+
+await webApplication.RunAsync ();

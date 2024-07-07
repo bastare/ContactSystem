@@ -3,7 +3,7 @@ namespace ContactSystem.Core.Persistence.Context.Configurations.ModelConfigurati
 using Domain.Contact;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-public sealed class ContactConfiguration : AuditableEntityTypeConfiguration<Contact , int>
+public sealed class ContactConfiguration : AuditableEntityTypeConfiguration<Contact , long>
 {
 	public override void Configure ( EntityTypeBuilder<Contact> builder )
 	{
