@@ -1,9 +1,0 @@
-<Project Sdk="Microsoft.NET.Sdk">
-    <ItemGroup>
-        <ProjectReference Include="..\ContactSystem.Domain.Shared\ContactSystem.Domain.Shared.csproj" />
-        <ProjectReference Include="..\ContactSystem.Domain.Core\ContactSystem.Domain.Core.csproj" />
-        <ProjectReference Include="..\ContactSystem.Infrastructure.Persistence\ContactSystem.Infrastructure.Persistence.csproj" />
-        <ProjectReference Include="..\ContactSystem.Domain.Contracts\ContactSystem.Domain.Contracts.csproj" />
-        <ProjectReference Include="..\ContactSystem.Domain\ContactSystem.Domain.csproj" />
-    </ItemGroup>
-</Project>
