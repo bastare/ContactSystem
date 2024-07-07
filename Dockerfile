@@ -29,4 +29,4 @@ ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
 EXPOSE 8080
 EXPOSE 5003
 
-CMD ["dotnet", "ContactSystem.Api.dll"]
+CMD ["dotnet", "ContactSystem.Core.dll"]
