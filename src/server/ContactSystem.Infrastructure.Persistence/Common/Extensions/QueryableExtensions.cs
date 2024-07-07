@@ -7,75 +7,52 @@ using System.Linq.Dynamic.Core;
 
 public static class QueryableExtensions
 {
-	public async static Task<PagedList<T>> ToPagedListAsync<T> ( this IQueryable<T> queryable , int offset , int limit , CancellationToken cancellationToken = default )
+	public async static Task<PagedList<T>> ToPagedListAsync<T> ( this IQueryable<T> queryable , ulong offset , ulong limit , CancellationToken cancellationToken = default )
 		where T : class
 	{
 		var count = await GetCountOfTableRecordsAsync ( queryable , cancellationToken );
 
 		var pagedData =
-			await GetPagedRecords ( queryable , offset , limit )
+			await GetPagedRecords ( queryable , ( int ) offset , ( int ) limit )
 				.ToListAsync ( cancellationToken );
 
-		return PagedList<T>.Create ( pagedData , count , offset , limit );
+		return PagedList<T>.Create ( pagedData , ( ulong ) count , offset , limit );
 
-		static async Task<int> GetCountOfTableRecordsAsync ( IQueryable<T> queryable , CancellationToken cancellationToken = default )
-			=> await queryable.CountAsync ( cancellationToken );
-
-		static IQueryable<T> GetPagedRecords ( IQueryable<T> queryable , int offset , int limit )
-			=> offset switch
-			{
-				>= 1 =>
-					queryable
-						.Skip ( ( offset - 1 ) * limit )
-						.Take ( limit ),
-
-				<= 0 =>
-					throw new ArgumentException ( "Offset can`t be a negative number" , nameof ( offset ) )
-			};
+		static Task<long> GetCountOfTableRecordsAsync ( IQueryable<T> queryable , CancellationToken cancellationToken = default )
+			=> queryable.LongCountAsync ( cancellationToken );
 	}
 
 	public async static Task<PagedList<object>> ToPagedListAsync (
 		this IQueryable queryable ,
-		int offset ,
-		int limit ,
+		ulong offset ,
+		ulong limit ,
 		CancellationToken cancellationToken = default )
 	{
 		var count = GetCountOfTableRecords ( queryable );
 
 		var pagedData =
-			await GetPagedRecords ( queryable , offset , limit )
+			await GetPagedRecords ( queryable , ( int ) offset , ( int ) limit )
 				.ToDynamicListAsync ( cancellationToken );
 
-		return PagedList<object>.Create ( pagedData , count , offset , limit );
+		return PagedList<object>.Create ( pagedData , ( ulong ) count , offset , limit );
 
-		static int GetCountOfTableRecords ( IQueryable queryable )
-			=> queryable.Count ();
-
-		static IQueryable GetPagedRecords ( IQueryable queryable , int offset , int limit )
-			=> offset switch
-			{
-				>= 1 =>
-					queryable
-						.Skip ( ( offset - 1 ) * limit )
-						.Take ( limit ),
-
-				<= 0 =>
-					throw new ArgumentException ( "Offset can`t be a negative number" , nameof ( offset ) )
-			};
+		static long GetCountOfTableRecords ( IQueryable queryable )
+			=> queryable.LongCount ();
 	}
 
-	public static IOrderedQueryable<TModel> OrderBy<TModel> ( this IQueryable<TModel> query , string orderableField , bool isDescending )
-	{
-		NotNull ( query );
-		NotNullOrEmpty ( orderableField );
+	private static IQueryable GetPagedRecords ( IQueryable queryable , int offset , int limit )
+		=> offset switch
+		{
+			>= 1 =>
+				queryable
+					.Skip ( ( offset - 1 ) * limit )
+					.Take ( limit ),
 
-		return query.OrderBy (
-			ordering: CreateOrderableExpression ( orderableField , isDescending ) );
+			<= 0 =>
+				throw new ArgumentException ( "Offset can`t be a negative number" , nameof ( offset ) )
+		};
 
-		static string CreateOrderableExpression ( string orderableField , bool isDescending )
-			=> string.Concat ( orderableField , " " , str2: ResolveStringLiteralFromOrder ( isDescending ) );
-
-		static string ResolveStringLiteralFromOrder ( bool isDescending )
-			=> isDescending ? "desc" : "asc";
-	}
+	private static IQueryable<T> GetPagedRecords<T> ( IQueryable<T> queryable , int offset , int limit )
+		where T : class
+			=> ( IQueryable<T> ) GetPagedRecords ( ( IQueryable ) queryable , offset , limit );
 }

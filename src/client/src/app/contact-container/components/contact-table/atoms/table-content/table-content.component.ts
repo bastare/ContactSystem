@@ -122,11 +122,12 @@ export class TableComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private readonly store = inject(Store<AppState>);
   private readonly dialog = inject(MatDialog);
+
   private readonly subscriptionsForUnsubscribe: Subscription[] = [];
 
   private readonly contactsTableDataStream$ = this.store.select(selectAll);
 
-  readonly displayedColumns: ReadonlyArray<string> = [
+  readonly displayedColumns: readonly string[] = [
     'id',
     'firstName',
     'lastName',

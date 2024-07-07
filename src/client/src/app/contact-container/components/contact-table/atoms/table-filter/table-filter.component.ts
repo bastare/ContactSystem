@@ -53,7 +53,7 @@ import { getContactsForTableBySpecification } from '../../../../injectable/rest-
 export class TableFilterComponent {
   private readonly store = inject(Store<AppState>);
 
-  readonly entitiesForFilter: ReadonlyArray<{ id: string, label: string }> = [
+  readonly entitiesForFilter: readonly { id: string, label: string }[] = [
     { id: 'FirstName', label: 'First Name' },
     { id: 'LastName', label: 'Last Name' },
     { id: 'Email', label: 'Email' },

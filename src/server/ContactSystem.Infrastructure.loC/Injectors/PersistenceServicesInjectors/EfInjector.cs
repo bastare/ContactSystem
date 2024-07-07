@@ -10,8 +10,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Persistence.Context;
-using Persistence.Uow;
-using Persistence.Uow.Interfaces;
 
 [InjectionOrder ( order: uint.MaxValue )]
 public sealed class EfInjector : IInjectable
@@ -31,10 +29,6 @@ public sealed class EfInjector : IInjectable
 					.UseTriggers ( triggerOptions =>
 						triggerOptions.AddTrigger<OnAuditionTrigger> () );
 			} );
-
-		serviceCollection.TryAddScoped<IUnitOfWork<int> , EfUnitOfWork<EfContext , int>> ();
-		serviceCollection.TryAddScoped<IEfUnitOfWork<EfContext , int> , EfUnitOfWork<EfContext , int>> ();
-		serviceCollection.TryAddScoped<ITransaction , EfUnitOfWork<EfContext , int>> ();
 
 		// TODO: Don't forget to create post-operation life-hook for injectors
 		EnsureCreated ( serviceCollection );
@@ -56,8 +50,8 @@ public sealed class EfInjector : IInjectable
 		static void EnsureCreated ( IServiceCollection serviceCollection )
 		{
 			serviceCollection.BuildServiceProvider ()
-				.GetRequiredService<IEfUnitOfWork<EfContext , int>> ()
-					.EnsureCreated ();
+				.GetRequiredService<EfContext> ()
+					.Database.EnsureCreated ();
 		}
 	}
 }
