@@ -6,7 +6,7 @@ public interface ICacheService
 
 	Task SetAsync<TCachedValue> ( string key , TCachedValue value , TimeSpan expireSpan , CancellationToken cancellationToken = default );
 
-	bool TryGet<TCachedValue> ( string key , out TCachedValue value );
+	bool TryGet<TCachedValue> ( string key , out TCachedValue value_ );
 
 	Task<TCachedValue> GetOrCreateCacheValueAsync<TCachedValue> ( string key , Func<Task<TCachedValue>> factoryAsync , TimeSpan expireSpan , CancellationToken cancellationToken = default );
 
