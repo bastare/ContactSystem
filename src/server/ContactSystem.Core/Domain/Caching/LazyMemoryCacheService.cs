@@ -17,8 +17,8 @@ public sealed class LazyMemoryCacheService ( IAppCache memoryCache ) : ICacheSer
 		return Task.CompletedTask;
 	}
 
-	public bool TryGet<TCachedValue> ( string key , out TCachedValue value )
-		=> _memoryCache.TryGetValue ( key , out value );
+	public bool TryGet<TCachedValue> ( string key , out TCachedValue value_ )
+		=> _memoryCache.TryGetValue ( key , out value_ );
 
 	public Task<TCachedValue> GetOrCreateCacheValueAsync<TCachedValue> (
 		string key ,

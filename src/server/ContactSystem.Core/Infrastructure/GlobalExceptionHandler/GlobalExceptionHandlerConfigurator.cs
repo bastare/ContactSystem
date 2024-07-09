@@ -10,13 +10,13 @@ public static class GlobalExceptionHandlerConfigurator
 	public static void ExceptionFiltersConfigurator ( IApplicationBuilder applicationBuilder )
 	{
 		applicationBuilder.Run (
-			httpContext =>
-				ExceptionFiltersConfigurator (
+			handler: httpContext =>
+				FormErrorResponseAsync (
 					httpContext ,
 					exception: httpContext.ResolveException () ) );
 	}
 
-	public static async Task ExceptionFiltersConfigurator ( HttpContext? httpContext , Exception? exception )
+	public static async Task FormErrorResponseAsync ( HttpContext? httpContext , Exception? exception )
 	{
 		await ResolveGlobalExceptionHandler ( httpContext! )
 			.FormErrorResponseAsync ( httpContext , exception );
