@@ -12,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.GlobalExceptionHandler;
 using Infrastructure.loC;
+using Asp.Versioning;
 
 public sealed class Startup ( IConfiguration configuration , IWebHostEnvironment webHostEnvironment )
 {
@@ -21,6 +22,18 @@ public sealed class Startup ( IConfiguration configuration , IWebHostEnvironment
 
 	public void ConfigureServices ( IServiceCollection serviceCollection )
 	{
+		serviceCollection
+			.AddApiVersioning ( setupAction =>
+			{
+				setupAction.DefaultApiVersion = new ( 1 , 0 );
+				setupAction.ApiVersionReader = new UrlSegmentApiVersionReader ();
+			} )
+			.AddApiExplorer ( options =>
+			{
+				options.GroupNameFormat = "'v'V";
+				options.SubstituteApiVersionInUrl = true;
+			} );
+
 		serviceCollection
 			.AddEndpointsApiExplorer ()
 
@@ -72,7 +85,9 @@ public sealed class Startup ( IConfiguration configuration , IWebHostEnvironment
 					builder
 						.AllowAnyOrigin ()
 						.AllowAnyHeader ()
-						.AllowAnyMethod () );
+						.AllowAnyMethod () )
+				.UseSwagger ()
+				.UseSwaggerUI ();
 
 		webApplication
 			.UseResponseCompression ()

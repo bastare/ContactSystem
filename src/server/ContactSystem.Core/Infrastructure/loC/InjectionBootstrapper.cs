@@ -17,6 +17,7 @@ public static class InjectionBootstrapper
 		ErrorHandlerInjector.Inject ( serviceCollection );
 		MapperInjector.Inject ( serviceCollection );
 		SessionInjector.Inject ( serviceCollection );
+		FluentValidationInjector.Inject ( serviceCollection );
 
 		return serviceCollection;
 	}

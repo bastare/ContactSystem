@@ -18,24 +18,38 @@ var webApplication = builder.Build ();
 
 startup.Configure ( webApplication );
 
-webApplication.MapGet (
-	pattern: "/api/v1/contacts" ,
-	handler: ContactEndpoints.GetAllAsync )
-.WithOpenApi ();
+var versionSet =
+	webApplication
+		.NewApiVersionSet ()
+		.HasApiVersion ( apiVersion: new ( 1.0 ) )
+		.ReportApiVersions ()
+		.Build ();
 
-webApplication.MapPost (
-	pattern: "/api/v1/contacts" ,
-	handler: ContactEndpoints.CreateAsync )
-.WithOpenApi ();
+var apiGroup =
+	webApplication
+		.MapGroup ( "api/v{apiVersion:apiVersion}" )
+		.WithApiVersionSet ( versionSet )
+		.WithOpenApi ();
 
-webApplication.MapDelete (
-	pattern: "/api/v1/contacts/{contactId:long}" ,
-	handler: ContactEndpoints.RemoveAsync )
-.WithOpenApi ();
+var v1Contacts =
+	apiGroup
+		.MapGroup ( "contacts" )
+		.MapToApiVersion ( 1.0 );
 
-webApplication.MapPatch (
-	pattern: "/api/v1/contacts/{contactId:long}" ,
-	handler: ContactEndpoints.PatchAsync )
-.WithOpenApi ();
+v1Contacts.MapGet (
+	pattern: string.Empty ,
+	handler: ContactEndpoints.GetAllAsync );
+
+v1Contacts.MapPost (
+	pattern: string.Empty ,
+	handler: ContactEndpoints.CreateAsync );
+
+v1Contacts.MapDelete (
+	pattern: "{contactId:long}" ,
+	handler: ContactEndpoints.RemoveAsync );
+
+v1Contacts.MapPatch (
+	pattern: "{contactId:long}" ,
+	handler: ContactEndpoints.PatchAsync );
 
 await webApplication.RunAsync ();
