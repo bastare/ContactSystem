@@ -1,6 +1,6 @@
 namespace ContactSystem.Core.Api.Pipes.SecurityPipes;
 
-using ContactSystem.Core.Api.Common.Constants;
+using Common.Constants;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using System;

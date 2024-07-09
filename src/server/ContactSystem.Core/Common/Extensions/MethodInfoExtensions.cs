@@ -3,16 +3,16 @@ namespace ContactSystem.Core.Common.Extensions;
 public static class MethodInfoExtensions
 {
 	public static object? Invoke ( this MethodInfo methodInfo , Type typeOfInstance , params object[] parameters )
-		=> SafeInvoke ( methodInfo , typeOfInstance , parameters.AsEnumerable () );
+		=> SafeInvoke ( methodInfo , typeOfInstance , parameters );
 
 	public static object? Invoke<T> ( this MethodInfo methodInfo , params object[] parameters )
-		=> SafeInvoke ( methodInfo , typeof ( T ) , parameters.AsEnumerable () );
+		=> SafeInvoke ( methodInfo , typeOfInstance: typeof ( T ) , parameters );
 
 	public static object? Invoke ( this MethodInfo methodInfo , Type typeOfInstance , IEnumerable parameters )
 		=> SafeInvoke ( methodInfo , typeOfInstance , parameters );
 
 	public static object? Invoke<T> ( this MethodInfo methodInfo , IEnumerable parameters )
-		=> SafeInvoke ( methodInfo , typeof ( T ) , parameters );
+		=> SafeInvoke ( methodInfo , typeOfInstance: typeof ( T ) , parameters );
 
 	private static object? SafeInvoke ( MethodInfo methodInfo , Type typeOfInstance , IEnumerable parameters )
 	{

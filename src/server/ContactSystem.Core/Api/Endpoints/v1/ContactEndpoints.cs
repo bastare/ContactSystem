@@ -8,7 +8,7 @@ using Core.Common.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Decorators;
 using Infrastructure.Persistence.Common.Extensions;
-using Infrastructure.Persistence.Context;
+using Infrastructure.Persistence.Context.Interfaces;
 using Infrastructure.Persistence.Pagination;
 using Infrastructure.Persistence.Specifications.Evaluator.Common.Extensions;
 using Infrastructure.Persistence.Specifications;
@@ -16,7 +16,7 @@ using Infrastructure.Persistence.Specifications;
 public static class ContactEndpoints
 {
 	public static async Task<IResult> GetAllAsync (
-		[FromServices] EfContext efContext ,
+		[FromServices] IContactSet contactSet ,
 		[AsParameters] GetContactsQuery getContactsQuery ,
 		CancellationToken cancellationToken = default )
 	{
@@ -32,7 +32,7 @@ public static class ContactEndpoints
 			} );
 
 		Task<PagedList<object>> GetContactsAsync ( GetContactsQuery getContactsQuery )
-			=> efContext.Contacts
+			=> contactSet.Contacts
 				.SpecifiedQuery (
 					inlineSpecification: new InlineQuerySpecification (
 						getContactsQuery ,
@@ -46,14 +46,14 @@ public static class ContactEndpoints
 	}
 
 	public static async Task<IResult> CreateAsync (
-		[FromServices] EfContext efContext ,
+		[FromServices] IContactSet contactSet ,
 		[FromBody] ContactForCreationRequestBody contactForCreationRequestBody ,
 		CancellationToken cancellationToken = default )
 	{
 		var createdContact_ =
 			await CreateContactsAsync ( contactForCreationRequestBody );
 
-		await efContext.SaveChangesAsync ( cancellationToken );
+		await contactSet.SaveChangesAsync ( cancellationToken );
 
 		return Results.Created (
 			$"/v1/contacts/{createdContact_.Id}" ,
@@ -63,7 +63,7 @@ public static class ContactEndpoints
 		{
 			var modelContactForCreation_ = contactForCreationRequestBody.Adapt<Contact> ();
 
-			await efContext.Contacts
+			await contactSet.Contacts
 				.AddAsync (
 					modelContactForCreation_ ,
 					cancellationToken );
@@ -73,45 +73,45 @@ public static class ContactEndpoints
 	}
 
 	public static async Task<IResult> PatchAsync (
+		[FromServices] IContactSet contactSet ,
 		[FromRoute] long contactId ,
-		[FromServices] EfContext efContext ,
 		[FromBody] ContactForPatchRequestBody contactForPatchRequestBody ,
 		CancellationToken cancellationToken = default )
 	{
 		var patchedContact_ =
 			await PatchContactAsync ( contactId , contactForPatchRequestBody );
 
-		await efContext.TryCommitAsync ( cancellationToken );
+		await contactSet.TryCommitAsync ( cancellationToken );
 
 		return Results.Ok ( patchedContact_ );
 
 		async Task<Contact> PatchContactAsync ( long contactId , ContactForPatchRequestBody contactForPatchRequestBody )
 		{
 			// TODO: Integrate `ExecuteUpdate`
-			var config = new TypeAdapterConfig ();
-			config.Default.IgnoreNullValues ( true );
+			var config_ = new TypeAdapterConfig ();
+			config_.Default.IgnoreNullValues ( true );
 
 			var contactForUpdate_ =
-				await efContext.Contacts.FindAsync ( [ contactId ] , cancellationToken: cancellationToken ) ??
+				await contactSet.Contacts.FindAsync ( [ contactId ] , cancellationToken: cancellationToken ) ??
 					throw new NotFoundException ( message: $"There is no `Contact` with this id: {contactId}" );
 
-			return contactForPatchRequestBody.Adapt ( contactForUpdate_ , config )!;
+			return contactForPatchRequestBody.Adapt ( contactForUpdate_ , config_ )!;
 		}
 	}
 
 	public static async Task<IResult> RemoveAsync (
+		[FromServices] IContactSet contactSet ,
 		[FromRoute] long contactId ,
-		[FromServices] EfContext efContext ,
 		CancellationToken cancellationToken = default )
 	{
 		await RemoveContactsAsync ( contactId );
 
-		await efContext.TryCommitAsync ( cancellationToken );
+		await contactSet.TryCommitAsync ( cancellationToken );
 
 		return Results.NoContent ();
 
 		Task RemoveContactsAsync ( long contactId )
-			=> efContext.Contacts
+			=> contactSet.Contacts
 				.Where ( contact => contact.Id == contactId )
 				.ExecuteDeleteAsync ( cancellationToken );
 	}
