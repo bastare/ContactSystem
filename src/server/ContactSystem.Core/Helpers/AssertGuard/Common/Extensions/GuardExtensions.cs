@@ -1,6 +1,5 @@
 namespace ContactSystem.Core.Helpers.AssertGuard.Common.Extensions;
 
-using Core.Common.Extensions;
 using System.Runtime.CompilerServices;
 
 public static class GuardExtensions

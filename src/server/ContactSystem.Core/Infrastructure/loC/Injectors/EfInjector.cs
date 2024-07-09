@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
 using Interfaces;
+using ContactSystem.Core.Infrastructure.Persistence.Context.Interfaces;
+using ContactSystem.Core.Infrastructure.Persistence.Context.Interfaces.Transactions;
 
 public sealed class EfInjector : IInjector
 {
@@ -27,6 +29,7 @@ public sealed class EfInjector : IInjector
 						triggerOptions.AddTrigger<OnAuditionTrigger> () );
 			} );
 
+		InjectProjections ( serviceCollection );
 		EnsureCreated ( serviceCollection );
 
 		static SqliteConnection CreateAndPersistSqlConnection ( IServiceCollection serviceCollection )
@@ -42,6 +45,12 @@ public sealed class EfInjector : IInjector
 		static ILoggerFactory ResolveLoggerFactory ( IServiceCollection serviceCollection )
 			=> serviceCollection.BuildServiceProvider ()
 				.GetRequiredService<ILoggerFactory> ();
+
+		static void InjectProjections ( IServiceCollection serviceCollection )
+		{
+			serviceCollection.TryAddScoped<ITransaction , EfContext> ();
+			serviceCollection.TryAddScoped<IContactSet , EfContext> ();
+		}
 
 		static void EnsureCreated ( IServiceCollection serviceCollection )
 		{

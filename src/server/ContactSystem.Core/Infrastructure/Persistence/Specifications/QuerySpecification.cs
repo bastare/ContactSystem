@@ -1,7 +1,7 @@
 namespace ContactSystem.Core.Infrastructure.Persistence.Specifications;
 
 using Domain;
-using Persistence.Specifications.Interfaces;
+using Interfaces;
 
 public abstract record QuerySpecification<TModel, TKey> : IQuerySpecification<TModel , TKey>
 	where TModel : IModel<TKey>

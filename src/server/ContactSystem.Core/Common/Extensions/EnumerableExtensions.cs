@@ -3,9 +3,8 @@ namespace ContactSystem.Core.Common.Extensions;
 public static class EnumerableExtensions
 {
 	public static bool IsNullOrEmpty ( this IEnumerable? collection )
-		=> !( collection?.Cast<object> ()
-			.Any () ??
-				default );
+		=> collection?.GetEnumerator ()?.MoveNext () ??
+			false;
 
 	public static bool ContainType<TExpectableType> ( this IEnumerable? collection )
 		=> collection?.Cast<object> ()

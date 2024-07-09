@@ -43,10 +43,10 @@ public sealed class ExceptionHandlerManager
 
 			InjectJsonErrorMediaType ( httpContext! );
 
-			if ( TryHoldException ( out IExceptionHandler? exceptionHandler , httpContext! , exception! ) )
+			if ( TryHoldException ( out IExceptionHandler? exceptionHandler_ , httpContext! , exception! ) )
 			{
 				await FormExceptionHandlerErrorResponseAsync (
-					exceptionHandler! ,
+					exceptionHandler_! ,
 					httpContext! ,
 					exception! ,
 					cancellationToken: httpContext!.RequestAborted );
@@ -71,11 +71,11 @@ public sealed class ExceptionHandlerManager
 			httpContext.Response.ContentType = JsonErrorMediaType;
 		}
 
-		bool TryHoldException ( out IExceptionHandler? exceptionHandler , HttpContext httpContext , Exception exception )
+		bool TryHoldException ( out IExceptionHandler? exceptionHandler_ , HttpContext httpContext , Exception exception )
 		{
-			exceptionHandler = ResolveExceptionHandlersThatHoldRaisedException ( httpContext , exception );
+			exceptionHandler_ = ResolveExceptionHandlersThatHoldRaisedException ( httpContext , exception );
 
-			return exceptionHandler is not null;
+			return exceptionHandler_ is not null;
 
 			IExceptionHandler? ResolveExceptionHandlersThatHoldRaisedException ( HttpContext httpContext , Exception exception )
 			{

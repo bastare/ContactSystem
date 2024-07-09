@@ -2,7 +2,7 @@ namespace ContactSystem.Core.Infrastructure.Persistence.Specifications;
 
 using Api.Queries.Interfaces;
 using DynamicLinqDecorator.Common.Extensions;
-using Persistence.Specifications.Interfaces;
+using Interfaces;
 
 public sealed record InlineQuerySpecification : IQuerySpecification
 {
