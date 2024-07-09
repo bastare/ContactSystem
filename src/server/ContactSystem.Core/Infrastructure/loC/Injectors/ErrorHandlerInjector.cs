@@ -93,7 +93,7 @@ public sealed class ErrorHandlerInjector : IInjector
 						id: 6 ,
 						isAllowedException: ( _ , exception ) =>
 							exception.GetType () == typeof ( DbUpdateException )
-								&& exception.InnerException!.Message.Contains ( "UNIQUE constraint failed: Contact.Email" ) )
+								&& exception.InnerException!.Message.Contains ( "UNIQUE constraint failed: Contacts.Email" ) )
 					{
 						InjectStatusCode = ( _ , _ ) => HttpStatusCode.BadRequest ,
 						InjectExceptionMessage = ( exception ) =>
