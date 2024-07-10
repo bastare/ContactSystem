@@ -1,8 +1,8 @@
-﻿namespace ContactSystem.Core.Infrastructure.loC;
+﻿namespace ContactSystem.Core.Infrastructure.CrossCutting;
 
+using loC.Injectors;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Injectors;
 
 public static class InjectionBootstrapper
 {
