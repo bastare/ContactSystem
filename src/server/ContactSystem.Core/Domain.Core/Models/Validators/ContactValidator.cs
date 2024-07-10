@@ -1,4 +1,4 @@
-namespace ContactSystem.Core.Domain.Validators.Models;
+namespace ContactSystem.Core.Domain.Core.Models.Validators;
 
 using Validation;
 using FluentValidation;

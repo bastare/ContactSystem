@@ -1,15 +1,16 @@
 namespace ContactSystem.Core.Domain.Core.Models;
 
-using Validators.Models;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using FluentValidation.Results;
+using Validators;
+using System.Threading.Tasks;
+using System.Threading;
 
 [Index ( nameof ( Email ) , IsUnique = true )]
 public sealed class Contact :
 	IAuditableModel<long>,
-	IHasValidationAsync
+	IHasValidation
 {
 	public long Id { get; set; }
 
@@ -53,20 +54,17 @@ public sealed class Contact :
 		set => Id = ( long ) value;
 	}
 
-	public async Task<bool> IsValidAsync ( CancellationToken cancellationToken = default )
+	public bool IsValid ()
+		=> Validate ()
+			.IsValid;
+
+	public ValidationResult Validate ()
+		=> new CustomerValidator ()
+			.Validate ( instance: this );
+
+	public void ValidateAndThrow ()
 	{
-		var validationResult =
-			await new CustomerValidator ()
-				.ValidateAsync ( instance: this , cancellationToken );
-
-		return validationResult.IsValid;
+		new CustomerValidator ()
+			.ValidateAndThrow ( instance: this );
 	}
-
-	public Task ValidateAndThrowAsync ( CancellationToken cancellationToken = default )
-		=> new CustomerValidator ()
-			.ValidateAndThrowAsync ( instance: this , cancellationToken );
-
-	public Task<ValidationResult> ValidateAsync ( CancellationToken cancellationToken = default )
-		=> new CustomerValidator ()
-			.ValidateAsync ( instance: this , cancellationToken );
 }

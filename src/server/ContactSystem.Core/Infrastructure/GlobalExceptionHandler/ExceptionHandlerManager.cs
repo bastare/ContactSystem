@@ -1,7 +1,7 @@
 namespace ContactSystem.Core.Infrastructure.GlobalExceptionHandler;
 
 using Common.Classes.HttpMessages.Error;
-using ContactSystem.Core.Common.Constants;
+using Common.Constants;
 using ExceptionHandlers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Infrastructure;
