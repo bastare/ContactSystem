@@ -12,11 +12,6 @@ public static class QueryableExtensions
 		return inlineSpecification!.QueryInjector!.Invoke ( inputQuery );
 	}
 
-	public static IQueryable SpecifiedQuery<TModel> ( this IQueryable<TModel> typedInputQuery , InlineQuerySpecification inlineSpecification )
-		=> SpecifiedQuery (
-			inputQuery: typedInputQuery ,
-			inlineSpecification );
-
 	public static IQueryable<TModel> SpecifiedQuery<TModel, TKey> ( this IQueryable<TModel> typedInputQuery , QuerySpecification<TModel , TKey> querySpecification )
 		where TModel : class, IModel<TKey>
 	{
