@@ -54,7 +54,7 @@ public static class ContactEndpoints
 		var createdContact_ =
 			await CreateContactsAsync ( contactForCreationRequestBody );
 
-		await contactSet.SaveChangesAsync ( cancellationToken );
+		await contactSet.CommitAsync ( cancellationToken );
 
 		return Results.Created (
 			uri: $"/v1/contacts/{createdContact_.Id}" ,
