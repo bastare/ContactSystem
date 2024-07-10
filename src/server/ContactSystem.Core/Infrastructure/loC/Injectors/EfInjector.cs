@@ -1,15 +1,15 @@
 namespace ContactSystem.Core.Infrastructure.loC.Injectors;
 
-using Configurations.Triggers;
-using Persistence.Context;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
+using Domain.Projections.Persistence;
+using Domain.Projections.Persistence.Transactions;
 using Interfaces;
-using ContactSystem.Core.Infrastructure.Persistence.Context.Interfaces;
-using ContactSystem.Core.Infrastructure.Persistence.Context.Interfaces.Transactions;
+using Persistence.Context;
+using Persistence.Context.Configurations.Triggers;
 
 public sealed class EfInjector : IInjector
 {

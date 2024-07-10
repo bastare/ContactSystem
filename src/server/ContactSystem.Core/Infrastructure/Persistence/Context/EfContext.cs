@@ -1,10 +1,10 @@
 namespace ContactSystem.Core.Infrastructure.Persistence.Context;
 
+using Microsoft.EntityFrameworkCore;
 using AgileObjects.NetStandardPolyfills;
 using Configurations.ModelConfigurations;
-using Interfaces;
-using Domain.Contact;
-using Microsoft.EntityFrameworkCore;
+using Domain;
+using Domain.Projections.Persistence;
 
 public sealed class EfContext ( DbContextOptions<EfContext> options ) :
 	DbContext ( options ),
