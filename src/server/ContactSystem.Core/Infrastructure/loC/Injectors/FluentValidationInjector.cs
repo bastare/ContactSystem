@@ -1,6 +1,6 @@
 namespace ContactSystem.Core.Infrastructure.loC.Injectors;
 
-using Api.Queries.Validators;
+using Domain.Core.Queries.Validators;
 using FluentValidation;
 using Interfaces;
 

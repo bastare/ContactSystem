@@ -1,5 +1,6 @@
 namespace ContactSystem.Core.Infrastructure.Persistence.Context.Configurations.ModelConfigurations;
 
+using ContactSystem.Core.Domain.Core;
 using Domain;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

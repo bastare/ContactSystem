@@ -3,8 +3,8 @@ namespace ContactSystem.Core.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using AgileObjects.NetStandardPolyfills;
 using Configurations.ModelConfigurations;
-using Domain;
 using Domain.Projections.Persistence;
+using Domain.Core.Models;
 
 public sealed class EfContext ( DbContextOptions<EfContext> options ) :
 	DbContext ( options ),

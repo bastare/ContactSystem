@@ -1,6 +1,7 @@
 namespace ContactSystem.Core.Infrastructure.GlobalExceptionHandler;
 
 using Common.Classes.HttpMessages.Error;
+using Common.Constants;
 using ExceptionHandlers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Infrastructure;
@@ -144,7 +145,9 @@ public sealed class ExceptionHandlerManager
 												CancellationToken cancellationToken = default )
 			{
 				return httpContext.Response.WriteAsync (
-					text: JsonConvert.SerializeObject ( value: ResolveExceptionMessage ( exceptionHandler , exception ) ) ,
+					text: JsonConvert.SerializeObject (
+						value: ResolveExceptionMessage ( exceptionHandler , exception ) ,
+						JsonConversationSettings.DefaultSerializerSettings ) ,
 					cancellationToken );
 
 				static object ResolveExceptionMessage ( IExceptionHandler exceptionHandler , Exception exception )
@@ -161,7 +164,8 @@ public sealed class ExceptionHandlerManager
 				text: JsonConvert.SerializeObject (
 					value: new ErrorMessage (
 						Message: "Internal server error" ,
-						StatusCode: StatusCodes.Status500InternalServerError ) ) ,
+						StatusCode: StatusCodes.Status500InternalServerError ) ,
+					JsonConversationSettings.DefaultSerializerSettings) ,
 				cancellationToken );
 		}
 	}

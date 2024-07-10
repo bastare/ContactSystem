@@ -4,7 +4,7 @@ using Interfaces;
 
 public sealed record PageErrorMessageWrap (
 	ImmutableList<InnerErrorMessage> ErrorMessages ,
-	int? StatusCode = 500 ,
+	int? StatusCode = StatusCodes.Status500InternalServerError ,
 	string? Message = default ,
 	string? Description = default ) :
 		IHasErrorDescription,

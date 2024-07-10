@@ -1,5 +1,6 @@
 using ContactSystem.Core;
 using ContactSystem.Core.Api.Endpoints.v1;
+using ContactSystem.Core.Api.Filters;
 
 var builder = WebApplication.CreateBuilder (
 	options: new ()
@@ -29,7 +30,8 @@ var apiGroup =
 	webApplication
 		.MapGroup ( "api/v{apiVersion:apiVersion}" )
 		.WithApiVersionSet ( versionSet )
-		.WithOpenApi ();
+		.WithOpenApi ()
+		.AddEndpointFilter<ValidationFilter>();
 
 var v1Contacts =
 	apiGroup

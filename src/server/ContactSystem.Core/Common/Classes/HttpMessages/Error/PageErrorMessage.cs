@@ -3,7 +3,7 @@ namespace ContactSystem.Core.Common.Classes.HttpMessages.Error;
 using Interfaces;
 
 public sealed record PageErrorMessage (
-	int? StatusCode = 500 ,
+	int? StatusCode = StatusCodes.Status500InternalServerError ,
 	string? Message = default ,
 	string? Description = default ) :
 		IHasErrorDescription,

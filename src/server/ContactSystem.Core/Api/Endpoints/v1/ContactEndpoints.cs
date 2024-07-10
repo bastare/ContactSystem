@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore;
 using Contracts;
 using Core.Common.Exceptions;
 using Decorators;
-using Domain;
+using Domain.Core.Models;
 using Domain.Pagination;
 using Domain.Pagination.Common.Extensions;
 using Domain.Projections.Persistence;
 using Domain.Projections.Persistence.Common.Extensions;
+using Domain.Specifications;
+using Domain.Specifications.Evaluator.Common.Extensions;
 using Mapster;
-using Specifications;
-using Specifications.Evaluator.Common.Extensions;
 
 public static class ContactEndpoints
 {
@@ -57,7 +57,7 @@ public static class ContactEndpoints
 		await contactSet.SaveChangesAsync ( cancellationToken );
 
 		return Results.Created (
-			$"/v1/contacts/{createdContact_.Id}" ,
+			uri: $"/v1/contacts/{createdContact_.Id}" ,
 			createdContact_ );
 
 		async Task<Contact> CreateContactsAsync ( ContactForCreationRequestBody contactForCreationRequestBody )
