@@ -1,17 +1,10 @@
 namespace ContactSystem.Core.Helpers.AssertGuard;
 
 using Common.Exceptions;
-using FluentValidation;
-using FluentValidation.Results;
-using Interfaces;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using System.Runtime.CompilerServices;
 
-public sealed class Guard ( IHttpContextAccessor httpContextAccessor ) : IGuard
+public static class Guard
 {
-	private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
-
 	public static string NotNullOrEmpty<TException> ( string? @string ,
 													  [CallerArgumentExpression ( nameof ( @string ) )] string? variableName = default ,
 													  string? message = default )
@@ -23,38 +16,6 @@ public sealed class Guard ( IHttpContextAccessor httpContextAccessor ) : IGuard
 			RaiseException<TException> ( variableName! , message );
 
 		return @string!;
-	}
-
-	public TValue Validate<TValidator, TValue, TException> ( TValue value , [CallerArgumentExpression ( nameof ( value ) )] string? variableName = default )
-		where TValidator : IValidator<TValue>
-		where TException : ArgumentException
-	{
-		var validationResult = ResolveValidator ()
-			.Validate ( value );
-
-		if ( validationResult is { IsValid: false } )
-			RaiseValidatorException ( variableName! , validationResult );
-
-		return value;
-
-		TValidator ResolveValidator ()
-			=> _httpContextAccessor.HttpContext!.RequestServices
-				.GetRequiredService<TValidator> ();
-
-		static void RaiseValidatorException ( string variableName , ValidationResult validationResult )
-		{
-			RaiseException<TException> (
-				message: ResolveErrorMessage ( validationResult ) ,
-				variableName );
-
-			static string ResolveErrorMessage ( ValidationResult validationResult )
-				=> new StringBuilder ()
-					.AppendJoin (
-						separator: "\n" ,
-						values: validationResult.Errors )
-
-					.ToString ();
-		}
 	}
 
 	public static string NotNullOrEmpty ( string? @string ,
