@@ -1,5 +1,6 @@
 namespace ContactSystem.Core.Api.Endpoints.v1.Contracts.Validators;
 
+using Domain.Validation;
 using FluentValidation;
 
 public sealed class ContactForPatchRequestBodyValidator : AbstractValidator<ContactForPatchRequestBody>
@@ -17,7 +18,8 @@ public sealed class ContactForPatchRequestBodyValidator : AbstractValidator<Cont
 			.EmailAddress ();
 
 		RuleFor ( contactForPatchRequestBody => contactForPatchRequestBody.Phone )
-			.NotEmpty ();
+			.NotEmpty ()
+			.Phone ();
 
 		RuleFor ( contactForPatchRequestBody => contactForPatchRequestBody.Title )
 			.NotEmpty ();

@@ -10,6 +10,7 @@ using Infrastructure.GlobalExceptionHandler;
 using Infrastructure.GlobalExceptionHandler.Builders;
 using Infrastructure.GlobalExceptionHandler.ExceptionHandlers;
 using Interfaces;
+using Domain.Validation.Common.Exceptions;
 
 public sealed class ErrorHandlerInjector : IInjector
 {
@@ -100,6 +101,23 @@ public sealed class ErrorHandlerInjector : IInjector
 							new PageErrorMessage (
 								StatusCode: StatusCodes.Status400BadRequest ,
 								Message: "The user with this email created already" )
+					} )
+
+				.WithErrorHandler (
+					exceptionHandler: new ExceptionHandler (
+						id: 7 ,
+						isAllowedException: ( _ , exception ) =>
+							exception.GetType () == typeof ( ValidationFailureException ) )
+					{
+						InjectStatusCode = ( _ , _ ) => HttpStatusCode.BadRequest ,
+						InjectExceptionMessage = ( exception ) =>
+							new ErrorMessage (
+								Message: string.Join (
+									separator: ' ' ,
+									values: ( ( ValidationFailureException ) exception )
+										.FailedValidationResult
+										.Errors
+											.Select ( validationFailure => validationFailure.ErrorMessage ) ) )
 					} )
 
 				.Build ();

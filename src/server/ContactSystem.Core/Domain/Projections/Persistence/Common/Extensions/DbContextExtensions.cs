@@ -1,6 +1,6 @@
 namespace ContactSystem.Core.Domain.Projections.Persistence.Common.Extensions;
 
-using Core.Common.Exceptions;
+using ContactSystem.Core.Common.Exceptions;
 using Transactions;
 
 public static class DbContextExtensions

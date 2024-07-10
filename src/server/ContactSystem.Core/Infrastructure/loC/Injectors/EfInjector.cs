@@ -19,15 +19,15 @@ public sealed class EfInjector : IInjector
 
 		serviceCollection.AddDbContext<EfContext> (
 			optionsAction: ( dbContextOptionsBuilder ) =>
-			{
 				dbContextOptionsBuilder
 					.UseLoggerFactory ( loggerFactory: ResolveLoggerFactory ( serviceCollection ) )
 
 					.UseSqlite ( sqliteConnection_ )
 
 					.UseTriggers ( triggerOptions =>
-						triggerOptions.AddTrigger<OnAuditionTrigger> () );
-			} );
+						triggerOptions
+							.AddTrigger<OnAuditionTrigger> ()
+							.AddTrigger<OnValidationTrigger> () ) );
 
 		InjectProjections ( serviceCollection );
 		EnsureCreated ( serviceCollection );

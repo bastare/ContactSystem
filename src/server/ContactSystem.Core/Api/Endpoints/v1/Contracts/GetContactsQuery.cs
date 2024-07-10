@@ -1,6 +1,6 @@
 namespace ContactSystem.Core.Api.Endpoints.v1.Contracts;
 
-using Queries.Interfaces;
+using Domain.Core.Queries.Interfaces;
 
 public sealed record GetContactsQuery (
 	string? Expression ,
