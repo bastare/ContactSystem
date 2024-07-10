@@ -1,15 +1,15 @@
 namespace ContactSystem.Core.Infrastructure.loC.Injectors;
 
+using System.Net.Http;
+using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Common.Classes.HttpMessages.Error;
 using Common.Exceptions;
-using Interfaces;
 using Infrastructure.GlobalExceptionHandler;
 using Infrastructure.GlobalExceptionHandler.Builders;
 using Infrastructure.GlobalExceptionHandler.ExceptionHandlers;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-using System.Net.Http;
-using Microsoft.EntityFrameworkCore;
+using Interfaces;
 
 public sealed class ErrorHandlerInjector : IInjector
 {

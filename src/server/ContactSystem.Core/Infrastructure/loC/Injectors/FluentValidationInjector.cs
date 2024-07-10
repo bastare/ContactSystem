@@ -1,8 +1,8 @@
 namespace ContactSystem.Core.Infrastructure.loC.Injectors;
 
 using Api.Queries.Validators;
-using Interfaces;
 using FluentValidation;
+using Interfaces;
 
 public sealed class FluentValidationInjector : IInjector
 {

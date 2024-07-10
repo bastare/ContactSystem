@@ -1,10 +1,10 @@
 namespace ContactSystem.Core.Infrastructure.loC.Injectors;
 
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Interfaces;
 using Mapster;
 using MapsterMapper;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 
 public sealed class MapperInjector : IInjector
 {

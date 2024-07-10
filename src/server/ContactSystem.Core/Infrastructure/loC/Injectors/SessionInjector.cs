@@ -1,9 +1,9 @@
 namespace ContactSystem.Core.Infrastructure.loC.Injectors;
 
-using Interfaces;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Domain.Authorization.Session;
 using Domain.Authorization.Session.Interfaces;
-using Microsoft.Extensions.DependencyInjection.Extensions;
+using Interfaces;
 
 public sealed class SessionInjector : IInjector
 {
