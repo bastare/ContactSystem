@@ -19,20 +19,25 @@ var webApplication = builder.Build ();
 
 startup.Configure ( webApplication );
 
-var apiVersionSet =
-	webApplication
-		.NewApiVersionSet ()
-		.HasApiVersion ( apiVersion: new ( 1.0 ) )
-		.ReportApiVersions ()
-		.Build ();
-
-var routeGroupBuilder =
-	webApplication
-		.MapGroup ( "api/v{apiVersion:apiVersion}" )
-		.WithApiVersionSet ( apiVersionSet )
-		.WithOpenApi ()
-		.AddEndpointFilter<ValidationFilter> ();
-
-ContactEndpoints.MapEndpoints ( routeGroupBuilder );
+MapEndpoints ( webApplication );
 
 await webApplication.RunAsync ();
+
+static void MapEndpoints ( WebApplication webApplication )
+{
+	var apiVersionSet_ =
+		webApplication
+			.NewApiVersionSet ()
+			.HasApiVersion ( apiVersion: new ( 1.0 ) )
+			.ReportApiVersions ()
+			.Build ();
+
+	var routeGroupBuilder_ =
+		webApplication
+			.MapGroup ( "api/v{apiVersion:apiVersion}" )
+			.WithApiVersionSet ( apiVersionSet_ )
+			.WithOpenApi ()
+			.AddEndpointFilter<ValidationFilter> ();
+
+	ContactEndpoints.MapEndpoints ( routeGroupBuilder_ );
+}

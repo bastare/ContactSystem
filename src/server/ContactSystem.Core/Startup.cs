@@ -14,9 +14,9 @@ using Infrastructure.GlobalExceptionHandler;
 using Infrastructure.CrossCutting;
 using Asp.Versioning;
 
-public sealed class Startup ( IConfiguration configuration , IWebHostEnvironment webHostEnvironment )
+public sealed class Startup ( ConfigurationManager configurationManager , IWebHostEnvironment webHostEnvironment )
 {
-	private readonly IConfiguration _configuration = configuration;
+	private readonly ConfigurationManager _configurationManager = configurationManager;
 
 	private readonly IWebHostEnvironment _webHostEnvironment = webHostEnvironment;
 
@@ -63,7 +63,7 @@ public sealed class Startup ( IConfiguration configuration , IWebHostEnvironment
 				];
 			} )
 
-			.InjectLayersDependency ( _configuration );
+			.InjectLayersDependency ( _configurationManager );
 
 		if ( _webHostEnvironment.IsDevelopment () )
 		{
