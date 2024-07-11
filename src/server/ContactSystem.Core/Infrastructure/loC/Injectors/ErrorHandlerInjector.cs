@@ -11,12 +11,13 @@ using GlobalExceptionHandler.Builders;
 using GlobalExceptionHandler.ExceptionHandlers;
 using Interfaces;
 using Domain.Validation.Common.Exceptions;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 public sealed class ErrorHandlerInjector : IInjector
 {
 	public static void Inject ( IServiceCollection serviceCollection )
 	{
-		serviceCollection.AddSingleton ( implementationInstance: CreateGlobalExceptionHandlerManager () );
+		serviceCollection.TryAddSingleton ( instance: CreateGlobalExceptionHandlerManager () );
 
 		static ExceptionHandlerManager CreateGlobalExceptionHandlerManager ()
 			=> ExceptionHandlerManagerBuilder.Create ()

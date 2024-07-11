@@ -128,7 +128,7 @@ public sealed class ExceptionHandlerManager
 
 			await EmitExceptionHandlerCallbackAsync ( exceptionHandler , httpContext , exception );
 
-			await FormErrorMessageAsync ( exceptionHandler , httpContext , exception , cancellationToken );
+			await FormErrorMessageAsync ( exceptionHandler , httpContext , exception );
 
 			static void InvokeStatusCode ( IExceptionHandler exceptionHandler , HttpContext httpContext , Exception exception )
 			{
@@ -139,10 +139,9 @@ public sealed class ExceptionHandlerManager
 				=> exceptionHandler.OnHoldAsync?.Invoke ( httpContext , exception , cancellationToken ) ??
 					Task.CompletedTask;
 
-			static Task FormErrorMessageAsync ( IExceptionHandler exceptionHandler ,
-												HttpContext httpContext ,
-												Exception exception ,
-												CancellationToken cancellationToken = default )
+			Task FormErrorMessageAsync ( IExceptionHandler exceptionHandler ,
+										 HttpContext httpContext ,
+										 Exception exception )
 			{
 				return httpContext.Response.WriteAsync (
 					text: JsonConvert.SerializeObject (
@@ -165,7 +164,7 @@ public sealed class ExceptionHandlerManager
 					value: new ErrorMessage (
 						Message: "Internal server error" ,
 						StatusCode: StatusCodes.Status500InternalServerError ) ,
-					JsonConversationSettings.DefaultSerializerSettings) ,
+					JsonConversationSettings.DefaultSerializerSettings ) ,
 				cancellationToken );
 		}
 	}

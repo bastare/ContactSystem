@@ -2,7 +2,6 @@ namespace ContactSystem.Core.Api.Filters;
 
 using Core.Common.Classes.HttpMessages.Error;
 using Domain.Core;
-using System.Threading.Tasks;
 
 public sealed class ValidationFilter : IEndpointFilter
 {
