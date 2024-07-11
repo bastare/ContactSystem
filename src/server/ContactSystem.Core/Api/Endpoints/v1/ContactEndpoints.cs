@@ -19,7 +19,7 @@ public static class ContactEndpoints
 	public static async Task<IResult> GetAllAsync (
 		[FromServices] IContactSet contactSet ,
 		[AsParameters] GetContactsQuery getContactsQuery ,
-		CancellationToken cancellationToken = default )
+		CancellationToken cancellationToken )
 	{
 		var contacts_ = await GetContactsAsync ( getContactsQuery );
 
@@ -49,10 +49,10 @@ public static class ContactEndpoints
 	public static async Task<IResult> CreateAsync (
 		[FromServices] IContactSet contactSet ,
 		[FromBody] ContactForCreationRequestBody contactForCreationRequestBody ,
-		CancellationToken cancellationToken = default )
+		CancellationToken cancellationToken )
 	{
 		var createdContact_ =
-			await CreateContactsAsync ( contactForCreationRequestBody );
+			await CreateContactAsync ( contactForCreationRequestBody );
 
 		await contactSet.CommitAsync ( cancellationToken );
 
@@ -60,7 +60,7 @@ public static class ContactEndpoints
 			uri: $"/v1/contacts/{createdContact_.Id}" ,
 			createdContact_ );
 
-		async Task<Contact> CreateContactsAsync ( ContactForCreationRequestBody contactForCreationRequestBody )
+		async Task<Contact> CreateContactAsync ( ContactForCreationRequestBody contactForCreationRequestBody )
 		{
 			var modelContactForCreation_ = contactForCreationRequestBody.Adapt<Contact> ();
 
@@ -77,7 +77,7 @@ public static class ContactEndpoints
 		[FromServices] IContactSet contactSet ,
 		[FromRoute] long contactId ,
 		[FromBody] ContactForPatchRequestBody contactForPatchRequestBody ,
-		CancellationToken cancellationToken = default )
+		CancellationToken cancellationToken )
 	{
 		var patchedContact_ =
 			await PatchContactAsync ( contactId , contactForPatchRequestBody );
@@ -103,15 +103,15 @@ public static class ContactEndpoints
 	public static async Task<IResult> RemoveAsync (
 		[FromServices] IContactSet contactSet ,
 		[FromRoute] long contactId ,
-		CancellationToken cancellationToken = default )
+		CancellationToken cancellationToken )
 	{
-		await RemoveContactsAsync ( contactId );
+		await RemoveContactAsync ( contactId );
 
 		await contactSet.TryCommitAsync ( cancellationToken );
 
 		return Results.NoContent ();
 
-		Task RemoveContactsAsync ( long contactId )
+		Task RemoveContactAsync ( long contactId )
 			=> contactSet.Contacts
 				.Where ( contact => contact.Id == contactId )
 				.ExecuteDeleteAsync ( cancellationToken );

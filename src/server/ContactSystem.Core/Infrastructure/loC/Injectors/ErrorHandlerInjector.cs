@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Common.Classes.HttpMessages.Error;
 using Common.Exceptions;
-using Infrastructure.GlobalExceptionHandler;
-using Infrastructure.GlobalExceptionHandler.Builders;
-using Infrastructure.GlobalExceptionHandler.ExceptionHandlers;
+using GlobalExceptionHandler;
+using GlobalExceptionHandler.Builders;
+using GlobalExceptionHandler.ExceptionHandlers;
 using Interfaces;
 using Domain.Validation.Common.Exceptions;
 
