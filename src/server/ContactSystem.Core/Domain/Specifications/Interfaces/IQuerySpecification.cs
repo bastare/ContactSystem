@@ -1,6 +1,6 @@
 namespace ContactSystem.Core.Domain.Specifications.Interfaces;
 
-using Domain.Core;
+using Core;
 
 public interface IQuerySpecification<TModel, TKey> : IQuerySpecification
 	where TModel : IModel<TKey>

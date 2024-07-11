@@ -1,18 +1,19 @@
 namespace ContactSystem.Core.Domain.Specifications.Evaluator.Common.Extensions;
 
+using Interfaces;
 using Core;
 
 public static class QueryableExtensions
 {
-	public static IQueryable SpecifiedQuery ( this IQueryable inputQuery , InlineQuerySpecification inlineSpecification )
+	public static IQueryable SpecifiedQuery ( this IQueryable inputQuery , IQuerySpecification querySpecification )
 	{
 		NotNull ( inputQuery );
-		NotNull ( inlineSpecification?.QueryInjector );
+		NotNull ( querySpecification?.QueryInjector );
 
-		return inlineSpecification!.QueryInjector!.Invoke ( inputQuery );
+		return querySpecification!.QueryInjector!.Invoke ( inputQuery );
 	}
 
-	public static IQueryable<TModel> SpecifiedQuery<TModel, TKey> ( this IQueryable<TModel> typedInputQuery , QuerySpecification<TModel , TKey> querySpecification )
+	public static IQueryable<TModel> SpecifiedQuery<TModel, TKey> ( this IQueryable<TModel> typedInputQuery , IQuerySpecification<TModel , TKey> querySpecification )
 		where TModel : class, IModel<TKey>
 	{
 		NotNull ( typedInputQuery );

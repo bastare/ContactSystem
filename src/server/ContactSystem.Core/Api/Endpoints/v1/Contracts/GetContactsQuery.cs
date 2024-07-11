@@ -5,8 +5,8 @@ using Domain.Core.Queries.Interfaces;
 public sealed record GetContactsQuery (
 	string? Expression ,
 	string? Projection ,
-	long? Offset ,
-	long? Limit ,
+	int? Offset ,
+	int? Limit ,
 	bool? IsDescending ,
 	string? OrderBy ) :
 		IExpressionQuery,

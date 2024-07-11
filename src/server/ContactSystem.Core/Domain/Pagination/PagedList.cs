@@ -8,13 +8,13 @@ public sealed record PagedList<T> : IPagedList<T>
 
 	public T? this[ int index ] => _immutablePagedList[ index ];
 
-	public long CurrentOffset { get; private set; }
+	public int CurrentOffset { get; private set; }
 
-	public long TotalPages { get; private set; }
+	public int TotalPages { get; private set; }
 
-	public long Limit { get; private set; }
+	public int Limit { get; private set; }
 
-	public long TotalCount { get; private set; }
+	public int TotalCount { get; private set; }
 
 	public IEnumerator<T> GetEnumerator ()
 		=> _immutablePagedList.GetEnumerator ();
@@ -25,7 +25,7 @@ public sealed record PagedList<T> : IPagedList<T>
 	private PagedList ( IEnumerable<T> items )
 		=> _immutablePagedList = [ .. items ];
 
-	public static PagedList<T> Create ( IEnumerable<T> items , long count , long offset , long limit )
+	public static PagedList<T> Create ( IEnumerable<T> items , int count , int offset , int limit )
 	{
 		NotNull ( items );
 		ParametersAreValid ( limit );
@@ -33,18 +33,18 @@ public sealed record PagedList<T> : IPagedList<T>
 		return new ( items )
 		{
 			CurrentOffset = offset ,
-			TotalPages = ( long ) CalculateTotalPages ( count , limit ) ,
+			TotalPages = ( int ) CalculateTotalPages ( count , limit ) ,
 			Limit = limit ,
 			TotalCount = count
 		};
 
-		static void ParametersAreValid ( long limit )
+		static void ParametersAreValid ( int limit )
 		{
 			if ( limit <= 0 )
 				throw new ArgumentException ( $"{nameof ( limit )}: {limit}, has the `zero` or negative value" );
 		}
 
-		static double CalculateTotalPages ( long count , long limit )
+		static double CalculateTotalPages ( int count , int limit )
 			=> Math.Ceiling ( count / ( double ) limit );
 	}
 }
