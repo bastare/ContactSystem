@@ -13,9 +13,34 @@ using Domain.Projections.Persistence.Common.Extensions;
 using Domain.Specifications;
 using Domain.Specifications.Evaluator.Common.Extensions;
 using Mapster;
+using Interfaces;
 
-public static class ContactEndpoints
+public sealed class ContactEndpoints : IHasEndpoints
 {
+	public static void MapEndpoints ( RouteGroupBuilder routeGroupBuilder )
+	{
+		var v1Contacts =
+			routeGroupBuilder
+				.MapGroup ( "contacts" )
+				.MapToApiVersion ( 1.0 );
+
+		v1Contacts.MapGet (
+			pattern: string.Empty ,
+			handler: GetAllAsync );
+
+		v1Contacts.MapPost (
+			pattern: string.Empty ,
+			handler: CreateAsync );
+
+		v1Contacts.MapDelete (
+			pattern: "{contactId:long}" ,
+			handler: RemoveAsync );
+
+		v1Contacts.MapPatch (
+			pattern: "{contactId:long}" ,
+			handler: PatchAsync );
+	}
+
 	public static async Task<IResult> GetAllAsync (
 		[FromServices] IContactSet contactSet ,
 		[AsParameters] GetContactsQuery getContactsQuery ,
