@@ -19,39 +19,20 @@ var webApplication = builder.Build ();
 
 startup.Configure ( webApplication );
 
-var versionSet =
+var apiVersionSet =
 	webApplication
 		.NewApiVersionSet ()
 		.HasApiVersion ( apiVersion: new ( 1.0 ) )
 		.ReportApiVersions ()
 		.Build ();
 
-var apiGroup =
+var routeGroupBuilder =
 	webApplication
 		.MapGroup ( "api/v{apiVersion:apiVersion}" )
-		.WithApiVersionSet ( versionSet )
+		.WithApiVersionSet ( apiVersionSet )
 		.WithOpenApi ()
-		.AddEndpointFilter<ValidationFilter>();
+		.AddEndpointFilter<ValidationFilter> ();
 
-var v1Contacts =
-	apiGroup
-		.MapGroup ( "contacts" )
-		.MapToApiVersion ( 1.0 );
-
-v1Contacts.MapGet (
-	pattern: string.Empty ,
-	handler: ContactEndpoints.GetAllAsync );
-
-v1Contacts.MapPost (
-	pattern: string.Empty ,
-	handler: ContactEndpoints.CreateAsync );
-
-v1Contacts.MapDelete (
-	pattern: "{contactId:long}" ,
-	handler: ContactEndpoints.RemoveAsync );
-
-v1Contacts.MapPatch (
-	pattern: "{contactId:long}" ,
-	handler: ContactEndpoints.PatchAsync );
+ContactEndpoints.MapEndpoints ( routeGroupBuilder );
 
 await webApplication.RunAsync ();

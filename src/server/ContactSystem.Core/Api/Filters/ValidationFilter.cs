@@ -2,7 +2,6 @@ namespace ContactSystem.Core.Api.Filters;
 
 using Core.Common.Classes.HttpMessages.Error;
 using Domain.Core;
-using System.Threading.Tasks;
 
 public sealed class ValidationFilter : IEndpointFilter
 {
@@ -19,6 +18,8 @@ public sealed class ValidationFilter : IEndpointFilter
 
 		static bool TryResolveValidationErrors ( out ImmutableList<string> validationErrors_ , IList<object?> arguments )
 		{
+			arguments ??= [];
+
 			validationErrors_ =
 				arguments
 					.Where ( entity => entity is IHasValidation )
@@ -27,12 +28,13 @@ public sealed class ValidationFilter : IEndpointFilter
 						seed: new Stack<IEnumerable<string>> () ,
 						( errorMessages , entityForValidation ) =>
 						{
-							var validationResult = entityForValidation.Validate ();
+							var validationResult_ =
+								entityForValidation.Validate ();
 
-							if ( validationResult.IsValid )
+							if ( validationResult_.IsValid )
 								return errorMessages;
 
-							errorMessages.Push ( validationResult.Errors.Select ( error => error.ErrorMessage ) );
+							errorMessages.Push ( validationResult_.Errors.Select ( error => error.ErrorMessage ) );
 							return errorMessages;
 						} )
 					.SelectMany ( errorMessages => errorMessages )
