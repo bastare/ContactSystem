@@ -40,7 +40,7 @@ public static class QueryableExtensions
 			=> queryable.Count ();
 	}
 
-	private static IQueryable GetPagedRecords ( IQueryable queryable , int offset , int limit )
+	public static IQueryable GetPagedRecords ( this IQueryable queryable , int offset , int limit )
 		=> offset switch
 		{
 			>= 1 =>
@@ -52,7 +52,7 @@ public static class QueryableExtensions
 				throw new ArgumentException ( "Offset can`t be a negative number" , nameof ( offset ) )
 		};
 
-	private static IQueryable<T> GetPagedRecords<T> ( IQueryable<T> queryable , int offset , int limit )
+	public static IQueryable<T> GetPagedRecords<T> ( this IQueryable<T> queryable , int offset , int limit )
 		where T : class
 			=> ( IQueryable<T> ) GetPagedRecords ( ( IQueryable ) queryable , offset , limit );
 }

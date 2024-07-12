@@ -60,10 +60,7 @@ public sealed class ContactEndpoints : IHasEndpoints
 		Task<PagedList<object>> GetContactsAsync ( GetContactsQuery getContactsQuery )
 			=> contactSet.Contacts
 				.SpecifiedQuery (
-					querySpecification: new DynamicQuerySpecification (
-						getContactsQuery ,
-						getContactsQuery ,
-						getContactsQuery ) )
+					querySpecification: new DynamicQuerySpecification ( getContactsQuery ) )
 
 				.ToPagedListAsync (
 					getContactsQuery?.Offset ?? 1 ,

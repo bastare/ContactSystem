@@ -3,24 +3,29 @@ namespace ContactSystem.Core.Domain.Specifications;
 using DynamicLinqDecorator.Common.Extensions;
 using Core.Queries.Interfaces;
 using Interfaces;
+using Pagination.Common.Extensions;
 
 public sealed record DynamicQuerySpecification : QuerySpecification
 {
-	public DynamicQuerySpecification (
-		IExpressionQuery? expressionQuery = default ,
-		IOrderQuery? orderQuery = default ,
-		IProjectionQuery? projectionQuery = default )
+	public DynamicQuerySpecification ( IDynamicQuery dynamicQuery, bool withPagination = default )
 	{
+		NotNull ( dynamicQuery );
+
 		QueryInjector = query =>
 		{
-			if ( HasExpression ( expressionQuery ) )
-				query = query.Where ( expressionQuery );
+			if ( HasExpression ( dynamicQuery ) )
+				query = query.Where ( dynamicQuery );
 
-			if ( HasOrdering ( orderQuery ) )
-				query = query.OrderBy ( orderQuery );
+			if ( HasOrdering ( dynamicQuery ) )
+				query = query.OrderBy ( dynamicQuery );
 
-			if ( HasProjection ( projectionQuery ) )
-				query = query.Select ( projectionQuery );
+			if ( HasProjection ( dynamicQuery ) )
+				query = query.Select ( dynamicQuery );
+
+			if ( withPagination && HasPagination ( dynamicQuery ) )
+				query = query.GetPagedRecords (
+					dynamicQuery.Offset!.Value ,
+					dynamicQuery.Limit!.Value );
 
 			return query;
 
@@ -33,6 +38,9 @@ public sealed record DynamicQuerySpecification : QuerySpecification
 
 			static bool HasProjection ( IProjectionQuery? projectionQuery )
 				=> !string.IsNullOrEmpty ( projectionQuery?.Projection );
+
+			static bool HasPagination ( IPaginationQuery? paginationQuery )
+				=> paginationQuery is { Limit: not null, Offset: not null };
 		};
 	}
 }
