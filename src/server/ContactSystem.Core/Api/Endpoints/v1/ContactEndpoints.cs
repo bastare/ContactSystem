@@ -10,8 +10,8 @@ using Domain.Pagination;
 using Domain.Pagination.Common.Extensions;
 using Domain.Projections.Persistence;
 using Domain.Projections.Persistence.Common.Extensions;
-using Domain.Specifications;
 using Domain.Specifications.Evaluator.Common.Extensions;
+using Domain.Specifications;
 using Mapster;
 using Interfaces;
 
@@ -60,7 +60,7 @@ public sealed class ContactEndpoints : IHasEndpoints
 		Task<PagedList<object>> GetContactsAsync ( GetContactsQuery getContactsQuery )
 			=> contactSet.Contacts
 				.SpecifiedQuery (
-					inlineSpecification: new InlineQuerySpecification (
+					querySpecification: new DynamicQuerySpecification (
 						getContactsQuery ,
 						getContactsQuery ,
 						getContactsQuery ) )

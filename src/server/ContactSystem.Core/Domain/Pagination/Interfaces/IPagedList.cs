@@ -2,13 +2,13 @@ namespace ContactSystem.Core.Domain.Pagination.Interfaces;
 
 public interface IPagedList : IEnumerable
 {
-	long CurrentOffset { get; }
+	int CurrentOffset { get; }
 
-	long TotalPages { get; }
+	int TotalPages { get; }
 
-	long Limit { get; }
+	int Limit { get; }
 
-	long TotalCount { get; }
+	int TotalCount { get; }
 }
 
 public interface IPagedList<out T> : IPagedList, IEnumerable<T>

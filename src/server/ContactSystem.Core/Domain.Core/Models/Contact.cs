@@ -4,8 +4,6 @@ using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation.Results;
 using Validators;
-using System.Threading.Tasks;
-using System.Threading;
 
 [Index ( nameof ( Email ) , IsUnique = true )]
 public sealed class Contact :

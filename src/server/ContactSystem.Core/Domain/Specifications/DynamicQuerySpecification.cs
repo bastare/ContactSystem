@@ -4,11 +4,9 @@ using DynamicLinqDecorator.Common.Extensions;
 using Core.Queries.Interfaces;
 using Interfaces;
 
-public sealed record InlineQuerySpecification : IQuerySpecification
+public sealed record DynamicQuerySpecification : QuerySpecification
 {
-	public Func<IQueryable , IQueryable>? QueryInjector { get; private init; }
-
-	public InlineQuerySpecification (
+	public DynamicQuerySpecification (
 		IExpressionQuery? expressionQuery = default ,
 		IOrderQuery? orderQuery = default ,
 		IProjectionQuery? projectionQuery = default )
