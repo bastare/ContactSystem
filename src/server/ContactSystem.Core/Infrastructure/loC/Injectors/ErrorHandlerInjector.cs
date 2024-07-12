@@ -56,11 +56,10 @@ public sealed class ErrorHandlerInjector : IInjector
 							exception.GetType () == typeof ( NotFoundException ) )
 					{
 						InjectStatusCode = ( _ , _ ) => HttpStatusCode.NotFound ,
-						InjectExceptionMessage = ( _ ) =>
+						InjectExceptionMessage = ( exception ) =>
 							new PageErrorMessage (
 								StatusCode: StatusCodes.Status404NotFound ,
-								Message: "The requested url is not found" ,
-								Description: "Sorry, the page you are looking for does not exist." )
+								Message: exception.Message )
 					} )
 
 				.WithErrorHandler (
