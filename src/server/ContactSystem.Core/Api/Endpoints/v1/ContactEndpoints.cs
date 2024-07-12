@@ -109,8 +109,7 @@ public sealed class ContactEndpoints : IHasEndpoints
 			return Results.NotFound (
 				new PageErrorMessage (
 					StatusCode: StatusCodes.Status404NotFound ,
-					Message: $"There is no `Contact` with this id: {contactId}" ,
-					Description: "Sorry, the page you are looking for does not exist." ) );
+					Message: $"There is no `Contact` with this id: {contactId}" ) );
 
 		await contactSet.TryCommitAsync ( cancellationToken );
 
