@@ -14,6 +14,7 @@ using Domain.Specifications.Evaluator.Common.Extensions;
 using Domain.Specifications;
 using Mapster;
 using Interfaces;
+using ContactSystem.Core.Common.Classes.HttpMessages.Error;
 
 public sealed class ContactEndpoints : IHasEndpoints
 {
@@ -104,21 +105,29 @@ public sealed class ContactEndpoints : IHasEndpoints
 		var patchedContact_ =
 			await PatchContactAsync ( contactId , contactForPatchRequestBody );
 
+		if ( patchedContact_ is null )
+			return Results.NotFound (
+				new PageErrorMessage (
+					StatusCode: StatusCodes.Status404NotFound ,
+					Message: $"There is no `Contact` with this id: {contactId}" ,
+					Description: "Sorry, the page you are looking for does not exist." ) );
+
 		await contactSet.TryCommitAsync ( cancellationToken );
 
 		return Results.Ok ( patchedContact_ );
 
-		async Task<Contact> PatchContactAsync ( long contactId , ContactForPatchRequestBody contactForPatchRequestBody )
+		async Task<Contact?> PatchContactAsync ( long contactId , ContactForPatchRequestBody contactForPatchRequestBody )
 		{
 			// TODO: Integrate `ExecuteUpdate`
 			var config_ = new TypeAdapterConfig ();
 			config_.Default.IgnoreNullValues ( true );
 
 			var contactForUpdate_ =
-				await contactSet.Contacts.FindAsync ( [ contactId ] , cancellationToken: cancellationToken ) ??
-					throw new NotFoundException ( message: $"There is no `Contact` with this id: {contactId}" );
+				await contactSet.Contacts.FindAsync ( [ contactId ] , cancellationToken: cancellationToken );
 
-			return contactForPatchRequestBody.Adapt ( contactForUpdate_ , config_ )!;
+			return contactForUpdate_ is not null
+				? contactForPatchRequestBody.Adapt ( contactForUpdate_ , config_ )
+				: null;
 		}
 	}
 
