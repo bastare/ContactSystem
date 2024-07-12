@@ -2,8 +2,7 @@ namespace ContactSystem.Core.Infrastructure.Persistence.Context.Configurations.T
 
 using Domain.Authorization.Session.Interfaces;
 using EntityFrameworkCore.Triggered;
-using Domain;
-using ContactSystem.Core.Domain.Core;
+using Domain.Core;
 
 public sealed class OnAuditionTrigger ( IUserSession session ) : IBeforeSaveTrigger<IAuditable>
 {
