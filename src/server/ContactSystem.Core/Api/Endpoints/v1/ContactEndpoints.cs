@@ -3,7 +3,7 @@ namespace ContactSystem.Core.Api.Endpoints.v1;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Contracts;
-using Core.Common.Exceptions;
+using Core.Common.Classes.HttpMessages.Error;
 using Decorators;
 using Domain.Core.Models;
 using Domain.Pagination;
@@ -14,7 +14,6 @@ using Domain.Specifications.Evaluator.Common.Extensions;
 using Domain.Specifications;
 using Mapster;
 using Interfaces;
-using ContactSystem.Core.Common.Classes.HttpMessages.Error;
 
 public sealed class ContactEndpoints : IHasEndpoints
 {
