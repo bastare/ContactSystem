@@ -27,7 +27,7 @@ public sealed record PagedList<T> : IPagedList<T>
 
 	public static PagedList<T> Create ( IEnumerable<T> items , int count , int offset , int limit )
 	{
-		NotNull ( items );
+		ArgumentNullException.ThrowIfNull ( items );
 		ParametersAreValid ( limit , offset );
 
 		return new ( items )

@@ -26,7 +26,7 @@ public sealed class LazyMemoryCacheService ( IAppCache memoryCache ) : ICacheSer
 		TimeSpan expireSpan ,
 		CancellationToken _ = default )
 	{
-		NotNullOrEmpty ( key );
+		ArgumentNullException.ThrowIfNullOrEmpty ( key );
 
 		return _memoryCache.GetOrAddAsync (
 			key ,

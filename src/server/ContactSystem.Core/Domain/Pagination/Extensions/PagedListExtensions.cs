@@ -6,8 +6,8 @@ public static class PagedListExtensions
 {
 	public static PagedList<TTransformResult> Select<T, TTransformResult> ( this PagedList<T> pagedList , Func<T , TTransformResult> selector )
 	{
-		NotNullOrEmpty ( pagedList );
-		NotNull ( selector );
+		ArgumentNullException.ThrowIfNull ( pagedList );
+		ArgumentNullException.ThrowIfNull ( selector );
 
 		var transformedCollection =
 			Enumerable.Select ( pagedList , selector );

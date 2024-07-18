@@ -9,7 +9,7 @@ public sealed record DynamicQuerySpecification : QuerySpecification
 {
 	public DynamicQuerySpecification ( IDynamicQuery dynamicQuery, bool withPagination = default )
 	{
-		NotNull ( dynamicQuery );
+		ArgumentNullException.ThrowIfNull ( dynamicQuery );
 
 		QueryInjector = query =>
 		{

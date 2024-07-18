@@ -8,8 +8,8 @@ public static class InjectionBootstrapper
 {
 	public static IServiceCollection InjectLayersDependency ( this IServiceCollection serviceCollection , IConfiguration configuration )
 	{
-		NotNull ( serviceCollection );
-		NotNull ( configuration );
+		ArgumentNullException.ThrowIfNull ( serviceCollection );
+		ArgumentNullException.ThrowIfNull ( configuration );
 
 		serviceCollection.AddHttpContextAccessor ();
 

@@ -16,9 +16,9 @@ public static class MethodInfoExtensions
 
 	private static object? SafeInvoke ( MethodInfo methodInfo , Type typeOfInstance , IEnumerable parameters )
 	{
-		NotNull ( methodInfo );
-		NotNull ( typeOfInstance );
-		NotNullOrEmpty ( parameters );
+		ArgumentNullException.ThrowIfNull ( methodInfo );
+		ArgumentNullException.ThrowIfNull ( typeOfInstance );
+		ArgumentNullException.ThrowIfNull ( parameters );
 
 		if ( !methodInfo.HasParameters ( passingParametersTypes: ResolveParametersFromPassingVariables ( parameters ) ) )
 			throw new ArgumentNullException (

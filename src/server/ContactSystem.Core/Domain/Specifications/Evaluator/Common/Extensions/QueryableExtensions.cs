@@ -7,8 +7,8 @@ public static class QueryableExtensions
 {
 	public static IQueryable SpecifiedQuery ( this IQueryable inputQuery , IQuerySpecification querySpecification )
 	{
-		NotNull ( inputQuery );
-		NotNull ( querySpecification?.QueryInjector );
+		ArgumentNullException.ThrowIfNull ( inputQuery );
+		ArgumentNullException.ThrowIfNull ( querySpecification?.QueryInjector );
 
 		return querySpecification!.QueryInjector!.Invoke ( inputQuery );
 	}
@@ -16,8 +16,8 @@ public static class QueryableExtensions
 	public static IQueryable<TModel> SpecifiedQuery<TModel, TKey> ( this IQueryable<TModel> typedInputQuery , IQuerySpecification<TModel , TKey> querySpecification )
 		where TModel : class, IModel<TKey>
 	{
-		NotNull ( typedInputQuery );
-		NotNull ( querySpecification?.QueryInjector );
+		ArgumentNullException.ThrowIfNull ( typedInputQuery );
+		ArgumentNullException.ThrowIfNull ( querySpecification?.QueryInjector );
 
 		return querySpecification!.QueryInjector!.Invoke ( typedInputQuery );
 	}

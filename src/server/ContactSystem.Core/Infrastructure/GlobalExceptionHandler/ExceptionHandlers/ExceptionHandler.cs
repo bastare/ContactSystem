@@ -20,7 +20,7 @@ public sealed record ExceptionHandler : IExceptionHandler
 
 	public ExceptionHandler ( int id , IsAllowedExceptionDelegate? isAllowedException )
 	{
-		NotNull ( isAllowedException );
+		ArgumentNullException.ThrowIfNull ( isAllowedException );
 
 		Id = id;
 		IsAllowedException = isAllowedException!;

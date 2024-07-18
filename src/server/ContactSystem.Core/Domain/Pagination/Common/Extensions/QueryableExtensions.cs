@@ -22,11 +22,7 @@ public static class QueryableExtensions
 			=> queryable.CountAsync ( cancellationToken );
 	}
 
-	public async static Task<PagedList<object>> ToPagedListAsync (
-		this IQueryable queryable ,
-		int offset ,
-		int limit ,
-		CancellationToken cancellationToken = default )
+	public async static Task<PagedList<object>> ToPagedListAsync ( this IQueryable queryable , int offset , int limit , CancellationToken cancellationToken = default )
 	{
 		var count = GetCountOfTableRecords ( queryable );
 
@@ -41,15 +37,15 @@ public static class QueryableExtensions
 	}
 
 	public static IQueryable GetPagedRecords ( this IQueryable queryable , int offset , int limit )
-		=> offset switch
+		=> (offset, limit) switch
 		{
-			>= 1 =>
+			(offset: >= 1, limit: >= 1 ) =>
 				queryable
 					.Skip ( ( offset - 1 ) * limit )
 					.Take ( limit ),
 
-			<= 0 =>
-				throw new ArgumentException ( "Offset can`t be a negative number" , nameof ( offset ) )
+			(offset: <= 0, _) or (_, limit: <= 0) =>
+				throw new ArgumentException ( $"Wrong pagination setup (offset: {offset}, limit {limit})" ),
 		};
 
 	public static IQueryable<T> GetPagedRecords<T> ( this IQueryable<T> queryable , int offset , int limit )
