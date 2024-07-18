@@ -39,8 +39,8 @@ public sealed class ExceptionHandlerManager
 	{
 		try
 		{
-			NotNull ( httpContext );
-			NotNull ( exception );
+			ArgumentNullException.ThrowIfNull ( httpContext );
+			ArgumentNullException.ThrowIfNull ( exception );
 
 			InjectJsonErrorMediaType ( httpContext! );
 

@@ -7,8 +7,8 @@ public static class QueryableExtensions
 {
 	public static IQueryable Where ( this IQueryable query , IExpressionQuery? expressionQuery )
 	{
-		NotNull ( query );
-		NotNullOrEmpty ( expressionQuery?.Expression );
+		ArgumentNullException.ThrowIfNull ( query );
+		ArgumentNullException.ThrowIfNullOrEmpty ( expressionQuery?.Expression );
 
 		try
 		{
@@ -24,8 +24,8 @@ public static class QueryableExtensions
 
 	public static IOrderedQueryable OrderBy ( this IQueryable query , IOrderQuery? orderQuery )
 	{
-		NotNull ( query );
-		NotNullOrEmpty ( orderQuery?.OrderBy );
+		ArgumentNullException.ThrowIfNull ( query );
+		ArgumentNullException.ThrowIfNullOrEmpty ( orderQuery?.OrderBy );
 
 		try
 		{
@@ -49,8 +49,8 @@ public static class QueryableExtensions
 
 	public static IQueryable Select ( this IQueryable query , IProjectionQuery? projectionQuery )
 	{
-		NotNull ( query );
-		NotNullOrEmpty ( projectionQuery?.Projection );
+		ArgumentNullException.ThrowIfNull ( query );
+		ArgumentNullException.ThrowIfNullOrEmpty ( projectionQuery?.Projection );
 
 		try
 		{

@@ -1,4 +1,4 @@
 export const environment = {
-  restApiV1: '',
-  production: false
+  production: false,
+  restApiV1: ''
 };

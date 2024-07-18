@@ -28,6 +28,5 @@
         <Using Include="System.Reflection" />
 
         <Using Include="ContactSystem.Core.Common.Extensions"/>
-        <Using Include="ContactSystem.Core.Helpers.AssertGuard.Guard" Static="True"/>
     </ItemGroup>
 </Project>
