@@ -28,7 +28,8 @@ public sealed record PagedList<T> : IPagedList<T>
 	public static PagedList<T> Create ( IEnumerable<T> items , int count , int offset , int limit )
 	{
 		ArgumentNullException.ThrowIfNull ( items );
-		ParametersAreValid ( limit , offset );
+		ArgumentOutOfRangeException.ThrowIfLessThan ( limit , 1 );
+		ArgumentOutOfRangeException.ThrowIfLessThan ( offset , 1 );
 
 		return new ( items )
 		{
@@ -37,15 +38,6 @@ public sealed record PagedList<T> : IPagedList<T>
 			Limit = limit ,
 			TotalCount = count
 		};
-
-		static void ParametersAreValid ( int limit , int offset )
-		{
-			if ( limit <= 0 )
-				throw new ArgumentException ( $"{nameof ( limit )}: has a zero or negative value." );
-
-			if ( offset <= 0 )
-				throw new ArgumentException ( $"{nameof ( offset )}: has a zero or negative value." );
-		}
 
 		static double CalculateTotalPages ( int count , int limit )
 			=> Math.Ceiling ( count / ( double ) limit );
